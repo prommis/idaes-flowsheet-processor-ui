@@ -1,0 +1,12 @@
+{
+  "name": "Tank 1 inlet flowrate",
+  "value": 1,
+  "display_units": "None",
+  "rounding": 0,
+  "description": "",
+  "is_input": true,
+  "is_output": true,
+  "is_readonly": false,
+  "input_category": null,
+  "output_category": null
+}

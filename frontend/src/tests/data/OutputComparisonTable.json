@@ -1,0 +1,33 @@
+{
+    "name": "foo",
+    "data": {
+        "name": "foo",
+        "description": "foo flowsheet",
+        "model_objects": {
+            "d5f6d3d23cf2412b8fc8a36d0fba16a1": {
+                "name": "Tank 1 inlet flowrate",
+                "value": 1,
+                "display_units": "None",
+                "rounding": 0,
+                "description": "",
+                "is_input": true,
+                "is_output": true,
+                "is_readonly": false,
+                "input_category": null,
+                "output_category": null
+            },
+            "74762a76288449ee937ee62bdfe2ec53": {
+                "name": "Tank 2 inlet flowrate",
+                "value": 1,
+                "display_units": "None",
+                "rounding": 0,
+                "description": "",
+                "is_input": true,
+                "is_output": true,
+                "is_readonly": false,
+                "input_category": null,
+                "output_category": null
+            }
+        }
+    }
+}
