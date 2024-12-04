@@ -52,7 +52,7 @@ jobs:
 
       - name: Install frontend JS dependencies
         run: |
-          npm --prefix electron/ui clean-install
+          npm --prefix frontend clean-install
 
       - name: get idaes extensions
         run: idaes get-extensions
