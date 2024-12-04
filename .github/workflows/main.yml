@@ -173,6 +173,6 @@ jobs:
         run: idaes get-extensions
 
       - name: Run pytest
-        working-directory: backend
+        working-directory: backend/src/idaes_flowsheet_processor_ui
         run: |
-          pytest tests -v
+          pytest . -v
