@@ -13,3 +13,14 @@ export function roundList(values, decimal) {
     }
     return result
 }
+
+export function getVersionDate() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = mm + '/' + dd + '/' + yyyy;
+    let version = `${yyyy}.${mm}.${dd}`
+    return version
+}

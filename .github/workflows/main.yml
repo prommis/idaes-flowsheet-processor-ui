@@ -54,12 +54,12 @@ jobs:
         run: |
           npm --prefix frontend clean-install
 
-      - name: get idaes extensions
-        run: idaes get-extensions
-
       - name: Install Python package
         run: |
           pip install --progress-bar off .
+
+      - name: get idaes extensions
+        run: idaes get-extensions
 
       - name: run backend server
         run: uvicorn --app-dir backend/src/idaes_flowsheet_processor_ui main:app --reload --host 127.0.0.1 --port 8001 & sleep 30
