@@ -12,6 +12,7 @@ setup(
     packages=find_packages(where="backend/src"),
 
     install_requires=[
+        "pytest>=7",
     ],
 
     entry_points={
