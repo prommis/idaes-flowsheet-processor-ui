@@ -16,8 +16,8 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 from fastapi import FastAPI
-from internal.get_extensions import check_for_idaes_extensions, get_idaes_extensions
-from routers import flowsheets
+from idaes_flowsheet_processor_ui.internal.get_extensions import check_for_idaes_extensions, get_idaes_extensions
+from idaes_flowsheet_processor_ui.routers import flowsheets
 from fastapi.middleware.cors import CORSMiddleware
 
 _log = idaeslog.getLogger(__name__)

@@ -23,7 +23,7 @@ from pydantic import BaseModel, validator, field_validator, ValidationInfo, Fiel
 import tinydb  # JSON single-file 'database'
 
 # package-local
-from internal.settings import Deployment, AppSettings
+from idaes_flowsheet_processor_ui.internal.settings import Deployment, AppSettings
 from idaes_flowsheet_processor.api import FlowsheetInterface
 import idaes.logger as idaeslog
 
