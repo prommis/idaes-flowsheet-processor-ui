@@ -38,7 +38,7 @@
     "start-backend": "cd ../backend/src/idaes_flowsheet_processor_ui && uvicorn main:app --reload --host 127.0.0.1 --port 8001",
     "start-nob": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "rm -r ../build && mv build ../ || mv build ../",
+    "postbuild": "rm -r ../build && mv build ../../ || mv build ../../",
     "test": "react-scripts test"
   },
   "eslintConfig": {
