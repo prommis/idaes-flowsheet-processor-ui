@@ -19,8 +19,8 @@ export function getVersionDate() {
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
-
-    today = mm + '/' + dd + '/' + yyyy;
+    yyyy = yyyy.toString().substring(2)
+    
     let version = `${yyyy}.${mm}.${dd}`
     return version
 }

@@ -1,6 +1,7 @@
 /**
  * Different strokes for different (funding) folks.
  */
+import { getVersionDate } from './assets/util';
 // NAWI
 import nawiLogoFull from './assets/nawi-full-logo.png';
 import nawiLogo from './assets/nawi-logo-color.png';
@@ -23,7 +24,7 @@ export const themes = {
             '(WaterTAP) is an open-source Python-based software package that ' +
             'supports the technoeconomic assessment of full water treatment trains.',
         projectRelease: {
-            'version': '24.12.04', 'depVersions': {
+            'version': `${getVersionDate()}`, 'depVersions': {
                 'WaterTAP': '1.1.0'
             }
         },
