@@ -22,7 +22,7 @@ Run the following command to create and activate a new Conda environment named `
 conda env create --file environment.yml && conda activate flowsheet-processor-env
 ```
 
-This will install the correct runtime versions of both the backend (Python) and frontend (JavaScript/NodeJS/Electron) portions of the UI, as well as the backend (Python) dependencies.
+This will install the correct runtime versions of both the backend (Python) and frontend (NodeJS) portions of the UI, as well as the backend (Python) dependencies.
 
 ### 2. Install the JavaScript dependencies
 
