@@ -13,8 +13,8 @@ os.environ["watertap_packages"] = '["watertap", "examples"]'
 
 import pytest
 from fastapi.testclient import TestClient
-from app.main import app
-from app.internal import flowsheet_manager as fm
+from main import app
+from internal import flowsheet_manager as fm
 
 
 @pytest.fixture

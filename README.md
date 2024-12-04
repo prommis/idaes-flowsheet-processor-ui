@@ -16,10 +16,10 @@ The following steps assume that:
 
 ### 1. Creating the Conda environment
 
-Run the following command to create and activate a new Conda environment named `watertap-ui-env`:
+Run the following command to create and activate a new Conda environment named `flowsheet-processor-env`:
 
 ```sh
-conda env create --file environment.yml && conda activate watertap-ui-env
+conda env create --file environment.yml && conda activate flowsheet-processor-env
 ```
 
 This will install the correct runtime versions of both the backend (Python) and frontend (JavaScript/NodeJS/Electron) portions of the UI, as well as the backend (Python) dependencies.
@@ -58,10 +58,10 @@ Otherwise, run the following command to create a local clone of the WaterTAP rep
 git clone https://github.com/watertap-org/ /path/to/my/watertap
 ```
 
-#### 4.1. Ensure that the `watertap-ui-env` Conda environment is active
+#### 4.1. Ensure that the `flowsheet-processor-env` Conda environment is active
 
 ```sh
-conda activate watertap-ui-env
+conda activate flowsheet-processor-env
 ```
 
 #### 4.2. Uninstall the currently installed version of WaterTAP
@@ -80,10 +80,10 @@ bash -c "cd /path/to/my/watertap && pip install -r requirements-dev.txt"
 
 # Running the UI
 
-### Ensure that the `watertap-ui-env` Conda environment is active and all dependencies are installed
+### Ensure that the `flowsheet-processor-env` Conda environment is active and all dependencies are installed
 
 ```console
-conda activate watertap-ui-env
+conda activate flowsheet-processor-env
 ```
 
 ### Run UI in browser
@@ -154,7 +154,7 @@ The following steps assume that:
 2. The WaterTAP-UI package has been succesfully installed
 3. Watertap is cloned and installed locally. This is required for transferring data files (png and yaml)
 4. Watertap and Watertap-ui directories must be inside of the same parent directory. 
-5. `watertap-ui-env` Conda environment is active
+5. `flowsheet-processor-env` Conda environment is active
 
 ### 1. Transfer Entry points
 

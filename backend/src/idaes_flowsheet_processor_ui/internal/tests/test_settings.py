@@ -4,7 +4,7 @@ Tests for app.internal.settings module.
 import logging
 import os
 import pytest
-from app.internal.settings import Deployment, AppSettings
+from internal.settings import Deployment, AppSettings
 
 __author__ = "Dan Gunter"
 
