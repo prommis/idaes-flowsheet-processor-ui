@@ -4,7 +4,7 @@ Tests for flowsheet_manager module
 from importlib import import_module
 from uuid import uuid4
 import pytest
-from internal import flowsheet_manager as fm
+from idaes_flowsheet_processor_ui.internal import flowsheet_manager as fm
 from fastapi import HTTPException
 import time
 

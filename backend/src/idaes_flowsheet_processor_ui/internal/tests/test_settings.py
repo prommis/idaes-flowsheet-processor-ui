@@ -4,7 +4,7 @@ Tests for app.internal.settings module.
 import logging
 import os
 import pytest
-from internal.settings import Deployment, AppSettings
+from idaes_flowsheet_processor_ui.internal.settings import Deployment, AppSettings
 
 __author__ = "Dan Gunter"
 
