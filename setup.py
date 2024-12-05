@@ -9,7 +9,7 @@ setup(
     version="1.0.0",
 
     package_dir={"": "backend/src"},
-    packages=find_packages(include=("backend/src",),),
+    packages=find_packages(where=("backend/src",),),
 
     install_requires=[
         "pytest>=7",
