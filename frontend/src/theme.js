@@ -24,7 +24,7 @@ export const themes = {
             '(WaterTAP) is an open-source Python-based software package that ' +
             'supports the technoeconomic assessment of full water treatment trains.',
         projectRelease: {
-            'version': `${getVersionDate()}`, 'depVersions': {
+            'version': `${process.env.REACT_APP_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
                 'WaterTAP': '1.1.0'
             }
         },
