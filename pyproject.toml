@@ -20,6 +20,7 @@ dependencies = [
     "h11==0.13.0",
     "idaes-pse",
     "idna==3.3",
+    "parameter-sweep==0.1.dev5",
     "pydantic==2.6.4",
     "pydantic-settings==2.2.1",
     "python-multipart==0.0.5",
