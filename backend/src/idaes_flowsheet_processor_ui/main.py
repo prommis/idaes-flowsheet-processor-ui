@@ -1,9 +1,9 @@
 import sys
 import os
-import logging
 import uvicorn
 import multiprocessing
 import idaes.logger as idaeslog
+import argparse
 
 ## Put DeferredImportCallbackFinder at the end of sys.meta_path list
 DeferredImportCallbackFinder = [finder for finder in sys.meta_path if "pyomo.common.dependencies" in repr(finder)]
@@ -39,19 +39,23 @@ app.include_router(flowsheets.router)
 async def root():
     return {"message": "Hello FastAPI"}
 
-
 if __name__ == "__main__":
-    if "i" in sys.argv or "install" in sys.argv:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--install_idaes_extensions", action="store_true", help="Install IDAES extensions.")
+    parser.add_argument("-p", "--production", action='store_true', help="Run backend in production mode.")
+    args = parser.parse_args()
+    run_in_production_mode = args.production
+    install_extensions = args.install_idaes_extensions
+
+    if install_extensions:
         _log.info("running get_extensions()")
         if not check_for_idaes_extensions():
             get_idaes_extensions()
-
-    elif "d" in sys.argv or "dev" in sys.argv:
-        _log.info(f"starting app")
-        multiprocessing.freeze_support()
-        uvicorn.run("__main__:app", host="127.0.0.1", port=8001, reload=True)
-
-    else:
-        _log.info(f"starting app")
+    elif run_in_production_mode:
+        _log.info(f"starting backend in production mode")
         multiprocessing.freeze_support()
         uvicorn.run(app, host="127.0.0.1", port=8001, reload=False)
+    else:
+        _log.info(f"starting backend in dev mode")
+        multiprocessing.freeze_support()
+        uvicorn.run("__main__:app", host="127.0.0.1", port=8001, reload=True)

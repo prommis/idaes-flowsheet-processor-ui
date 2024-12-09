@@ -6,7 +6,6 @@ import certifi
 
 idaes_extensions_dir = Path.home() / ".nawi" / ".idaes"
 
-
 def check_for_idaes_extensions():
     print('checking for idaes extensions')
     found_extensions = os.path.exists(idaes_extensions_dir)
