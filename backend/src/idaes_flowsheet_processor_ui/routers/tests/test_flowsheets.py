@@ -1,5 +1,5 @@
 """
-Tests for app.routers.flowsheets module
+Tests for idaes_flowsheet_processor_ui.routers.flowsheets module
 """
 import json
 import os

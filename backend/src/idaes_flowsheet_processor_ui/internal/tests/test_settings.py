@@ -1,5 +1,5 @@
 """
-Tests for app.internal.settings module.
+Tests for idaes_flowsheet_processor_ui.internal.settings module.
 """
 import logging
 import os
@@ -8,7 +8,7 @@ from idaes_flowsheet_processor_ui.internal.settings import Deployment, AppSettin
 
 __author__ = "Dan Gunter"
 
-app_log = logging.getLogger("app.internal.settings")
+app_log = logging.getLogger("idaes_flowsheet_processor_ui.internal.settings")
 
 
 def test_deployment_valid_projects():
