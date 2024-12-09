@@ -171,10 +171,6 @@ jobs:
       - name: Install WaterTAP for testing purposes
         run: pip install watertap@git+https://github.com/watertap-org/watertap@main
 
-      - name: Install httpx
-        run: |
-          pip install httpx
-
       - name: get idaes extensions
         run: idaes get-extensions
 
