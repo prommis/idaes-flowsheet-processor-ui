@@ -27,6 +27,7 @@ dependencies = [
 testing = [
     "pytest >= 8",
     "httpx",
+    "idaes-pse"
 ]
 
 [tool.setuptools.packages.find]
