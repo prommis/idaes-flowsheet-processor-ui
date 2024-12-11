@@ -20,7 +20,7 @@ def get_idaes_extensions():
         except Exception as e:
             print(f'unable to set requests_ca_bundle and ssl_cert_file:\n{e}')
         print(f'trying to download binaries')
-        from idaes.commands.util.download_bin import download_binaries
+        from idaes_flowsheet_processor_ui.internal.download_binaries import download_binaries
         binaries_release_version="3.4.0"
         try:
             from idaes.config import default_binary_release
@@ -32,10 +32,10 @@ def get_idaes_extensions():
         print('successfully installed idaes extensions')
     except PermissionError as e:
         print(f'unable to install extensions, permissionerror due to idaes extensions already being present: {e}\nmaking directory')
-        idaes_extensions_dir.mkdir(parents=True, exist_ok=True)
+        # idaes_extensions_dir.mkdir(parents=True, exist_ok=True)
         return False
     except Exception as e:
         print(f'unable to install extensions: {e}')
         return False
-    idaes_extensions_dir.mkdir(parents=True, exist_ok=True)
+    # idaes_extensions_dir.mkdir(parents=True, exist_ok=True)
     return True

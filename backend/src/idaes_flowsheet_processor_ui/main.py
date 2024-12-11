@@ -49,8 +49,7 @@ if __name__ == "__main__":
 
     if install_extensions:
         _log.info("running get_extensions()")
-        if not check_for_idaes_extensions():
-            get_idaes_extensions()
+        get_idaes_extensions()
     elif run_in_production_mode:
         _log.info(f"starting backend in production mode")
         multiprocessing.freeze_support()
