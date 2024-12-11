@@ -17,6 +17,7 @@ dependencies = [
     "parameter-sweep",
     "pydantic >= 2, <3",
     "pydantic-settings",
+    "python-multipart",
     "requests",
     "tinydb",
     "uvicorn",
