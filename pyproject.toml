@@ -13,7 +13,6 @@ dependencies = [
     "aiofiles",
     "certifi",
     "fastapi",
-    "idaes-pse",
     "parameter-sweep",
     "pydantic >= 2, <3",
     "pydantic-settings",
