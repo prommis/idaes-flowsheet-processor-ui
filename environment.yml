@@ -1,10 +1,9 @@
-name: watertap-ui-env
+name: flowsheet-processor-env
 channels:
   - conda-forge
 dependencies:
-  - python=3.9
+  - python=3.12
   - pip
   - nodejs=20.9.0
   - pip:
     - -r backend/requirements.txt
-#    - git+https://github.com/watertap-org/watertap@workshop_tutorial

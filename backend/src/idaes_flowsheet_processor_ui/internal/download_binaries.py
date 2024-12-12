@@ -87,6 +87,8 @@ def _get_release_platform(platform):
     # full platform name
     platform = f"{platform}-{mach}"
     # See if machine is supported
+    if platform == "windows-aarch64":
+        platform = "windows-x86_64"
     if platform not in idaes.config.base_platforms:
         raise UnsupportedPlatformError(f"Unsupported platform: {platform}.")
     _log.debug(f"Downloading binaries for {platform}")

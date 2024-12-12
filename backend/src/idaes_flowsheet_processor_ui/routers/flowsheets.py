@@ -18,9 +18,9 @@ from pydantic import ValidationError
 import re
 
 # package-local
-from app.internal.flowsheet_manager import FlowsheetManager, FlowsheetInfo
-from app.internal.parameter_sweep import run_parameter_sweep
-from app.internal.log_parser import parse_logs
+from idaes_flowsheet_processor_ui.internal.flowsheet_manager import FlowsheetManager, FlowsheetInfo
+from idaes_flowsheet_processor_ui.internal.parameter_sweep import run_parameter_sweep
+from idaes_flowsheet_processor_ui.internal.log_parser import parse_logs
 from idaes_flowsheet_processor.api import FlowsheetInterface, FlowsheetExport
 import idaes.logger as idaeslog
 

@@ -1,0 +1,40 @@
+[build-system]
+requires = [
+    "setuptools >= 64",
+    "setuptools_scm >= 7",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "idaes-flowsheet-processor-ui" 
+readme = "README.md"
+dynamic = ["version"]
+dependencies = [
+    "aiofiles",
+    "certifi",
+    "fastapi",
+    "parameter-sweep",
+    "pydantic >= 2, <3",
+    "pydantic-settings",
+    "python-multipart",
+    "requests",
+    "tinydb",
+    "uvicorn",
+    "importlib_resources",
+    "idaes_flowsheet_processor @ git+https://github.com/watertap-org/idaes-flowsheet-processor.git",
+]
+[project.optional-dependencies]
+testing = [
+    "pytest >= 8",
+    "httpx",
+    "idaes-pse"
+]
+
+[tool.setuptools.packages.find]
+where = ["backend/src"]
+exclude = ["frontend*"]
+
+[tool.setuptools_scm]
+# https://setuptools-scm.readthedocs.io/en/v8.1.0/extending/
+version_scheme = "only-version"
+local_scheme = "node-and-date"

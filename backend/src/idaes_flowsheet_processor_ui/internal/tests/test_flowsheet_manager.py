@@ -4,7 +4,7 @@ Tests for flowsheet_manager module
 from importlib import import_module
 from uuid import uuid4
 import pytest
-from app.internal import flowsheet_manager as fm
+from idaes_flowsheet_processor_ui.internal import flowsheet_manager as fm
 from fastapi import HTTPException
 import time
 
@@ -45,7 +45,7 @@ def test_mgr_flowsheets_property(mgr: fm.FlowsheetManager):
 @pytest.mark.unit
 def test_mgr_get_diagram(mgr: fm.FlowsheetManager):
 
-    example_module = "tests.app.internal.examples.api_example"
+    example_module = "idaes_flowsheet_processor_ui.internal.tests.examples.api_example"
     m = import_module(example_module)
     example_interface = mgr._get_flowsheet_interface(m)
     assert example_interface
@@ -59,7 +59,7 @@ def test_mgr_get_diagram(mgr: fm.FlowsheetManager):
 
 @pytest.mark.unit
 def test_mgr_get_diagram_missing(mgr: fm.FlowsheetManager):
-    example_module = "tests.app.internal.examples.api_example_nodiagram"
+    example_module = "idaes_flowsheet_processor_ui.internal.tests.examples.api_example_nodiagram"
     m = import_module(example_module)
     example_interface = mgr._get_flowsheet_interface(m)
     assert example_interface

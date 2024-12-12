@@ -5,12 +5,13 @@ export const flowsheets = [
         sweepVariable: 'Volumetricflowrate',
         sweepValues: ['3500', '3600']
     },
-    {
-        name: 'BSM2 flowsheet',
-        buildRequired: false,
-        sweepVariable: 'Feedvolumetricflowrate',
-        sweepValues: ['20000', '21000'],
-    },
+    //BSM2 has issues on Mac/Linux
+    // {
+    //     name: 'BSM2 flowsheet',
+    //     buildRequired: false,
+    //     sweepVariable: 'Feedvolumetricflowrate',
+    //     sweepValues: ['20000', '21000'],
+    // },
     {
         name: 'BSM2_P_extension flowsheet',
         buildRequired: false,

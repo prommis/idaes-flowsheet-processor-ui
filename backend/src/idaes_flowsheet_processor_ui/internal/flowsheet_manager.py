@@ -16,7 +16,6 @@ from pathlib import Path
 import time
 from types import ModuleType
 from typing import Optional, Dict, List, Union
-import app
 
 # third-party
 from fastapi import HTTPException
@@ -24,7 +23,7 @@ from pydantic import BaseModel, validator, field_validator, ValidationInfo, Fiel
 import tinydb  # JSON single-file 'database'
 
 # package-local
-from app.internal.settings import Deployment, AppSettings
+from idaes_flowsheet_processor_ui.internal.settings import Deployment, AppSettings
 from idaes_flowsheet_processor.api import FlowsheetInterface
 import idaes.logger as idaeslog
 

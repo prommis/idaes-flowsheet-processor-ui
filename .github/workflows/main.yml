@@ -37,7 +37,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           environment-file: environment.yml
-          activate-environment: watertap-ui-env
+          activate-environment: flowsheet-processor-env
           miniforge-version: latest
 
       - name: Set up debug logging
@@ -46,40 +46,35 @@ jobs:
           echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
 
       - name: Add theme to .env file
-        working-directory: ./electron/ui
+        working-directory: ./frontend
         run: |
             echo REACT_APP_THEME=watertap >> .env
 
-      # - name: Install Electron JS dependencies
-      #   run: |
-      #     npm --prefix electron clean-install
-
       - name: Install frontend JS dependencies
         run: |
-          npm --prefix electron/ui clean-install
+          npm --prefix frontend clean-install
+
+      - name: Install Python package
+        run: |
+          pip install --progress-bar off .
+      
+      - name: Install WaterTAP for testing purposes
+        run: pip install watertap@git+https://github.com/watertap-org/watertap@main
 
       - name: get idaes extensions
         run: idaes get-extensions
 
-      - name: Install watertap-ui Python package
-        run: |
-          pip install --progress-bar off .
-
-      - name: Display installed environment
-        run: |
-          conda env export --no-builds
-
       - name: run backend server
-        run: uvicorn --app-dir backend/app main:app --reload --host 127.0.0.1 --port 8001 & sleep 30
+        run: uvicorn --app-dir backend/src/idaes_flowsheet_processor_ui main:app --reload --host 127.0.0.1 --port 8001 & sleep 30
 
       - name: run frontend
-        run: npm --prefix electron/ui start & sleep 30
+        run: npm --prefix frontend start & sleep 30
 
       - name: run component tests
-        run: npm --prefix electron/ui run test
+        run: npm --prefix frontend run test
 
       - name: Cypress e2e tests
-        working-directory: electron/ui
+        working-directory: frontend
         timeout-minutes: 45
         run: npx cypress run
 
@@ -127,8 +122,8 @@ jobs:
         with:
             name: cypress_results-${{ matrix.os }}
             path: |
-              electron/ui/cypress/screenshots/
-              electron/ui/cypress/videos/
+              frontend/cypress/screenshots/
+              frontend/cypress/videos/
 
       ## post-run conda often fails for weird reasons. this is a potential solution
       ## see https://github.com/conda-incubator/setup-miniconda/issues/277#issuecomment-1431458277
@@ -162,25 +157,24 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           environment-file: environment.yml
-          activate-environment: watertap-ui-env
+          activate-environment: flowsheet-processor-env
           miniforge-version: latest
 
       # Set project as environment variable. This can also be set by the frontend.
       - name: Set env
         run: echo "project=nawi" >> $GITHUB_ENV
 
-      - name: Install watertap-ui Python package
+      - name: Install Python package
         run: |
-          pip install --progress-bar off .
+          pip install --progress-bar off .[testing]
 
-      - name: Install httpx
-        run: |
-          pip install httpx
+      - name: Install WaterTAP for testing purposes
+        run: pip install watertap@git+https://github.com/watertap-org/watertap@main
 
       - name: get idaes extensions
         run: idaes get-extensions
 
       - name: Run pytest
-        working-directory: backend
+        working-directory: backend/src/idaes_flowsheet_processor_ui
         run: |
-          pytest tests -v
+          pytest . -v

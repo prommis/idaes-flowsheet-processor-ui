@@ -1,5 +1,5 @@
 import { flowsheets } from "./Flowsheets"
-describe('WaterTAP UI Testing', () => {
+describe('IDAES Flowsheet Processor UI Testing', () => {
     it('tests flowsheets-list page', () => {
         cy.load_flowsheets_list()
         cy.screenshot('loaded flowsheet list page')
