@@ -25,7 +25,7 @@ export const themes = {
             'supports the technoeconomic assessment of full water treatment trains.',
         projectRelease: {
             'version': `${process.env.REACT_APP_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
-                'WaterTAP': `${process.env.PROJECT_VERSION || '1.1.0'}`
+                'WaterTAP': `${process.env.REACT_APP_PROJECT_VERSION || '1.1.0'}`
             }
         },
         splashImage: nawiSplash,
@@ -53,7 +53,7 @@ export const themes = {
             'and environmental responsibility', 
         projectRelease: {
             'version': `${process.env.REACT_APP_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
-                'PROMMIS': `${process.env.PROJECT_VERSION || '0.3.1'}`
+                'PROMMIS': `${process.env.REACT_APP_PROJECT_VERSION || '0.3.1'}`
             }
         },
         splashImage: prommisSplash,
@@ -80,7 +80,7 @@ export const themes = {
             'process systems ',
         projectRelease: {
             'version': `${process.env.REACT_APP_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
-                'IDAES': `${process.env.PROJECT_VERSION || '2.5.0'}`
+                'IDAES': `${process.env.REACT_APP_PROJECT_VERSION || '2.5.0'}`
             }
         },
         splashImage: idaesSplash,
