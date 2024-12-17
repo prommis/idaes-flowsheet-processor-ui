@@ -25,7 +25,7 @@ export const themes = {
             'supports the technoeconomic assessment of full water treatment trains.',
         projectRelease: {
             'version': `${process.env.REACT_APP_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
-                'WaterTAP': '1.1.0'
+                'WaterTAP': `${process.env.REACT_APP_PROJECT_VERSION || '1.1.0'}`
             }
         },
         splashImage: nawiSplash,
@@ -50,10 +50,10 @@ export const themes = {
             'Modeling for Minerals Sustainability (PROMMIS) Initiative seeks to ' +
             'transform the national CM & REE landscape to meet DOE’s three ' +
             'enduring strategic objectives: security, economic competitiveness, ' +
-            'and environmental responsibility',
+            'and environmental responsibility', 
         projectRelease: {
-            'version': '0.3.1', 'depVersions': {
-                'WaterTAP': '0.12.0'
+            'version': `${process.env.REACT_APP_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
+                'PROMMIS': `${process.env.REACT_APP_PROJECT_VERSION || '0.3.1'}`
             }
         },
         splashImage: prommisSplash,
@@ -79,7 +79,9 @@ export const themes = {
             'to enable the design and optimization of complex, interacting energy and ' +
             'process systems ',
         projectRelease: {
-            'version': '2.5.0', 'depVersions': {}
+            'version': `${process.env.REACT_APP_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
+                'IDAES': `${process.env.REACT_APP_PROJECT_VERSION || '2.5.0'}`
+            }
         },
         splashImage: idaesSplash,
         logoFull: idaesLogoFull,
