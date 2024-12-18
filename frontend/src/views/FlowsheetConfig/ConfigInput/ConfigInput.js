@@ -413,9 +413,8 @@ export default function ConfigInput(props) {
                                         value={solveType}
                                         onChange={props.handleSelectSolveType}
                                 >
-                                    <MenuItem id="solve-option" value="solve">optimization</MenuItem>
-                                    <MenuItem id="sweep-option" value="sweep">sensitivity
-                                        analysis</MenuItem>
+                                    <MenuItem id="solve-option" value="solve">single run</MenuItem>
+                                    <MenuItem id="sweep-option" value="sweep">parameter sweep</MenuItem>
                                 </Select>
                             </FormControl>
                             <div>

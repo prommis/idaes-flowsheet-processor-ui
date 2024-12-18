@@ -129,10 +129,10 @@ export default function FlowsheetConfig(props) {
         }
     }, [flowsheetData])
 
-    useEffect(() => {
-        if (tabValue !== 0) setShowBuildOptions(false)
+    // useEffect(() => {
+    //     if (tabValue !== 0) setShowBuildOptions(false)
 
-    }, [tabValue])
+    // }, [tabValue])
 
     const runBuildFlowsheet = () => {
         setLoadingFlowsheetData(true)
@@ -143,6 +143,7 @@ export default function FlowsheetConfig(props) {
                 setLoadingFlowsheetData(false)
                 setFlowsheetData({outputData: null, inputData: data, name: data.name});
                 setTitle(getTitle(data));
+                setShowBuildOptions(false)
             }).catch((e) => {
             console.error('error getting flowsheet: ', e)
             navigateHome(e)
