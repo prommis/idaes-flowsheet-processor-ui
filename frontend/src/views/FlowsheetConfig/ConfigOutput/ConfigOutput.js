@@ -39,8 +39,11 @@ export default function ConfigOutput(props) {
                 </Alert> : <></>}
             <Grid container spacing={2} alignItems="flex-start">
                 {isSweep ?
-                    <SweepOutput flowsheetData={flowsheetData}
-                        downloadOutput={downloadSweepOutput} />
+                    <SweepOutput
+                        sweep_results={flowsheetData.outputData.sweep_results}
+                        output_exports={flowsheetData.outputData.exports}
+                        downloadOutput={downloadSweepOutput} 
+                    />
                     :
                     <SingleOutput flowsheetData={flowsheetData}
                         downloadOutput={downloadSingleOutput}
