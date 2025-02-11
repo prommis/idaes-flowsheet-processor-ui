@@ -503,9 +503,12 @@ const RunButton = forwardRef(({...props}, ref) => {
         <Tooltip
             title={disableRun ? "To run a sweep, at least one variable must be set to sweep" : ""}>
             <div>
-                <Button variant="contained"
-                        onClick={() => updateFlowsheetData(flowsheetData.inputData, solveType)}
-                        disabled={disableRun}>RUN</Button>
+                <Button 
+                    id='run-flowsheet-button'
+                    variant="contained"
+                    onClick={() => updateFlowsheetData(flowsheetData.inputData, solveType)}
+                    disabled={disableRun}>RUN
+                </Button>
             </div>
         </Tooltip>
     );
