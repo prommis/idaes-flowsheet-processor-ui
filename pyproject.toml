@@ -16,7 +16,7 @@ dependencies = [
     "parameter-sweep",
     "pydantic >= 2, <3",
     "pydantic-settings",
-    "pynumero",
+    "pyomo",
     "python-multipart",
     "requests",
     "tinydb",
