@@ -38,6 +38,28 @@ npm --prefix frontend clean-install
 idaes get-extensions --verbose
 ```
 
+### 4. (Optional) Install parent package with default flowsheets
+
+Each parent package (IDAES, WaterTAP, and PROMMIS) has a list of default flowsheets. To add these flowsheets to the UI, simply install the parent package (in your working environment).
+
+For WaterTAP:
+
+```sh
+pip install watertap
+```
+
+For IDAES:
+
+```sh
+pip install idaes-pse
+```
+
+For PROMMIS:
+
+```sh
+pip install prommis
+```
+
 # Running the UI
 
 ### Ensure that the `flowsheet-processor-env` Conda environment is active and all dependencies are installed

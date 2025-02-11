@@ -22,8 +22,8 @@ import Paper from '@mui/material/Paper';
 
 export default function SingleOutput(props) {
     let params = useParams();
-    const {outputData, downloadOutput, saveConfig} = props;
-    const [configName, setConfigName] = useState(outputData.name)
+    const {flowsheetData, downloadOutput, saveConfig} = props;
+    const [configName, setConfigName] = useState(flowsheetData.name)
     const [openSaveConfig, setOpenSaveConfig] = React.useState(false);
     const [saved, setSaved] = React.useState(false);
     const [outputTableData, setOutputTableData] = useState({})
@@ -35,7 +35,7 @@ export default function SingleOutput(props) {
      * organize output data into a list of dictionaries formatted for the output table
      */
     useEffect(()=> {
-        let export_variables = {...outputData.outputData.exports}
+        let export_variables = {...flowsheetData.outputData.exports}
         let rows = {}
         for (let key of Object.keys(export_variables)) {
             let export_variable = export_variables[key]
@@ -56,7 +56,7 @@ export default function SingleOutput(props) {
             })
         }
         setOutputTableData(rows)
-    }, [outputData])
+    }, [flowsheetData])
 
     const modalStyle = {
         position: 'absolute',
@@ -77,13 +77,13 @@ export default function SingleOutput(props) {
 
     const handleSaveConfig = () => {
         saveConfig(params.id, {
-            inputData: outputData.inputData,
-            outputData: outputData.outputData
-        }, configName, outputData.inputData.version)
+            inputData: flowsheetData.inputData,
+            outputData: flowsheetData.outputData
+        }, configName, flowsheetData.inputData.version)
             .then(response => response.json())
             .then((data) => {
                 console.log('successfully saved config')
-                let tempFlowsheetData = {...outputData}
+                let tempFlowsheetData = {...flowsheetData}
                 tempFlowsheetData.name = configName
                 props.updateFlowsheetData(tempFlowsheetData, "UPDATE_CONFIG")
                 handleCloseSaveConfig()
@@ -99,8 +99,8 @@ export default function SingleOutput(props) {
     const handleDownloadOutput = () => {
         let headers = ['category', 'metric', 'units', 'value']
         let values = []
-        for (let key of Object.keys(outputData.outputData.exports)) {
-            let each = outputData.outputData.exports[key]
+        for (let key of Object.keys(flowsheetData.outputData.exports)) {
+            let each = flowsheetData.outputData.exports[key]
             if (each.is_output) {
                 values.push([each.output_category, each.name, each.display_units, each.value])
             }
@@ -112,7 +112,7 @@ export default function SingleOutput(props) {
                 const href = window.URL.createObjectURL(data);
                 const link = document.createElement('a');
                 link.href = href;
-                link.setAttribute('download', `${outputData.inputData.name}_output.csv`);
+                link.setAttribute('download', `${flowsheetData.inputData.name}_output.csv`);
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
