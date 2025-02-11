@@ -410,7 +410,7 @@ export default function FlowsheetConfig(props) {
                                         />
                                     </TabPanel>
                                     <TabPanel value={tabValue} index={1}>
-                                        <ConfigOutput outputData={flowsheetData}
+                                        <ConfigOutput flowsheetData={flowsheetData}
                                                       updateFlowsheetData={updateFlowsheetData}
                                                       isSweep={sweep}
                                                       solveType={solveType}
@@ -420,7 +420,7 @@ export default function FlowsheetConfig(props) {
                                     </TabPanel>
                                     <TabPanel value={tabValue} index={2}>
                                         <ConfigOutputComparison
-                                            outputData={flowsheetData}>
+                                            flowsheetData={flowsheetData}>
                                         </ConfigOutputComparison>
                                     </TabPanel>
                                 </Box>

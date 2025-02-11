@@ -7,7 +7,7 @@ import { Grid, Typography, Button, InputLabel, MenuItem, FormControl, Tabs, Tab,
 import Plot from 'react-plotly.js';
 
 export default function SweepOutput(props) {
-    const { outputData, downloadOutput } = props;
+    const { flowsheetData, downloadOutput } = props;
     const [ plotType, setPlotType ] = useState(0)
     const [ plotData, setPlotData ] = useState({data: []})
     const [ showPlot, setShowPlot ] = useState(false)
@@ -33,7 +33,7 @@ export default function SweepOutput(props) {
 
     useEffect(() => {
         if (tabValue === 1) {
-            let num_parameters = outputData.outputData.sweep_results.num_parameters;
+            let num_parameters = flowsheetData.outputData.sweep_results.num_parameters;
             if (num_parameters === 1) {
                 setPlotType(1)
                 unpackData(1, 0, 1)
@@ -47,16 +47,16 @@ export default function SweepOutput(props) {
             }
         }
         
-    }, [props.outputData, tabValue])
+    }, [props.flowsheetData, tabValue])
 
     const addPlotLine = (yIndex, tempPlotData) => {
-        let keys = outputData.outputData.sweep_results.keys
+        let keys = flowsheetData.outputData.sweep_results.keys
         let x = []
         let ys = []
-        for (let i = 0; i < outputData.outputData.sweep_results.num_outputs; i++) {
+        for (let i = 0; i < flowsheetData.outputData.sweep_results.num_outputs; i++) {
             ys.push([])
         }
-        for (let each of outputData.outputData.sweep_results.values) {
+        for (let each of flowsheetData.outputData.sweep_results.values) {
             x.push(Math.round(each[0] * 1000) / 1000)
             
             for(let i = 1; i < each.length; i++) {
@@ -70,7 +70,7 @@ export default function SweepOutput(props) {
         let keyIdx = 1
         for (let each of ys) {
             if( keyIdx === yIndex){
-                let yName = `${outputData.outputData.sweep_results.headers[keyIdx]}`
+                let yName = `${flowsheetData.outputData.sweep_results.headers[keyIdx]}`
                 let finalName = ``
                 if (yName.length > 32) {
                     let nameArray = yName.split(" ")
@@ -84,7 +84,7 @@ export default function SweepOutput(props) {
                     }
                 }
                 else {
-                    finalName = `${outputData.outputData.sweep_results.headers[keyIdx]}`
+                    finalName = `${flowsheetData.outputData.sweep_results.headers[keyIdx]}`
                 }
                 let tempTrace = {x: x, y: each, type:"scatter", name: finalName}
                 nextTrace.push(tempTrace)
@@ -95,13 +95,13 @@ export default function SweepOutput(props) {
         }
         tempPlotData.push(nextTrace[0])
 
-        let xLabel = `${outputData.outputData.sweep_results.headers[0]} (${outputData.outputData.exports[keys[0]].display_units})`
+        let xLabel = `${flowsheetData.outputData.sweep_results.headers[0]} (${flowsheetData.outputData.exports[keys[0]].display_units})`
         let yLabel 
-        let yUnits = outputData.outputData.exports[keys[yIndex]].display_units
+        let yUnits = flowsheetData.outputData.exports[keys[yIndex]].display_units
         if (tempPlotData.length > 1) {
             yLabel = `${yUnits}`
         } else {
-            yLabel = `${outputData.outputData.sweep_results.headers[yIndex]} (${yUnits})`
+            yLabel = `${flowsheetData.outputData.sweep_results.headers[yIndex]} (${yUnits})`
         }
         
         let tempLayout = {
@@ -124,7 +124,7 @@ export default function SweepOutput(props) {
     }
 
     const removePlotLine = (index) => {
-        let itemToRemove = outputData.outputData.sweep_results.headers[index]
+        let itemToRemove = flowsheetData.outputData.sweep_results.headers[index]
         let tempPlotData = [...plotData.data]
         let updatedPlotData = tempPlotData.filter(item => item.name !== itemToRemove);
         setPlotData({data: updatedPlotData, layout: plotData.layout})
@@ -145,7 +145,7 @@ export default function SweepOutput(props) {
             }
             // item is unhighlighted
             else {
-                let newUnits = outputData.outputData.exports[outputData.outputData.sweep_results.keys[newIndex]].display_units
+                let newUnits = flowsheetData.outputData.exports[flowsheetData.outputData.sweep_results.keys[newIndex]].display_units
                 if (newUnits === currentUnits) { // add on to same plot
                     setSelectedItems([...selectedItems, newIndex]);
                     addPlotLine(newIndex, [...plotData.data])
@@ -166,13 +166,13 @@ export default function SweepOutput(props) {
     }
 
     const unpackData = (plotType, xIndex, yIndex, zIndex) => {
-        let keys = outputData.outputData.sweep_results.keys
+        let keys = flowsheetData.outputData.sweep_results.keys
         if (plotType === 2) { //contour map
             let x = []
             let y = []
             let z = []
             let currZ = []
-            for (let each of outputData.outputData.sweep_results.values) {
+            for (let each of flowsheetData.outputData.sweep_results.values) {
                 let tempX = Math.round(each[xIndex] * 1000) / 1000
                 let tempY = Math.round(each[yIndex] * 1000) / 1000
                 let tempZ = null
@@ -188,7 +188,7 @@ export default function SweepOutput(props) {
                 }
             }
 
-            for (let each of outputData.outputData.sweep_results.values) {
+            for (let each of flowsheetData.outputData.sweep_results.values) {
                 let tempZ = null
                 if (each[zIndex]!==null){
                 tempZ = Math.round(each[zIndex] * 1000) / 1000}
@@ -199,9 +199,9 @@ export default function SweepOutput(props) {
                 }
             }
 
-            let xLabel = `${outputData.outputData.sweep_results.headers[xIndex]} (${outputData.outputData.exports[keys[xIndex]].display_units})`
-            let yLabel = `${outputData.outputData.sweep_results.headers[yIndex]} (${outputData.outputData.exports[keys[yIndex]].display_units})`
-            let zLabel = `${outputData.outputData.sweep_results.headers[zIndex]} (${outputData.outputData.exports[keys[zIndex]].display_units})`
+            let xLabel = `${flowsheetData.outputData.sweep_results.headers[xIndex]} (${flowsheetData.outputData.exports[keys[xIndex]].display_units})`
+            let yLabel = `${flowsheetData.outputData.sweep_results.headers[yIndex]} (${flowsheetData.outputData.exports[keys[yIndex]].display_units})`
+            let zLabel = `${flowsheetData.outputData.sweep_results.headers[zIndex]} (${flowsheetData.outputData.exports[keys[zIndex]].display_units})`
 
             let tempPlotData = [{
                 z:z,
@@ -241,10 +241,10 @@ export default function SweepOutput(props) {
         } else if (plotType ===3) { //parallel coordinates plot
             // console.log('making parallel coordinates plot')
             let dimensions = []
-            for (let each of outputData.outputData.sweep_results.headers) {
+            for (let each of flowsheetData.outputData.sweep_results.headers) {
                 dimensions.push({label: each, values: []})
             }
-            for (let each of outputData.outputData.sweep_results.values) {
+            for (let each of flowsheetData.outputData.sweep_results.values) {
                 for(let i = 0; i < each.length; i++) {
                     let tempDimension = dimensions[i]
                     tempDimension.values.push(each[i])
@@ -296,15 +296,15 @@ export default function SweepOutput(props) {
                 <Table className="parameter-sweep-output-table" style={{border:"1.5px solid #71797E"}} size={'small'}>
                     <TableHead>
                     <TableRow style={styles.tableHeader}>
-                        <TableCell style={styles.tableHeader} colSpan={outputData.outputData.sweep_results.num_parameters} align="center">
+                        <TableCell style={styles.tableHeader} colSpan={flowsheetData.outputData.sweep_results.num_parameters} align="center">
                             Sweep Parameters
                         </TableCell>
-                        <TableCell style={styles.tableHeader} colSpan={outputData.outputData.sweep_results.num_outputs} align="center">
+                        <TableCell style={styles.tableHeader} colSpan={flowsheetData.outputData.sweep_results.num_outputs} align="center">
                             Variables
                         </TableCell>
                     </TableRow>
                     <TableRow key="tablehead"> 
-                        {outputData.outputData.sweep_results.headers.map( (value, index)  => {
+                        {flowsheetData.outputData.sweep_results.headers.map( (value, index)  => {
                             return <TableCell style={{border:"1px solid #71797E", backgroundColor:"#E5E4E2"}} key={`head_${index}`}> 
                             <Typography noWrap>{value}</Typography>
                             </TableCell>
@@ -312,12 +312,12 @@ export default function SweepOutput(props) {
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                        {outputData.outputData.sweep_results.values.map( (row, ridx)  => {
+                        {flowsheetData.outputData.sweep_results.values.map( (row, ridx)  => {
                             return (
                                 <TableRow key={`row_${ridx}`}> 
                                 {row.map( (cell, cidx) => {
                                     return (<TableCell 
-                                                style={cidx < outputData.outputData.sweep_results.num_parameters ? styles.parameters : styles.outputs} key={`cell_${cidx}`} 
+                                                style={cidx < flowsheetData.outputData.sweep_results.num_parameters ? styles.parameters : styles.outputs} key={`cell_${cidx}`} 
                                                 align="right"
                                             > 
                                                 {cell && cell.toFixed(3)}
@@ -339,7 +339,7 @@ export default function SweepOutput(props) {
             }
             {tabValue === 1 && 
             <>
-            {showPlot && (outputData.outputData.sweep_results.num_parameters === 1 || outputData.outputData.sweep_results.num_parameters === 2) && 
+            {showPlot && (flowsheetData.outputData.sweep_results.num_parameters === 1 || flowsheetData.outputData.sweep_results.num_parameters === 2) && 
                 // Replacing FormControl with list
                 // test by sweep ing TDS concentration
                 <Grid sx={{marginTop:5, minWidth: 250, overflow: 'auto'}} item xs={3}>
@@ -347,11 +347,11 @@ export default function SweepOutput(props) {
                         <List
                         labelId="Parameter Selection"
                         id="Parameter Selection"
-                        value={plotType === 2 ? indices[2]-outputData.outputData.sweep_results.num_parameters : plotType === 1 && indices[1]-outputData.outputData.sweep_results.num_parameters}
+                        value={plotType === 2 ? indices[2]-flowsheetData.outputData.sweep_results.num_parameters : plotType === 1 && indices[1]-flowsheetData.outputData.sweep_results.num_parameters}
                         sx={{minWidth: 50, maxHeight: 500, fontSize: 15}}
                         >
-                        {outputData.outputData.sweep_results.headers.slice(outputData.outputData.sweep_results.num_parameters).map((name, index) => {
-                            let realIndex = index + outputData.outputData.sweep_results.num_parameters
+                        {flowsheetData.outputData.sweep_results.headers.slice(flowsheetData.outputData.sweep_results.num_parameters).map((name, index) => {
+                            let realIndex = index + flowsheetData.outputData.sweep_results.num_parameters
                             return <ListItem
                                 key={name+" "+realIndex}
                                 dense 
