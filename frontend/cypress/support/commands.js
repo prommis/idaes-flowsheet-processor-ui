@@ -86,7 +86,6 @@ Cypress.Commands.add('solve_flowsheet', () => {
         url: 'http://localhost:8001/flowsheets/**',
     }).as('run');
     cy.get('#run-flowsheet-button').click()
-    cy.findAllByRole('button', {name: /run/i}).eq(0).click();
     cy.wait('@run', {timeout: 180000});
 })
 
