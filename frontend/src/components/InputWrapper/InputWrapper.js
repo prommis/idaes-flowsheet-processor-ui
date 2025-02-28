@@ -124,7 +124,8 @@ export default function InputWrapper(props) {
         return {__html: u}
     }
 
-    return  <Grid container>
+    return <Grid container sx={{m:1}}>   
+{/* // add margin  from next input wrapper */}
                 <Grid item xs={9}>
                 <Tooltip title={fieldData.description}>
                     <TextField id={fieldData.obj_key} 

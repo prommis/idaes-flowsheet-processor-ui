@@ -1,8 +1,9 @@
 import React from 'react'; 
 import {useEffect, useState} from 'react';
-import { Box, Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
+import { Box,Paper,Container,Grid, Accordion,Stack, AccordionSummary, AccordionDetails,Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InputWrapper from "../InputWrapper/InputWrapper";
+import Grid2 from '@mui/material/Unstable_Grid2';
 
 
 export default function InputAccordion(props) {
@@ -39,11 +40,16 @@ export default function InputAccordion(props) {
     };
 
     return (
-        <Accordion expanded={expanded1 === 'panel1'} onChange={handleAccordionChange('panel1')} style={{border:"1px solid #ddd"}}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} >
-            {data.display_name}
-        </AccordionSummary>
-        <AccordionDetails>
+        <Box sx={{
+        marginY: 2,
+        border: .5,
+        borderColor: 'gray',
+        padding: 2,
+        borderRadius: 1,
+        boxShadow: 2,
+        }}>
+    <Typography variant="h6">
+    {data.display_name}</Typography>
             {/*data.description*/}
             <Box
                 component="form"
@@ -56,8 +62,7 @@ export default function InputAccordion(props) {
                 renderFields()
             }
             </Box>
-        </AccordionDetails>
-        </Accordion>
+            </Box>
+        
     );
-
 }
