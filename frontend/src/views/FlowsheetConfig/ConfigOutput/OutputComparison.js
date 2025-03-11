@@ -4,6 +4,9 @@ import { Grid, Button, Box, Paper, Stack, Toolbar, Tabs, Tab } from '@mui/materi
 import OutputComparisonTable from "../../../components/OutputComparisonTable/OutputComparisonTable.js";
 import OutputComparisonChart from "../../../components/OutputComparisonChart/OutputComparisonChart.js";
 import { loadConfig, listConfigNames }  from '../../../services/output.service.js'
+import HeatmapChartsContainer from "../../../components/HeatmapChartsContainer";
+import ChartContainer from "../../../components/ChartContainer/ChartContainer.js";
+import entrypoint from "C:\Users\isaacg\idaes-flowsheet-processor-ui\frontend\src\components\ChartContainer\entrypoint.html"
 
 export default function OutputComparison(props) {
     let params = useParams(); 
@@ -215,7 +218,7 @@ export default function OutputComparison(props) {
                 <Box sx={{display: 'flex', justifyContent: 'center'}}>
                     <Tabs value={tabValue} onChange={handleTabChange} aria-label="tabs">
                         <Tab label="Table View" />
-                        <Tab label="Chart View" disabled={disableChartView}/> 
+                        <Tab label="Chart View" /> 
                     </Tabs>
                 </Box>
                 
@@ -226,11 +229,13 @@ export default function OutputComparison(props) {
                 />
             }
             {  tabValue === 1 &&
-                <OutputComparisonChart 
-                  flowsheetData={flowsheetData}
-                  historyData={chartData}
-                  categoriesWithCharts={categoriesWithCharts}
-                />
+              <ChartContainer
+              />
+                // <OutputComparisonChart 
+                //   flowsheetData={flowsheetData}
+                //   historyData={chartData}
+                //   categoriesWithCharts={categoriesWithCharts}
+                // />
             }
         </Box>
       

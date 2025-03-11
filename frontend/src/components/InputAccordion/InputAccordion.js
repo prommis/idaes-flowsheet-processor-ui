@@ -46,7 +46,7 @@ export default function InputAccordion(props) {
         borderColor: 'gray',
         padding: 2,
         borderRadius: 1,
-        boxShadow: 2,
+        boxShadow: 3,
         }}>
     <Typography variant="h6">
     {data.display_name}</Typography>
