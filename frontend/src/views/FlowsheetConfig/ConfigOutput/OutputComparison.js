@@ -4,9 +4,7 @@ import { Grid, Button, Box, Paper, Stack, Toolbar, Tabs, Tab } from '@mui/materi
 import OutputComparisonTable from "../../../components/OutputComparisonTable/OutputComparisonTable.js";
 import OutputComparisonChart from "../../../components/OutputComparisonChart/OutputComparisonChart.js";
 import { loadConfig, listConfigNames }  from '../../../services/output.service.js'
-import HeatmapChartsContainer from "../../../components/HeatmapChartsContainer";
 import ChartContainer from "../../../components/ChartContainer/ChartContainer.js";
-import entrypoint from "C:\Users\isaacg\idaes-flowsheet-processor-ui\frontend\src\components\ChartContainer\entrypoint.html"
 
 export default function OutputComparison(props) {
     let params = useParams(); 
