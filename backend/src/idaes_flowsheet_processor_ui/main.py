@@ -16,7 +16,6 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 from fastapi import FastAPI
-from idaes_flowsheet_processor_ui.internal.get_extensions import check_for_idaes_extensions, get_idaes_extensions
 from idaes_flowsheet_processor_ui.routers import flowsheets
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -46,8 +45,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
     run_in_production_mode = args.production
     install_extensions = args.install_idaes_extensions
-
     if install_extensions:
+
+        from idaes_flowsheet_processor_ui.internal.get_extensions import get_idaes_extensions
         _log.info("running get_extensions()")
         get_idaes_extensions()
     elif run_in_production_mode:
