@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import GridLayout from 'react-grid-layout';
+import { Grid, Stack } from '@mui/material'
 import Heatmap from '../Heatmap/Heatmap';
 import { FaDownload } from "react-icons/fa";
 
@@ -72,7 +73,7 @@ const ChartContainer = () => {
     <div>
         {/* 
             TODO:
-            1) use MUI components for buttons, other applicable items
+            1) use MUI components for buttons, other applicable components
             2) clean up styling
             3) figure out what's going on with GridLayout. It jumps around and doesn't drag smoothly
         */}
@@ -91,17 +92,18 @@ const ChartContainer = () => {
         className="visualization-select"
       >
         <option value="heatmap">Heatmap</option>
-        <option value="parallelCoordinate">Parallel Coordinate Plot</option>
+        {/* <option value="parallelCoordinate">Parallel Coordinate Plot</option> */}
       </select>
       <button onClick={addHeatmap}>Add Heatmap</button>
-      <GridLayout
+      {/* <GridLayout
         className="layout"
         layout={layout}
         cols={12}
         rowHeight={30}
         width={1200}
         onLayoutChange={newLayout => setLayout(newLayout)}
-      >
+      > */}
+      <Stack direction='column'>
         {visualizations.map(vis =>
           vis.type === 'heatmap' ? (
             <div key={vis.id} data-grid={layout.find(item => item.i === vis.id)}>
@@ -113,7 +115,9 @@ const ChartContainer = () => {
             </div>
           )
         )}
-      </GridLayout>
+      </Stack>
+        
+      {/* </GridLayout> */}
     </div>
   );
 };

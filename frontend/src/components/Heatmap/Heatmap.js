@@ -3,6 +3,9 @@ import Plot from 'react-plotly.js';
 
 
 const CustomHeatmap = () => {
+    // TODO: 
+    // - replace csvData with data provided by props
+    // - add option to remove plots. this will need to update the visualizations variable in ChartContainer 
     const [ heatmapData, setHeatmapData ] = useState()
     const [ plotLayout, setPlotLayout ] = useState()
 
