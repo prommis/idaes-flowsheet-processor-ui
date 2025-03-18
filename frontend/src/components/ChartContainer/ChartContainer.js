@@ -8,7 +8,31 @@ import { FaDownload } from "react-icons/fa";
 const ChartContainer = () => {
   const [layout, setLayout] = useState([]);
   const [visualizations, setVisualizations] = useState([]);
+  const [ heatmapData, setHeatmapData ] = useState({headers: null, data: null})
   const [selectedVisualizationType, setSelectedVisualizationType] = useState('heatmap');
+
+    useEffect(() => {
+      fetch('./ExpData.csv')
+      .then(response => response.text()) 
+      .then(csvData => {
+          const { headers, data } = parseCSV(csvData);
+          setHeatmapData({
+            headers: headers, data: data
+          })
+      })
+      .catch(error => console.error('Error loading CSV data:', error));
+  }, [])
+
+  function parseCSV(csvData) {
+      // Split CSV data into rows
+      const rows = csvData.split('\n').map(row => row.split(','));
+
+      // Extract headers (first row) and data (remaining rows)
+      const headers = rows[0];
+      const data = rows.slice(1);
+
+      return { headers, data }
+  }
 
   // Function to add a new heatmap
   const addHeatmap = () => {
@@ -69,6 +93,11 @@ const ChartContainer = () => {
 //     saveData();
 //   }, [layout, visualizations]);
 
+
+  const removePlot = (index) => {
+    
+  }
+
   return (
     <div>
         {/* 
@@ -104,10 +133,10 @@ const ChartContainer = () => {
         onLayoutChange={newLayout => setLayout(newLayout)}
       > */}
       <Stack direction='column'>
-        {visualizations.map(vis =>
+        {visualizations.map((vis, idx) =>
           vis.type === 'heatmap' ? (
             <div key={vis.id} data-grid={layout.find(item => item.i === vis.id)}>
-              <Heatmap />
+              <Heatmap data={heatmapData.data} headers={heatmapData.headers} idx={idx} removePlot={removePlot}/>
             </div>
           ) : (
             <div key={vis.id} data-grid={layout.find(item => item.i === vis.id)}>
