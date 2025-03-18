@@ -94,8 +94,9 @@ const ChartContainer = () => {
 //   }, [layout, visualizations]);
 
 
+  // TODO: fill this out
   const removePlot = (index) => {
-    
+
   }
 
   return (

@@ -14,6 +14,7 @@ const CustomHeatmap = ({headers, data, removePlot, idx}) => {
     const [heatmapData, setHeatmapData] = useState(null); // isaac- Store heatmap data in format for plotly null so it doesnt try to load before anything is there 
     const [plotLayout, setPlotLayout] = useState(null); // isaac - store layout for plotly heatmap - only controls titles and color scales ( should we make it customizable)
     const [ selectedParameter, setSelectedParameter] = useState(null);
+    const [ xIndex, setXIndex ] = useState(0)
     // TODO: once we start using real data, remove this
     
     
@@ -21,9 +22,9 @@ const CustomHeatmap = ({headers, data, removePlot, idx}) => {
     function createHeatmap(parameter) {
         // const { headers, data } = parseCSV(csvData);
     
-        // TODO: why are these variables initialized?
-        // were arrays to store the data for the values and we populate it later 
-        
+        // TODO: 
+        // can we replace the selection of specific variable names with just the first 2 by defualt
+        // we can store each index as state variables, xindex, yindex, zindex
         const desalIndex = headers.indexOf('Desal 1 base cost');
         const disposalIndex = headers.indexOf('Disposal cost');
         const parameterIndex = headers.indexOf(parameter);
