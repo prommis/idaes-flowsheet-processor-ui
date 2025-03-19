@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const styles = {
   container: {
-    maxWidth: 600,
+    // maxWidth: 600,
     margin: '40px auto',
     padding: 20,
     backgroundColor: '#f9f9f9',
@@ -17,6 +17,7 @@ const styles = {
   table: {
     width: '100%',
     borderCollapse: 'collapse',
+    display: 'table',
   },
   th: {
     backgroundColor: '#f4f4f4',
@@ -54,8 +55,6 @@ function InstallerTable({owner, repo}) {
   const [releases, setReleases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-//   const owner = "project-pareto";
-//   const repo = "project-pareto";
 
   useEffect(() => {
     const fetchReleases = async () => {
@@ -65,8 +64,10 @@ function InstallerTable({owner, repo}) {
           throw new Error(`Failed to fetch releases: ${response.status}`);
         }
         const releasesData = await response.json();
-        setReleases(releasesData);
-        setLoading(false);
+        // setReleases(releasesData);
+        // setLoading(false);
+        formatReleaseData(releasesData)
+
       } catch (error) {
         setError(true);
         setLoading(false);
@@ -75,15 +76,31 @@ function InstallerTable({owner, repo}) {
     fetchReleases();
   }, [owner, repo]);
 
+  const formatReleaseData = (data) => {
+    let releasesWithInstaller = []
+    for (let release of data) {
+        if (release.assets?.length > 0) {
+            for (let asset of release.assets) {
+                if (asset.name.endsWith(".exe") || asset.name.endsWith(".dmg")) {
+                    releasesWithInstaller.push(release)
+                    break
+                }
+            }
+        }
+    }
+    setReleases(releasesWithInstaller)
+    setLoading(false);
+  }
+
   const populateTable = () => {
     if (loading) {
-      return <tr><td colSpan="3" style={styles.td}>Loading...</td></tr>;
+      return <tr><td style={styles.td} colSpan={3}>Loading...</td></tr>;
     }
     if (error) {
-      return <tr><td colSpan="3" style={styles.td}>Error loading data</td></tr>;
+      return <tr><td style={styles.td} colSpan={3}>Error loading data</td></tr>;
     }
     if (releases.length === 0) {
-      return <tr><td colSpan="3" style={styles.td}>No releases found</td></tr>;
+      return <tr><td style={styles.td} colSpan={3}>No releases found</td></tr>;
     }
 
     return releases.map((release, index) => {
@@ -116,7 +133,7 @@ function InstallerTable({owner, repo}) {
           </td>
         </tr>
       );
-    }).filter(Boolean);
+    });
   };
 
   return (
