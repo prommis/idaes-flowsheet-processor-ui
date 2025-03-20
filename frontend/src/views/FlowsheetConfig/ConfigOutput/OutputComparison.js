@@ -7,7 +7,7 @@ import { loadConfig, listConfigNames }  from '../../../services/output.service.j
 
 export default function OutputComparison(props) {
     let params = useParams(); 
-    const { outputData } = props;
+    const { flowsheetData } = props;
     const [ pastConfigs, setPastConfigs ] = useState([])
     const [ historyData, setHistoryData ] = useState([])
     const [ historyDataOrganized, setHistoryDataOrganized ] = useState([])
@@ -38,7 +38,7 @@ export default function OutputComparison(props) {
     }, [historyData])
 
     useEffect(()=>{
-      listConfigNames(params.id, outputData.inputData.version)
+      listConfigNames(params.id, flowsheetData.inputData.version)
       .then(response => response.json())
       .then((data)=>{
         setPastConfigs(data)
@@ -227,7 +227,7 @@ export default function OutputComparison(props) {
             }
             {  tabValue === 1 &&
                 <OutputComparisonChart 
-                  flowsheetData={outputData}
+                  flowsheetData={flowsheetData}
                   historyData={chartData}
                   categoriesWithCharts={categoriesWithCharts}
                 />

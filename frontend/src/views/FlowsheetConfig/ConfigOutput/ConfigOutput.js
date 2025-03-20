@@ -13,7 +13,7 @@ import SingleOutput from "../../../components/SingleOutput/SingleOutput";
 
 export default function ConfigOutput(props) {
     let params = useParams();
-    const {outputData, isSweep, inputsChanged} = props;
+    const {flowsheetData, isSweep, inputsChanged} = props;
 
     // Use a temporary hyperlink to download sweep output
     const downloadSweepOutput = () => {
@@ -39,10 +39,13 @@ export default function ConfigOutput(props) {
                 </Alert> : <></>}
             <Grid container spacing={2} alignItems="flex-start">
                 {isSweep ?
-                    <SweepOutput outputData={outputData}
-                        downloadOutput={downloadSweepOutput} />
+                    <SweepOutput
+                        sweep_results={flowsheetData.outputData.sweep_results}
+                        output_exports={flowsheetData.outputData.exports}
+                        downloadOutput={downloadSweepOutput} 
+                    />
                     :
-                    <SingleOutput outputData={outputData}
+                    <SingleOutput flowsheetData={flowsheetData}
                         downloadOutput={downloadSingleOutput}
                         saveConfig={saveConfig} />
                 }
