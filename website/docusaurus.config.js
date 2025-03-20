@@ -67,7 +67,7 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'downloadSidebar',
             position: 'left',
-            label: 'Downloads',
+            label: 'Documentation',
           },
           {
             href: 'https://github.com/watertap-org/idaes-flowsheet-processor-ui',
