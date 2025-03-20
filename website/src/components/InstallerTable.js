@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 const styles = {
   container: {
-    // maxWidth: 600,
     margin: '40px auto',
     padding: 20,
     backgroundColor: '#f9f9f9',
@@ -64,8 +63,6 @@ function InstallerTable({owner, repo}) {
           throw new Error(`Failed to fetch releases: ${response.status}`);
         }
         const releasesData = await response.json();
-        // setReleases(releasesData);
-        // setLoading(false);
         formatReleaseData(releasesData)
 
       } catch (error) {
@@ -76,6 +73,8 @@ function InstallerTable({owner, repo}) {
     fetchReleases();
   }, [owner, repo]);
 
+
+  // This function filters out releases that do not have a UI artifact
   const formatReleaseData = (data) => {
     let releasesWithInstaller = []
     for (let release of data) {

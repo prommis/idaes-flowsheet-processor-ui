@@ -1,7 +1,13 @@
 # README for docs
 
-All commands assume you are in the `docs/` subdirectory on the
+All commands assume you are in the `website/` subdirectory on the
 main branch.
+
+## Install node packages
+
+```
+npm ci
+```
 
 ## Development
 
