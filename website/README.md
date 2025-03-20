@@ -11,12 +11,15 @@ npm ci
 
 ## Development
 
+Before starting development, make sure to install the required node packages by running `npm ci` in the `website/` directory. Then, start the development server:
+
 ```
 npx docusaurus start
 ```
 
 ## Testing and Deployment
 
+Before testing and deploying, ensure that the node packages are installed by running `npm ci` in the `website/` directory.
 
 Deploy to gh-pages:
 
