@@ -13,14 +13,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: npm
 
-      - name: Install dependencies
-        working-directory: ./website
-        run: npm ci
+      - name: Setup Node and install dependencies
+        run: |
+            npm config set prefix=$(pwd)/.npm-global
+            npm config set cache=$(pwd)/.npm-cache
+            npm ci
+            working-directory: ./website
 
       - name: Build website
         working-directory: ./website
