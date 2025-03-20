@@ -18,7 +18,7 @@ const FeatureList = [
     Img: require('@site/static/img/prommis-logo.png').default,
     description: (
       <>
-        PRoMMiS Flowsheets
+        PrOMMiS Flowsheets
       </>
     ),
     pageName: 'prommis',

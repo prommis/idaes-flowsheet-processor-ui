@@ -87,9 +87,17 @@ const config = {
                 to: 'https://idaes.org/',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/watertap-org/idaes-flowsheet-processor-ui',
+                label: 'WaterTAP Project',
+                to: 'https://watertap.readthedocs.io/en/stable/',
               },
+              {
+                label: 'PrOMMIS Project',
+                to: 'https://github.com/prommis/prommis',
+              },
+              // {
+              //   label: 'GitHub',
+              //   href: 'https://github.com/watertap-org/idaes-flowsheet-processor-ui',
+              // },
             ],
           },
         ],
