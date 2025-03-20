@@ -13,20 +13,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      # - uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 18
-      #     cache: npm
+
       - name: Setup Node and install dependencies
         run: |
           npm config set prefix=$(pwd)/.npm-global
           npm config set cache=$(pwd)/.npm-cache
           npm ci
         working-directory: ./website
-
-      # - name: Install dependencies
-      #   working-directory: ./website
-      #   run: npm ci
 
       - name: Build website
         working-directory: ./website
@@ -35,7 +28,7 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build
+          path: ./website/build
 
   deploy:
     name: Deploy to GitHub Pages
