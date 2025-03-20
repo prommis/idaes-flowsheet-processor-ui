@@ -19,7 +19,7 @@ jobs:
             npm config set prefix=$(pwd)/.npm-global
             npm config set cache=$(pwd)/.npm-cache
             npm ci
-            working-directory: ./website
+        working-directory: ./website
 
       - name: Build website
         working-directory: ./website
