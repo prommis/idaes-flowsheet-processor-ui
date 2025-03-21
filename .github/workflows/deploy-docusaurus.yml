@@ -1,7 +1,7 @@
 name: Deploy docs to GitHub Pages
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -51,5 +51,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          target-branch: gh-pages
