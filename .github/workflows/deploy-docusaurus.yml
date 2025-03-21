@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    if: github.repository == 'watertap-org/idaes-flowsheet-processor-ui'
     name: Build Docusaurus
     runs-on: ubuntu-latest
     steps:
@@ -31,6 +32,7 @@ jobs:
           path: ./website/build
 
   deploy:
+    if: github.repository == 'watertap-org/idaes-flowsheet-processor-ui'
     name: Deploy to GitHub Pages
     needs: build
 
