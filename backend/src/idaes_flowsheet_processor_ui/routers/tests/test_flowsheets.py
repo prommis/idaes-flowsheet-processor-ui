@@ -27,6 +27,7 @@ def pytest_generate_tests(metafunc):
         from idaes_flowsheet_processor.api import FlowsheetInterface
 
         module_names = list(FlowsheetInterface.from_installed_packages())
+        print(f"module names::: {module_names}")
         metafunc.parametrize(
             "flowsheet_id",
             list(module_names),
