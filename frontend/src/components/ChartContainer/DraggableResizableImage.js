@@ -1,22 +1,30 @@
-import React, { useRef } from 'react';
-import Plot from 'react-plotly.js';
-import useResizeObserver from './useResizeObserver';
+import { useState, useEffect } from 'react';
 
-const DraggableResizableImage = ({ data, layout }) => {
-  const containerRef = useRef(null);
-  const dimensions = useResizeObserver(containerRef);
+function useResizeObserver(ref) {
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  return (
-    <div ref={containerRef} style={{ width: '100%', height: '100%' }}>
-      <Plot
-        data={data}
-        layout={{ ...layout, width: dimensions.width, height: dimensions.height }}
-        config={{ displayModeBar: false }}  // Disable Plotly controls
-        useResizeHandler={true}  // Enable Plotly's resize handler
-        style={{ width: '100%', height: '100%' }}
-      />
-    </div>
-  );
-};
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        setDimensions({
+          width: entry.contentRect.width,
+          height: entry.contentRect.height,
+        });
+      }
+    });
 
-export default DraggableResizableImage;
+    if (ref.current) {
+      resizeObserver.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        resizeObserver.unobserve(ref.current);
+      }
+    };
+  }, [ref]);
+
+  return dimensions;
+}
+
+export default useResizeObserver;

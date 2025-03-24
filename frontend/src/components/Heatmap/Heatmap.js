@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import Plot from 'react-plotly.js';
-import { FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
+import { Box, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
 
 
 const CustomHeatmap = ({headers, data, removePlot, idx}) => {
     // TODO: 
     // - replace csvData with data provided by props(done) - i modified component to accept csv data as prop 
     // - add option to remove plots. this will need to update the visualizations variable in ChartContainer (done)
-    // 1) set heatmapData, layout as state variables(d0ne initialized abouve)
-    // 2) use these as the data for a Plotly react component(done inititlazed abouve )
+    // 1) set heatmapData, layout as state variables(d0ne initialized aboue)
+    // 2) use these as the data for a Plotly react component(done inititlazed aboue )
 
     // const [headers, setHeaders] = useState([]); // isaac - Store column names for dropdown
     const [heatmapData, setHeatmapData] = useState(null); // isaac- Store heatmap data in format for plotly null so it doesnt try to load before anything is there 
@@ -94,8 +94,10 @@ const CustomHeatmap = ({headers, data, removePlot, idx}) => {
 
     return (
 
-        <div>
-            <button onClick={() => removePlot(idx)}>Remove Plot</button>
+        <Box sx={{ p: 2 }}>
+            <Button variant="contained" color="primary" onClick={() => removePlot(idx)}>
+                Remove Plot
+            </Button>
 
             {/* 
                 TODO: 
@@ -110,8 +112,9 @@ const CustomHeatmap = ({headers, data, removePlot, idx}) => {
                 <Select
                     labelId="parameterSelector-label"
                     id="parameterSelector"
-                    value={selectedParameter} // QUESTION: Should we store this value in a state?
-                    onChange={handleSelectParameter} // QUESTION: What should happen when a value is selected?
+                    value={selectedParameter}
+                    onChange={handleSelectParameter} 
+                    label="Select Parameter"
                 >
                     {headers.map((header, index) => (
                         <MenuItem key={index} value={header}>
@@ -131,7 +134,7 @@ const CustomHeatmap = ({headers, data, removePlot, idx}) => {
                     layout={plotLayout}
                 />
             )}
-        </div>
+        </Box>
     );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import GridLayout from 'react-grid-layout';
-import { Grid, Stack } from '@mui/material'
+import { Grid, Stack, Button, IconButton, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import Heatmap from '../Heatmap/Heatmap';
 import { FaDownload } from "react-icons/fa";
 
@@ -103,28 +103,37 @@ const ChartContainer = () => {
     <div>
         {/* 
             TODO:
-            1) use MUI components for buttons, other applicable components
-            2) clean up styling
-            3) figure out what's going on with GridLayout. It jumps around and doesn't drag smoothly
+            1) use MUI components for buttons, other applicable components - done 
+            2) clean up styling - still being worked 
+            3) figure out what's going on with GridLayout. It jumps around and doesn't drag smoothly - o
         */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
-        <button
-          className="download-button"
-          onClick={downloadData}
-          style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-        >
+      {/* Changed from native div with a button to MUI components for the download button */}
+      <Stack direction="row" justifyContent="flex-end" mb={2}>
+        <IconButton onClick={downloadData}>
           <FaDownload size={24} />
-        </button>
-      </div>
-      <select
-        value={selectedVisualizationType}
-        onChange={handleVisualizationChange}
-        className="visualization-select"
-      >
-        <option value="heatmap">Heatmap</option>
-        {/* <option value="parallelCoordinate">Parallel Coordinate Plot</option> */}
-      </select>
-      <button onClick={addHeatmap}>Add Heatmap</button>
+        </IconButton>
+      </Stack>
+      
+      {/* Changed from native select to MUI FormControl, InputLabel, Select, and MenuItem */}
+      <FormControl sx={{ minWidth: 120, mb: 2 }}>
+        <InputLabel id="visualization-select-label">Visualization</InputLabel>
+        <Select
+          labelId="visualization-select-label"
+          id="visualization-select"
+          value={selectedVisualizationType}
+          label="Visualization"
+          onChange={handleVisualizationChange}
+        >
+          <MenuItem value="heatmap">Heatmap</MenuItem>
+          {/* <MenuItem value="parallelCoordinate">Parallel Coordinate Plot</MenuItem> */}
+        </Select>
+      </FormControl>
+      
+      {/* Changed from native button to MUI Button for adding a heatmap */}
+      <Button variant="contained" onClick={addHeatmap}>
+        Add Heatmap
+      </Button>
+      
       {/* <GridLayout
         className="layout"
         layout={layout}
