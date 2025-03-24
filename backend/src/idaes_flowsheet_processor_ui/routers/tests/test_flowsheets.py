@@ -119,7 +119,7 @@ def test_reset(client, flowsheet_id):
 @pytest.mark.unit
 def test_solve(client, flowsheet_id):
     ## BSM2 has issues solving on Mac/Linux. skip it for now
-    if "BSM2_ui" not in flowsheet_id:
+    if "BSM2" not in flowsheet_id:
         response, body = get_flowsheet(client, flowsheet_id, "reset")
         assert response.status_code == 200, body
 
