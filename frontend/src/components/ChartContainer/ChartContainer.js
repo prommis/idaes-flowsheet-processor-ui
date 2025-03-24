@@ -5,7 +5,7 @@ import Heatmap from '../Heatmap/Heatmap';
 import { FaDownload } from "react-icons/fa";
 
 
-const ChartContainer = () => {
+const ChartContainer = ({headers, data}) => {
   const [layout, setLayout] = useState([]);
   const [visualizations, setVisualizations] = useState([]);
   const [ heatmapData, setHeatmapData ] = useState({headers: null, data: null})
@@ -23,6 +23,16 @@ const ChartContainer = () => {
       .catch(error => console.error('Error loading CSV data:', error));
   }, [])
 
+
+  // TODO: once the functionality is set, use the proper props data
+//   useEffect(() => {
+//     if (headers && data) {
+//       setHeatmapData({
+//         headers: headers, data: data
+//       })
+//     }
+// }, [headers, data])
+
   function parseCSV(csvData) {
       // Split CSV data into rows
       const rows = csvData.split('\n').map(row => row.split(','));
@@ -31,6 +41,9 @@ const ChartContainer = () => {
       const headers = rows[0];
       const data = rows.slice(1);
 
+      console.log('headers, data')
+      console.log(headers)
+      console.log(data)
       return { headers, data }
   }
 

@@ -17,6 +17,31 @@ export default function OutputComparison(props) {
     const [ disableChartView, setDisableChartView ] = useState(true)
     const [ tabValue, setTabValue ] = useState(0)
 
+    const [ chartContainerData, setChartContainerData ] = useState(null)
+    const [ chartContainerHeaders, setChartContainerHeaders ] = useState(null)
+    
+
+    useEffect(() => {
+      let exports = flowsheetData.outputData.exports;
+
+      let tempHeaders = []
+      let tempData = []
+      for (let i = 0; i < historyData.length; i++) {
+        tempData.push([])
+      }
+      for (let key in exports) {
+        let nextHeader = exports[key].name
+        tempHeaders.push(nextHeader)
+        for (let histordyDataIndex = 0; histordyDataIndex < historyData.length; histordyDataIndex++) {
+          let configuration = historyData[histordyDataIndex]
+          let nextValue = '' + configuration.data.outputData.exports[key].value
+          tempData[histordyDataIndex].push(nextValue)
+        }
+      }
+      setChartContainerData(tempData)
+      setChartContainerHeaders(tempHeaders)
+    }, [flowsheetData, historyData])
+
     useEffect(() => {
       if (historyData.length > 1) {
         try{
@@ -228,6 +253,8 @@ export default function OutputComparison(props) {
             }
             {  tabValue === 1 &&
               <ChartContainer
+                headers={chartContainerHeaders}
+                data={chartContainerData}
               />
                 // <OutputComparisonChart 
                 //   flowsheetData={flowsheetData}
