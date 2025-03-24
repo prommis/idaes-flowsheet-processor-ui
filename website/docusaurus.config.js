@@ -15,15 +15,16 @@ const config = {
   favicon: 'img/idaes-logo.ico',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://watertap-org.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/idaes-flowsheet-processor/',
+  baseUrl: '/idaes-flowsheet-processor-ui/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'watertap-org', // Usually your GitHub org/user name.
   projectName: 'idaes-flowsheet-processor', // Usually your repo name.
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -67,7 +68,7 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'downloadSidebar',
             position: 'left',
-            label: 'Downloads',
+            label: 'Documentation',
           },
           {
             href: 'https://github.com/watertap-org/idaes-flowsheet-processor-ui',
@@ -87,9 +88,17 @@ const config = {
                 to: 'https://idaes.org/',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/watertap-org/idaes-flowsheet-processor-ui',
+                label: 'WaterTAP Project',
+                to: 'https://watertap.readthedocs.io/en/stable/',
               },
+              {
+                label: 'PrOMMIS Project',
+                to: 'https://github.com/prommis/prommis',
+              },
+              // {
+              //   label: 'GitHub',
+              //   href: 'https://github.com/watertap-org/idaes-flowsheet-processor-ui',
+              // },
             ],
           },
         ],
