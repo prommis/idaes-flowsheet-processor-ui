@@ -34,8 +34,8 @@ export default function OutputComparison(props) {
         tempHeaders.push(nextHeader)
         for (let histordyDataIndex = 0; histordyDataIndex < historyData.length; histordyDataIndex++) {
           let configuration = historyData[histordyDataIndex]
-          let nextValue = '' + configuration.data.outputData.exports[key].value
-          tempData[histordyDataIndex].push(nextValue)
+          let nextValue = configuration.data.outputData.exports[key].value
+          tempData[histordyDataIndex].push(nextValue.toFixed(2))
         }
       }
       setChartContainerData(tempData)
