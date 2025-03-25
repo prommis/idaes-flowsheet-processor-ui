@@ -1,44 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 const styles = {
-  container: {
-    margin: '40px auto',
-    padding: 20,
-    backgroundColor: '#f9f9f9',
-    border: '1px solid #ddd',
-    borderRadius: 10,
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-    width: '100%'
-  },
   imageContainer: {
-    // margin: 10,
-    // width: 'calc(33.33% - 20px)',
-    // display: 'inline-block',
-    // verticalAlign: 'top',
-    // '@media (max-width: 768px)': {
-    //   width: '100%',
-    //   margin: 10,
-    // },
     margin: 10,
     width: '50%',
     textAlign: 'center',
-  },
-  gridContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%'
-    // height: '200px',
-    // width: '200px',
-    // border: '1px solid black'
-  },
-  gridLeft: {
-    // width: '100%',
-    height: '100%'
-  },
-  gridRight: {
-    // width: '100%',
-    height: '100%'
   }
 };
 
