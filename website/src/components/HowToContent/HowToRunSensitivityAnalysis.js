@@ -24,7 +24,27 @@ function HowToRunSensitivityAnalysis() {
     return (
     <div style={{marginTop: '20px'}}>
         <ol>
-            
+          <li>
+              Select and build a flowsheet. Click the Analysis Type dropdown and select parameter sweep. Make sure to change at least one variable from fixed/free to sweep. Click Run.
+              <img 
+                style={styles.image}
+                src={require('@site/static/img/sweep-input-generic-mac.png').default}
+              />
+          </li>
+          <li>
+              Sensitivity analyses run multiple optimizations, so they take longer than a single optimization run. Once the analysis is complete, you will see an output table.
+              <img 
+                style={styles.image}
+                src={require('@site/static/img/sweep-output-table-generic-mac.png').default}
+              />
+          </li>
+          <li>
+              To view the output in a chart format, click on Chart View. The chart type will vary depending on the amount of variables that were involved in the sweep. For one variable, you will have the option to view and interact with a line chart. For two, the chart type will be a heatmap. For three or more, a parallel coordinates plot. 
+              <img 
+                style={styles.image}
+                src={require('@site/static/img/sweep-output-chart-generic-mac.png').default}
+              />
+          </li>
         </ol>
     </div>
     
