@@ -29,11 +29,11 @@ function HowToUse() {
     return (
         <div>
             <div>
-                The IDAES Flowsheet Processor allows users to run optimizations and sensitivity analyses on available flowsheets. Follow this step-by-step guide to learn how to use the different features of the UI.
+                The IDAES Flowsheet Processor allows users to run optimizations and sensitivity analyses on available flowsheets. Follow these step-by-step guides to learn how to use the different features of the UI.
             </div>
-            <div style={{marginTop: '20px'}}>
+            <div style={{marginTop: '20px'}} id='run-an-optimization'>
                 <h3>
-                    Running an optimization
+                    Run an optimization
                 </h3>
                 <ol>
                     <li>
@@ -58,19 +58,35 @@ function HowToUse() {
                       />
                     </li>
                     <li>
-                      Flowsheets can take anywhere from a couple seconds to several minutes to solve, depending on the model and operating system. Once the flowsheet has finished solving, you will see the output page. Here you can view the ouput of the model as a table. You can also save this configuration.
+                      Flowsheets can take anywhere from a couple seconds to several minutes to solve, depending on the model and operating system. Once the flowsheet has finished solving, you will see the output page. Here you can view the ouput of the model as a table. You can also save this configuration and download the results as a csv.
                       <img 
                         style={styles.image}
                         src={require('@site/static/img/output-oaro-mac.png').default}
                       />
                     </li>
                     <li>
-                      From the output page, you can navigate to the compare page. Here you can compare outputs of saved configurations in a table and chart (coming soon) format.
+                      From the output page, you can navigate to the compare page. Here you can compare outputs of saved configurations in a table and chart (coming soon) format. You can also download the table as a csv.
                       <img 
                         style={styles.image}
                         src={require('@site/static/img/compare-table-oaro-mac.png').default}
                       />
                     </li>
+                </ol>
+            </div>
+            <div style={{marginTop: '20px'}} id='run-a-sensitivity-analysis'>
+                <h3>
+                    Run a sensitivity analysis
+                </h3>
+                <ol>
+                    
+                </ol>
+            </div>
+            <div style={{marginTop: '20px'}} id='upload-a-flowsheet'>
+                <h3>
+                    Upload a flowsheet
+                </h3>
+                <ol>
+                    
                 </ol>
             </div>
         </div>
