@@ -392,16 +392,6 @@ export default function ConfigInput(props) {
                     <Grid item xs={6}>
                         <Stack direction="row" spacing={2} justifyContent={'flex-end'}
                                alignItems={'flex-end'} sx={{marginBottom: 2}}>
-                            {solveType === 'sweep' &&
-                                <TextField
-                                    label={"Number of subprocesses"}
-                                    id={'number-of-subprocesses-input'}
-                                    onChange={handleUpdateNumberOfSubprocesses}
-                                    value={currentNumberOfSubprocesses === null ? '' : currentNumberOfSubprocesses}
-                                    size="small"
-                                    error={!numberOfSubprocessesIsValid}
-                                />
-                            }
 
                             <FormControl>
                                 <InputLabel id="solve-sweep-label">Analysis

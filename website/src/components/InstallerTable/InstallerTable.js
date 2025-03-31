@@ -8,6 +8,8 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: 10,
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    // color: 'black',
+    backgroundColor: "var(--table-bg-color)",
   },
   header: {
     textAlign: 'center',
@@ -19,7 +21,7 @@ const styles = {
     display: 'table',
   },
   th: {
-    backgroundColor: '#f4f4f4',
+    // backgroundColor: '#3A3A3E',
     border: '1px solid #ccc',
     padding: 10,
     textAlign: 'center',
@@ -31,12 +33,12 @@ const styles = {
   },
   stableReleaseTd: {
     fontWeight: 'bold',
-    backgroundColor: '#dff0d8',
+    backgroundColor: "var(--stable-release-row)",
   },
   button: {
     padding: '5px 10px',
-    backgroundColor: '#007BFF',
-    color: 'white',
+    backgroundColor: "var(--ifm-color-primary)",
+    color: 'var(--download-button-text)',
     border: 'none',
     borderRadius: 3,
     cursor: 'pointer',
