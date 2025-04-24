@@ -31,7 +31,6 @@ const ChartContainer = ({ headers, data }) => {
     }
   }, [headers, data]);
 
-  // Function to add a new visualization
   const addVisualization = () => {
     const existingPositions = layout.map(item => ({ x: item.x, y: item.y }));
     let newX = 0, newY = 0;
@@ -67,7 +66,6 @@ const ChartContainer = ({ headers, data }) => {
     setSelectedVisualizationType(event.target.value);
   };
 
-  // Download data function
   const downloadData = () => {
     const data = { layout, visualizations };
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
@@ -79,16 +77,14 @@ const ChartContainer = ({ headers, data }) => {
     URL.revokeObjectURL(url);
   };
 
-  useEffect(() => {
-    // Automatically save data when it changes
-    const saveData = () => {
-      const data = { layout, visualizations };
-      localStorage.setItem('visualizationData', JSON.stringify(data));
-    };
-    saveData();
-  }, [layout, visualizations]);
+  // useEffect(() => {
+  //   const saveData = () => {
+  //     const data = { layout, visualizations };
+  //     localStorage.setItem('visualizationData', JSON.stringify(data));
+  //   };
+  //   saveData();
+  // }, [layout, visualizations]);
 
-  // Remove visualization by index
   const removePlot = (index) => {
     console.log(index);
     let tempVisualizations = [...visualizations];
@@ -99,7 +95,6 @@ const ChartContainer = ({ headers, data }) => {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      {/* Header: Controls now centered */}
       <Stack 
         direction="row" 
         spacing={2} 
@@ -126,7 +121,6 @@ const ChartContainer = ({ headers, data }) => {
         </Box>
         
   
-        {/* Add chart button */}
         <Button variant="contained" onClick={addVisualization}> 
           Add { 
             selectedVisualizationType === 'heatmap'
@@ -142,7 +136,6 @@ const ChartContainer = ({ headers, data }) => {
         </Button>
       </Stack>
       
-      {/* Visualization area */}
       <Box 
         sx={{ 
           width: '100%', 
@@ -155,7 +148,6 @@ const ChartContainer = ({ headers, data }) => {
       >
         <Stack spacing={2} alignItems="center">
           {visualizations.map((vis, idx) => {
-            // Choose border color and label based on type
             let borderColor = 'grey.300';
             let label = '';
             switch (vis.type) {
@@ -182,9 +174,8 @@ const ChartContainer = ({ headers, data }) => {
                   borderColor,
                   borderRadius: 1,
                   p: 1,
-                  width: '100%',      // ensure charts stretch to container
+                  width: '100%',    
                   maxWidth: 800,      
-                  // Added shadow for 3D effect
                   boxShadow: 3,
                   '&:hover': {
                     boxShadow: 6,
