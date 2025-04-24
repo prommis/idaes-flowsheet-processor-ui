@@ -51,8 +51,9 @@ jobs:
             echo REACT_APP_THEME=watertap >> .env
 
       - name: Install frontend JS dependencies
+        working-directory: ./frontend
         run: |
-          npm --prefix frontend install
+          npm install
 
       - name: Install Python package
         run: |
