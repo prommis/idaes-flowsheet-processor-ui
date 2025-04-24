@@ -52,7 +52,7 @@ jobs:
 
       - name: Install frontend JS dependencies
         run: |
-          npm --prefix frontend clean-install
+          npm --prefix frontend install
 
       - name: Install Python package
         run: |
