@@ -69,10 +69,12 @@ jobs:
         run: uvicorn --app-dir backend/src/idaes_flowsheet_processor_ui main:app --reload --host 127.0.0.1 --port 8001 & sleep 30
 
       - name: run frontend
-        run: npm --prefix frontend start & sleep 30
+        working-directory: frontend
+        run: npm start & sleep 30
 
       - name: run component tests
-        run: npm --prefix frontend run test
+        working-directory: frontend
+        run: npm run test
 
       - name: Cypress e2e tests
         working-directory: frontend
