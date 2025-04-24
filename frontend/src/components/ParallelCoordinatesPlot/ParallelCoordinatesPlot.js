@@ -48,11 +48,10 @@ const ParallelCoordinatesPlot = ({ data, headers, removePlot, idx }) => {
     ? headers[selectedColumns[0]]
     : '';
 
-  // MenuProps for scrollable dropdown
   const MenuProps = {
     PaperProps: {
       style: {
-        maxHeight: 48 * 4 + 8, // show up to 4 items, then scroll
+        maxHeight: 48 * 4 + 8, 
         width: 250,
       },
     },
@@ -101,21 +100,19 @@ const ParallelCoordinatesPlot = ({ data, headers, removePlot, idx }) => {
       </FormControl>
 
       <Typography variant="h6" align="center" gutterBottom>
-        Parallel Coordinates Plot
       </Typography>
 
       <Plot
         data={[
 
-          // TODO: Change COlorscale 
           {
             type: 'parcoords',
             line: {
               color: colorValues,
-              colorscale: 'Jet',
+              colorscale: 'Viridis',
               showscale: true,
               colorbar: {
-                title: colorTitle,
+
                 titleside: 'right',
                 thickness: 15,
               },

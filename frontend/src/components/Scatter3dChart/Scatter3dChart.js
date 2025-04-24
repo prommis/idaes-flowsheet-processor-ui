@@ -2,22 +2,13 @@ import React, { useState } from 'react';
 import Plot from 'react-plotly.js';
 import { Box, FormControl, InputLabel, Select, MenuItem, Button, Grid, Typography } from '@mui/material';
 
-// TODO make a legend - done
-/*
-  It dynamically accepts data and headers via props.
-  Three dropdown menus let the user select which columns to use for:
-    • X Axis
-    • Y Axis
-    • Z Axis
-*/
+
 const Scatter3DChart = ({ data, headers, idx, removePlot }) => {
-  // ADDED: States to hold selected column indices for the X, Y, and Z axes.
   // Defaults are set to the first three columns.
   const [xAxis, setXAxis] = useState(0);
   const [yAxis, setYAxis] = useState(1);
   const [zAxis, setZAxis] = useState(2);
 
-  // ADDED: Handlers for updating the axis selections from the dropdowns.
   const handleXChange = (e) => {
     setXAxis(e.target.value);
   };
@@ -30,7 +21,6 @@ const Scatter3DChart = ({ data, headers, idx, removePlot }) => {
     setZAxis(e.target.value);
   };
 
-  // MenuProps for scrollable dropdowns
   const MenuProps = {
     PaperProps: {
       style: {
@@ -40,8 +30,7 @@ const Scatter3DChart = ({ data, headers, idx, removePlot }) => {
     },
   };
 
-  // ADDED: Create a 3D scatter plot trace using the selected columns.
-  // Each axis value is parsed to a float.
+ 
   const plotData = [
     {
       x: data.map(row => parseFloat(row[xAxis])),
@@ -50,22 +39,21 @@ const Scatter3DChart = ({ data, headers, idx, removePlot }) => {
       mode: 'markers',
       marker: {
         size: 5,
-        // ADDED: Here we use the x-axis values to determine the color for demonstration.
-        // You can modify this to use another column if desired.
+        
         color: data.map(row => parseFloat(row[xAxis])),
         showscale: true,
-        colorbar: { title: headers[xAxis] },  // acts as legend for color scale
+        colorbar: { title: headers[xAxis] },  
       },
       type: 'scatter3d',
-      name: 'Data Points',    // ADDED: legend entry name
-      showlegend: true,        // ADDED: display legend
+      name: 'Data Points',    
+      showlegend: true,        
     },
   ];
 
-  // ADDED: Layout configuration for the 3D scatter plot,
+  
   const layout = {
     title: '3D Scatter Plot',
-    showlegend: true,         // ADDED: enable legend area
+    showlegend: true,         
     legend: {
       orientation: 'h',
       x: 0,
@@ -85,7 +73,7 @@ const Scatter3DChart = ({ data, headers, idx, removePlot }) => {
         Remove Plot
       </Button>
 
-      {/* ADDED: Dropdown selectors for 3D Scatter Plot configuration */}
+      
       <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 2 }}>
         <FormControl sx={{ width: 200 }}>
           <InputLabel id="x-axis-select-label">X Axis</InputLabel>
@@ -137,7 +125,7 @@ const Scatter3DChart = ({ data, headers, idx, removePlot }) => {
         </FormControl>
       </Box>
 
-      {/* ADDED: Render the Plotly 3D scatter chart using dynamic data */}
+     
       <Plot data={plotData} layout={layout} />
     </div>
   );

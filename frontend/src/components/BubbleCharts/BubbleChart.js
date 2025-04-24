@@ -2,21 +2,14 @@ import React, { useState } from 'react';
 import Plot from 'react-plotly.js';
 import { Box, FormControl, InputLabel, Select, MenuItem, Button, Grid, Typography } from '@mui/material';
 
-/*
-  It  accepts data and headers via props.
-  Three dropdown menus let the user select which columns to use for:
-    • X Axis
-    • Y Axis
-    • Bubble Size
-*/
+
 const BubbleChart = ({ data, headers, idx, removePlot }) => {
-  // ADDED: States to hold selected column indices for X, Y, and Bubble Size.
-  // Defaulting to the first three columns.
+ 
   const [xAxis, setXAxis] = useState(0);
   const [yAxis, setYAxis] = useState(1);
   const [sizeAxis, setSizeAxis] = useState(2);
 
-  // ADDED: Handler functions for the dropdown changes.
+  //  Handler functions for the dropdown changes.
   const handleXChange = (e) => {
     setXAxis(e.target.value);
   };
@@ -33,13 +26,13 @@ const BubbleChart = ({ data, headers, idx, removePlot }) => {
   const MenuProps = {
     PaperProps: {
       style: {
-        maxHeight: 48 * 4 + 8, // show up to 4 items, then scroll
+        maxHeight: 48 * 4 + 8, 
         width: 200,
       },
     },
   };
 
-  // ADDED: Create Plotly trace using the selected columns.
+  
   // Data values for x, y, and bubble size are mapped and parsed to floats.
   const plotData = [
     {
@@ -55,7 +48,6 @@ const BubbleChart = ({ data, headers, idx, removePlot }) => {
     },
   ];
 
-  // ADDED: Layout configuration with axis titles dynamically set based on selected headers.
   const layout = {
     title: 'Bubble Chart',
     xaxis: { title: headers[xAxis] },
@@ -66,7 +58,7 @@ const BubbleChart = ({ data, headers, idx, removePlot }) => {
 
   return (
     <div>
-      {/* ADDED: Dropdown selectors for Bubble Chart configuration */}
+     
       <Button variant="contained" color="primary" onClick={() => removePlot(idx)} sx={{ mb: 2 }}>
         Remove Plot
       </Button>
