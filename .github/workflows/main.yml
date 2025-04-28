@@ -61,7 +61,7 @@ jobs:
       - name: Install frontend JS dependencies
         working-directory: ./frontend
         run: |
-          run: npm install --prefer-offline --no-audit --verbose
+          npm install --prefer-offline --no-audit --verbose
 
       - name: Install Python package
         run: |
