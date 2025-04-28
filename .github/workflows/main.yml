@@ -86,14 +86,10 @@ jobs:
           key: cypress-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             cypress-cache-${{ runner.os }}-
-      
-      - name: Check cypress version
-        run: npx cypress -v
 
       - name: Install Cypress binary
-        run: |
-          pnpm install cypress@10.11.0
-          npx cypress install --version 10.11.0
+        working-directory: frontend
+        run: npx cypress install --version 10.11.0
 
       - name: Cypress e2e tests
         working-directory: frontend
