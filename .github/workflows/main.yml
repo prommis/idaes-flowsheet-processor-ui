@@ -53,7 +53,7 @@ jobs:
       - name: Install frontend JS dependencies
         working-directory: ./frontend
         run: |
-          npm install
+          npm install --verbose
 
       - name: Install Python package
         run: |
