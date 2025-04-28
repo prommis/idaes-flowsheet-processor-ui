@@ -58,13 +58,13 @@ jobs:
       #     restore-keys: |
       #       ${{ runner.os }}-node-
 
-      - name: Install frontend JS dependencies
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install frontend JS dependencies using pnpm
         working-directory: ./frontend
         run: |
-          npm install --prefer-offline --no-audit --verbose \
-            --fetch-timeout=60000 \
-            --network-timeout=60000 \
-            --network-concurrency=4
+          pnpm install --prefer-offline --no-frozen-lockfile --reporter=ndjson
 
 
       - name: Install Python package
