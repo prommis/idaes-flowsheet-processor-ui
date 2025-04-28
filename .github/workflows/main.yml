@@ -61,8 +61,10 @@ jobs:
       - name: Install frontend JS dependencies
         working-directory: ./frontend
         run: |
-          npm config set registry https://registry.npmjs.cf/
-          npm install --prefer-offline --no-audit --verbose --fetch-timeout=60000 --network-timeout=60000 --network-concurrency=4
+          npm install --prefer-offline --no-audit --verbose \
+            --fetch-timeout=60000 \
+            --network-timeout=60000 \
+            --network-concurrency=4
 
 
       - name: Install Python package
