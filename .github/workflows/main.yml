@@ -89,7 +89,7 @@ jobs:
 
       - name: Install Cypress binary
         working-directory: frontend
-        run: npx cypress install --version 10.11.0
+        run: npx cypress install
 
       - name: Cypress e2e tests
         working-directory: frontend
