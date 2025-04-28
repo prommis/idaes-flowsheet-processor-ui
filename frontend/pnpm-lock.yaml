@@ -45,7 +45,7 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
       cypress:
-        specifier: ^10.4.0
+        specifier: 10.11.0
         version: 10.11.0
       cypress-downloadfile:
         specifier: ^1.2.4
