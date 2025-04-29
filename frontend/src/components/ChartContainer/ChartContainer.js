@@ -22,7 +22,7 @@ const ChartContainer = ({ headers, data }) => {
   const [layout, setLayout] = useState([]);
   const [visualizations, setVisualizations] = useState([]);
   const [heatmapData, setHeatmapData] = useState({ headers: null, data: null });
-  const [selectedVisualizationType, setSelectedVisualizationType] = useState('heatmap');
+  const [selectedVisualizationType, setSelectedVisualizationType] = useState('parallel');
   const [selectedColumns, setSelectedColumns] = useState([]);  
 
   useEffect(() => {
@@ -142,7 +142,6 @@ const ChartContainer = ({ headers, data }) => {
           height: 'calc(100vh - 150px)', 
           overflow: 'auto',
           p: 2,
-          border: '1px solid #e0e0e0',
           borderRadius: 1
         }}
       >
