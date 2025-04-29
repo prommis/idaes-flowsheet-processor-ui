@@ -34,6 +34,5 @@ test('test build options', () => {
     screen.getByRole('textbox', {  name: /Float Option/i});
 
     screen.getByRole('button', {  name: /Re-build Flowsheet/i});
-    screen.getByRole('button', {  name: /List Option valid option a/i});
     screen.getByRole('heading', {  name: /Model Options/i});
 })

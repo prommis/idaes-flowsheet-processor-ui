@@ -1,0 +1,36 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #133D66;
+  --ifm-color-primary-dark: #0F3457;
+  --ifm-color-primary-darker: #0C2B48;
+  --ifm-color-primary-darkest: #09223A;
+  --ifm-color-primary-light: #285487;
+  --ifm-color-primary-lighter: #3D6BA8;
+  --ifm-color-primary-lightest: #5282C9; 
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --table-bg-color: #F9F9F9;
+  --stable-release-row: #dff0d8;
+  --download-button-text: white;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #67C3E4;
+  --ifm-color-primary-dark: #5BAFCC;
+  --ifm-color-primary-darker: #4F9BB4;
+  --ifm-color-primary-darkest: #43879C;
+  --ifm-color-primary-light: #7DCCE9;
+  --ifm-color-primary-lighter: #93D6EE;
+  --ifm-color-primary-lightest: #A9E0F3;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --table-bg-color: #2A2A2D;
+  --stable-release-row: #2E4636;
+  --download-button-text: black;
+}

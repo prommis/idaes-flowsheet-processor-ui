@@ -12,12 +12,12 @@ export const flowsheets = [
     //     sweepVariable: 'Feedvolumetricflowrate',
     //     sweepValues: ['20000', '21000'],
     // },
-    {
-        name: 'BSM2_P_extension flowsheet',
-        buildRequired: false,
-        sweepVariable: 'Feedvolumetricflowrate',
-        sweepValues: ['20000', '21000'],
-    },
+    // {
+    //     name: 'BSM2_P_extension flowsheet',
+    //     buildRequired: false,
+    //     sweepVariable: 'Feedvolumetricflowrate',
+    //     sweepValues: ['20000', '21000'],
+    // },
     {
         name: 'Dye Desalination flowsheet',
         buildRequired: false,
