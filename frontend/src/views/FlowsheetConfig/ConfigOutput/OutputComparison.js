@@ -4,6 +4,7 @@ import { Grid, Button, Box, Paper, Stack, Toolbar, Tabs, Tab } from '@mui/materi
 import OutputComparisonTable from "../../../components/OutputComparisonTable/OutputComparisonTable.js";
 import OutputComparisonChart from "../../../components/OutputComparisonChart/OutputComparisonChart.js";
 import { loadConfig, listConfigNames }  from '../../../services/output.service.js'
+import ChartContainer from "../../../components/ChartContainer/ChartContainer.js";
 
 export default function OutputComparison(props) {
     let params = useParams(); 
@@ -15,6 +16,31 @@ export default function OutputComparison(props) {
     const [ chartData, setChartData ] = useState([])
     const [ disableChartView, setDisableChartView ] = useState(true)
     const [ tabValue, setTabValue ] = useState(0)
+
+    const [ chartContainerData, setChartContainerData ] = useState(null)
+    const [ chartContainerHeaders, setChartContainerHeaders ] = useState(null)
+    
+
+    useEffect(() => {
+      let exports = flowsheetData.outputData.exports;
+
+      let tempHeaders = []
+      let tempData = []
+      for (let i = 0; i < historyData.length; i++) {
+        tempData.push([])
+      }
+      for (let key in exports) {
+        let nextHeader = exports[key].name
+        tempHeaders.push(nextHeader)
+        for (let histordyDataIndex = 0; histordyDataIndex < historyData.length; histordyDataIndex++) {
+          let configuration = historyData[histordyDataIndex]
+          let nextValue = configuration.data.outputData.exports[key].value
+          tempData[histordyDataIndex].push(nextValue.toFixed(2))
+        }
+      }
+      setChartContainerData(tempData)
+      setChartContainerHeaders(tempHeaders)
+    }, [flowsheetData, historyData])
 
     useEffect(() => {
       if (historyData.length > 1) {
@@ -215,7 +241,7 @@ export default function OutputComparison(props) {
                 <Box sx={{display: 'flex', justifyContent: 'center'}}>
                     <Tabs value={tabValue} onChange={handleTabChange} aria-label="tabs">
                         <Tab label="Table View" />
-                        <Tab label="Chart View" disabled={disableChartView}/> 
+                        <Tab label="Chart View" /> 
                     </Tabs>
                 </Box>
                 
@@ -226,11 +252,15 @@ export default function OutputComparison(props) {
                 />
             }
             {  tabValue === 1 &&
-                <OutputComparisonChart 
-                  flowsheetData={flowsheetData}
-                  historyData={chartData}
-                  categoriesWithCharts={categoriesWithCharts}
-                />
+              <ChartContainer
+                headers={chartContainerHeaders}
+                data={chartContainerData}
+              />
+                // <OutputComparisonChart 
+                //   flowsheetData={flowsheetData}
+                //   historyData={chartData}
+                //   categoriesWithCharts={categoriesWithCharts}
+                // />
             }
         </Box>
       
