@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import Heatmap from '../Heatmap/Heatmap';
 import ParallelCoordinatesPlot from '../ParallelCoordinatesPlot/ParallelCoordinatesPlot';
-import { FaDownload } from 'react-icons/fa';
 import BubbleChart from '../BubbleCharts/BubbleChart';
 import Scatter3DChart from '../Scatter3dChart/Scatter3dChart';
 
