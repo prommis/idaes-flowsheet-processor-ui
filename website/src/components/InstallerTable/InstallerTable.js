@@ -138,20 +138,25 @@ function InstallerTable({owner, repo}) {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.header}>Software Releases</h1>
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th style={styles.th}>Version</th>
-            <th style={styles.th}>Windows (.exe)</th>
-            <th style={styles.th}>macOS (.dmg)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {populateTable()}
-        </tbody>
-      </table>
+    <div>
+      <p>
+        Choose a download link below to download the application. For more information on usage see the <a href='../HowTo/how_to_use_ui'>HowTo</a> section.
+      </p>
+      <div style={styles.container}>
+        <h1 style={styles.header}>Software Releases</h1>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th style={styles.th}>Version</th>
+              <th style={styles.th}>Windows (.exe)</th>
+              <th style={styles.th}>macOS (.dmg)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {populateTable()}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
