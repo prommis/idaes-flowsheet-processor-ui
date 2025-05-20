@@ -25,6 +25,9 @@ function HowToUploadFlowsheet() {
 
     return (
     <div style={{marginTop: '20px'}}>
+        <p>
+          For developers, you may have a flowsheet that is not preloaded into the UI. To upload a flowsheet dynamically into the UI, follow the steps below.
+        </p>
         <ol>
           <li>
               Navigate to the flowsheets list page. Click on New Flowsheet +. You should see the following:
