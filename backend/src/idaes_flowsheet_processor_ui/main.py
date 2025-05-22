@@ -14,12 +14,8 @@ if len(DeferredImportCallbackFinder) > 0:
 
 _log = idaeslog.getLogger(__name__)
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-_log.info(f"adding script dir:\n{SCRIPT_DIR}\nto sys path:\n{sys.path}")
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-
-import numpy
-print(f"numpy.__file__: {numpy.__file__}")
+# SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+# sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 from fastapi import FastAPI
 from idaes_flowsheet_processor_ui.routers import flowsheets
