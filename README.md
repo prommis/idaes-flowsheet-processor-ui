@@ -1,7 +1,7 @@
 # idaes-flowsheet-processor-ui
 
 This repository is for work on the user interface (UI) for the IDAES Flowsheet Processor.
-The UI installer can be downloaded from our homepage at: https://watertap-org.github.io/
+The UI installer can be downloaded from our homepage at: https://prommis.github.io/
 
 ## Getting started (developer)
 

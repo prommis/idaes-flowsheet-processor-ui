@@ -46,7 +46,7 @@ function AboutContent() {
     return (
         <div>
             <div>
-                The IDAES Flowsheet Processor provides a zero-code way of running selected models in a graphical user interface, and viewing results as graphs or tables. It can run individual optimizations or sensitivity analyses for user-defined variables and ranges. To see a walk-through of using the tool, see <a target='_blank' href={demoVideoLink}>this video</a>. You can get the source code and install it on your system manually from <a target='_blank' href='https://github.com/watertap-org/idaes-flowsheet-processor-ui'>idaes-flowsheet-processor-ui</a> on GitHub, or follow the download instructions below to use the native installer (MacOS and Windows only).
+                The IDAES Flowsheet Processor provides a zero-code way of running selected models in a graphical user interface, and viewing results as graphs or tables. It can run individual optimizations or sensitivity analyses for user-defined variables and ranges. To see a walk-through of using the tool, see <a target='_blank' href={demoVideoLink}>this video</a>. You can get the source code and install it on your system manually from <a target='_blank' href='https://github.com/prommis/idaes-flowsheet-processor-ui'>idaes-flowsheet-processor-ui</a> on GitHub, or follow the download instructions below to use the native installer (MacOS and Windows only).
             </div>
             <div style={styles.container}>
                 <h3>Screenshots</h3>
