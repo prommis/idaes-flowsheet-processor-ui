@@ -14,7 +14,6 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^0.27.2",
     "concurrently": "^7.3.0",
     "cross-env": "^7.0.3",
     "cypress": "^10.4.0",
@@ -25,17 +24,19 @@
     "react-dom": "^18.1.0",
     "react-drag-drop-files": "^2.3.10",
     "react-draggable": "^4.4.6",
+    "react-grid-layout": "^1.5.0",
     "react-plotly.js": "^2.6.0",
     "react-plotlyjs": "^0.4.4",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-select": "^5.10.1",
     "wait-on": "^6.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "app-start": "concurrently -k \"cross-env npm run start-backend\" \"react-scripts start\"",
-    "start-backend": "cd ../backend/src/idaes_flowsheet_processor_ui && uvicorn main:app --reload --host 127.0.0.1 --port 8001",
+    "start-backend": "cd ../backend/src/idaes_flowsheet_processor_ui && python main.py",
     "start-nob": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "postbuild": "rm -r ../../build && mv build ../../ || mv build ../../",
@@ -59,5 +60,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "."
+  "homepage": ".",
+  "packageManager": "pnpm@10.10.0+sha1.f657bc37aa5e08da2ecff3877fe3bbb4b13703ba"
 }

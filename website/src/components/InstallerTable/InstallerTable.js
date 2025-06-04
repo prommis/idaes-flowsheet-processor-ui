@@ -8,6 +8,8 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: 10,
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    // color: 'black',
+    backgroundColor: "var(--table-bg-color)",
   },
   header: {
     textAlign: 'center',
@@ -19,7 +21,7 @@ const styles = {
     display: 'table',
   },
   th: {
-    backgroundColor: '#f4f4f4',
+    // backgroundColor: '#3A3A3E',
     border: '1px solid #ccc',
     padding: 10,
     textAlign: 'center',
@@ -31,12 +33,12 @@ const styles = {
   },
   stableReleaseTd: {
     fontWeight: 'bold',
-    backgroundColor: '#dff0d8',
+    backgroundColor: "var(--stable-release-row)",
   },
   button: {
     padding: '5px 10px',
-    backgroundColor: '#007BFF',
-    color: 'white',
+    backgroundColor: "var(--ifm-color-primary)",
+    color: 'var(--download-button-text)',
     border: 'none',
     borderRadius: 3,
     cursor: 'pointer',
@@ -136,20 +138,25 @@ function InstallerTable({owner, repo}) {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.header}>Software Releases</h1>
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th style={styles.th}>Version</th>
-            <th style={styles.th}>Windows (.exe)</th>
-            <th style={styles.th}>macOS (.dmg)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {populateTable()}
-        </tbody>
-      </table>
+    <div>
+      <p>
+        Choose a download link below to download the application. For more information on usage see the <a href='../HowTo/how_to_use_ui'>HowTo</a> section.
+      </p>
+      <div style={styles.container}>
+        <h1 style={styles.header}>Software Releases</h1>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th style={styles.th}>Version</th>
+              <th style={styles.th}>Windows (.exe)</th>
+              <th style={styles.th}>macOS (.dmg)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {populateTable()}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
