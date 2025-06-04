@@ -1,7 +1,7 @@
 # idaes-flowsheet-processor-ui
 
 This repository is for work on the user interface (UI) for the IDAES Flowsheet Processor.
-The UI installer can be downloaded from our homepage at: https://watertap-org.github.io/
+The UI installer can be downloaded from our homepage at: https://prommis.github.io/
 
 ## Getting started (developer)
 
@@ -10,7 +10,7 @@ The UI installer can be downloaded from our homepage at: https://watertap-org.gi
 The following steps assume that:
 
 1. `conda` is already installed and configured
-2. This repository (i.e. https://github.com/watertap-org/idaes-flowsheet-processor-ui) has been cloned locally and the working directory is set to the root of the repository
+2. This repository (i.e. https://github.com/prommis/idaes-flowsheet-processor-ui) has been cloned locally and the working directory is set to the root of the repository
 
 ## Installation
 

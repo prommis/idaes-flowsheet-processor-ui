@@ -24,7 +24,7 @@ function HowToDeploy() {
                 <ol>
                     <li>
                         Navigate to the GitHub deployment dispatch 
-                        <a target='_blank' href='https://github.com/watertap-org/idaes-electron-build/actions/workflows/build-dispatch.yml'> here</a>.
+                        <a target='_blank' href='https://github.com/prommis/idaes-electron-build/actions/workflows/build-dispatch.yml'> here</a>.
                     </li>
                     <li>
                         Click on Run workflow dropdown.

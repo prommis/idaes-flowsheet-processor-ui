@@ -43,7 +43,7 @@ function Troubleshooting() {
             />
         </p>
         <p>
-            If logs are unhelpful, you can navigate to the <a href='https://github.com/watertap-org/idaes-flowsheet-processor/issues' target='_blank'>Github website</a> and create an issue for the error you are running into. Make sure to include which flowsheet you were running, which computer operating system you were using, and if possible, provide the input values that caused the error. 
+            If logs are unhelpful, you can navigate to the <a href='https://github.com/prommis/idaes-flowsheet-processor/issues' target='_blank'>Github website</a> and create an issue for the error you are running into. Make sure to include which flowsheet you were running, which computer operating system you were using, and if possible, provide the input values that caused the error. 
         </p>
     </div>
     

@@ -21,9 +21,14 @@ function App() {
         if not found or not in dev mode, check for environment variable. 
         if not found, use watertap as default
     */
-    let theme
-    if (process.env.NODE_ENV === 'development') theme = themes[localStorage.getItem("theme")] || themes[process.env.REACT_APP_THEME] || themes["watertap"]
-    else theme = themes[process.env.REACT_APP_THEME] || themes["watertap"]
+    const default_project_name = 'watertap'
+    const env_project_name = process.env.REACT_APP_PROJECT
+    const stored_project_name = localStorage.getItem("theme")
+    console.debug("Project names, in order of precedence: env:", env_project_name,
+        ", stored:", stored_project_name, ", default:", default_project_name)
+    let project_name = env_project_name || stored_project_name || default_project_name
+    console.debug("Resulting project name:", project_name)
+    let theme = themes[project_name]
 
     const WAIT_TIME = 1
 

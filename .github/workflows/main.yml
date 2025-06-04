@@ -60,7 +60,7 @@ jobs:
           pip install --progress-bar off .
       
       - name: Install WaterTAP for testing purposes
-        run: pip install watertap@git+https://github.com/watertap-org/watertap@main
+        run: pip install watertap@git+https://github.com/prommis/watertap@main
 
       - name: get idaes extensions
         run: idaes get-extensions
@@ -146,7 +146,7 @@ jobs:
           pip install --progress-bar off .[testing]
 
       - name: Install WaterTAP for testing purposes
-        run: pip install watertap@git+https://github.com/watertap-org/watertap@main
+        run: pip install watertap@git+https://github.com/prommis/watertap@main
 
       - name: get idaes extensions
         run: idaes get-extensions
