@@ -19,6 +19,10 @@ import {
     TableRow,
 } from '@mui/material'
 import Paper from '@mui/material/Paper';
+import Plot from 'react-plotly.js';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 
 export default function SingleOutput(props) {
     let params = useParams();
@@ -27,6 +31,8 @@ export default function SingleOutput(props) {
     const [openSaveConfig, setOpenSaveConfig] = React.useState(false);
     const [saved, setSaved] = React.useState(false);
     const [outputTableData, setOutputTableData] = useState({})
+    const [outputKPIFigures, setOutputKPIFigures] = useState([])
+    const [kpiExpanded, setKpiExpanded] = useState('kpiAccordion'); 
 
     const handleOpenSaveConfig = () => setOpenSaveConfig(true);
     const handleCloseSaveConfig = () => setOpenSaveConfig(false);
@@ -35,8 +41,10 @@ export default function SingleOutput(props) {
      * organize output data into a list of dictionaries formatted for the output table
      */
     useEffect(()=> {
-        let export_variables = {...flowsheetData.outputData.exports}
+        let data = {...flowsheetData.outputData}
+        let export_variables = data.exports // {...flowsheetData.outputData.exports}
         let rows = {}
+        console.debug("flowsheetData output:", flowsheetData.outputData)
         for (let key of Object.keys(export_variables)) {
             let export_variable = export_variables[key]
             let category = export_variable.output_category
@@ -56,6 +64,15 @@ export default function SingleOutput(props) {
             })
         }
         setOutputTableData(rows)
+
+        // Add KPI figures
+        if (data.kpis !== undefined) {
+            let figures = []
+            for (let name of data.kpi_order) {
+                figures.push(data.kpi_figures[name])
+            }
+            setOutputKPIFigures(figures)
+        }
     }, [flowsheetData])
 
     const modalStyle = {
@@ -164,6 +181,36 @@ export default function SingleOutput(props) {
         
     }
 
+    const renderFigures = () => {
+        return (
+            <Grid item xs={12}>
+                <Paper>
+                    <Accordion expanded={kpiExpanded === 'kpiAccordion'} 
+                               onChange={handleKpiAccordionChange('kpiAccordion')}
+                               style={{border:"1px solid #ddd"}}>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />} >
+                            Key Performance Indicators
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            {/*data.description*/}
+                            <div>
+                                {outputKPIFigures.map((fig, idx) => (
+                                    <div key={`kpi_${idx}`}>
+                                        <Plot data={fig.data} layout={fig.layout} />
+                                    </div>  
+                                ))}
+                            </div>
+                        </AccordionDetails>
+                    </Accordion>
+                 </Paper>
+            </Grid>
+        )
+    }
+
+    const handleKpiAccordionChange = (panel) => (event, isExpanded) => {
+      setKpiExpanded(isExpanded ? panel : false);
+    };
+
     return (
         <>
             <Grid item xs={12}>
@@ -208,6 +255,7 @@ export default function SingleOutput(props) {
                     </Grid>
                 </Modal>
             </Grid>
+            {(outputKPIFigures.length > 0) && renderFigures()}
             <Grid item xs={12}>
             <Paper>
                 <Table size="small" sx={{border:"1px solid #ddd"}}>
