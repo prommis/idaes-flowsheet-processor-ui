@@ -7,9 +7,11 @@ import importlib
 
 if sys.version_info < (3, 10):
     from importlib_resources import files
+
     importlib_old = True
 else:
     from importlib.resources import files
+
     importlib_old = False
 from importlib import metadata
 from pathlib import Path
@@ -74,22 +76,22 @@ class FlowsheetManager:
         """
         current_project = os.environ.get("project", None)
         if current_project:
+            print(f"@@ set project = {current_project}")
             self.set_project(current_project)
         self.startup_time = time.time()
-        
 
     def set_project(self, project: str):
         os.environ["project"] = project
         self._objs, self._flowsheets = {}, {}
         self.project = project
         self._dpy = Deployment(project)
-        
+
         # Set App Settings
         self.app_settings = AppSettings(
-            packages = list(self._dpy.package),
-            log_dir = self._dpy.data_basedir / "logs",
-            custom_flowsheets_dir = self._dpy.data_basedir / "custom_flowsheets",
-            data_basedir = self._dpy.data_basedir,
+            packages=list(self._dpy.package),
+            log_dir=self._dpy.data_basedir / "logs",
+            custom_flowsheets_dir=self._dpy.data_basedir / "custom_flowsheets",
+            data_basedir=self._dpy.data_basedir,
         )
 
         # Add custom flowsheets path to the system path
@@ -224,9 +226,7 @@ class FlowsheetManager:
         # _log.info(f"inside get diagram:: info is - {info}")
         if info.custom:
             # do this
-            data_path = (
-                self.app_settings.custom_flowsheets_dir / f"{info.id_}.png"
-            )
+            data_path = self.app_settings.custom_flowsheets_dir / f"{info.id_}.png"
             data = data_path.read_bytes()
 
         else:
@@ -489,7 +489,7 @@ class FlowsheetManager:
 
         query = tinydb.Query()
         try:
-            
+
             custom_flowsheets_dict = self._histdb.search(
                 query.fragment({"custom_flowsheets_version": VERSION})
             )
@@ -566,7 +566,7 @@ class FlowsheetManager:
             _log.info(f"unable to delete {id_} from flowsheets list")
 
         self.add_custom_flowsheets()
-    
+
     def remove_custom_flowsheet_files(self, flowsheet_files):
         # remove each file
         for flowsheet_file in flowsheet_files:
@@ -601,7 +601,9 @@ class FlowsheetManager:
         # _log.info(f'getting number of subprocesses')
         maxNumberOfSubprocesses = 8
         query = tinydb.Query()
-        item = self._histdb.search(query.fragment({"version": VERSION, "name": "numberOfSubprocesses"}))
+        item = self._histdb.search(
+            query.fragment({"version": VERSION, "name": "numberOfSubprocesses"})
+        )
         # _log.info(f'item is : {item}')
         if len(item) == 0:
             # _log.info(f'setting number of subprocesses to be 1')
@@ -610,7 +612,7 @@ class FlowsheetManager:
                 {
                     "version": VERSION,
                     "name": "numberOfSubprocesses",
-                    "value": currentNumberOfSubprocesses
+                    "value": currentNumberOfSubprocesses,
                 },
                 (query.version == VERSION and query.name == "numberOfSubprocesses"),
             )
@@ -618,16 +620,12 @@ class FlowsheetManager:
             currentNumberOfSubprocesses = item[0]["value"]
             # _log.info(f'number of subprocesses is: {currentNumberOfSubprocesses}')
         return currentNumberOfSubprocesses, maxNumberOfSubprocesses
-    
+
     def set_number_of_subprocesses(self, value):
         # _log.info(f'setting number of subprocesses to {value}')
         query = tinydb.Query()
         self._histdb.upsert(
-            {
-                "version": VERSION,
-                "name": "numberOfSubprocesses",
-                "value": value
-            },
+            {"version": VERSION, "name": "numberOfSubprocesses", "value": value},
             (query.version == VERSION and query.name == "numberOfSubprocesses"),
         )
         return value

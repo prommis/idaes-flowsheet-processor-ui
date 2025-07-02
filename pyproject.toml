@@ -22,7 +22,7 @@ dependencies = [
     "tinydb",
     "uvicorn",
     "importlib_resources",
-    "idaes_flowsheet_processor @ git+https://github.com/watertap-org/idaes-flowsheet-processor.git",
+    "idaes_flowsheet_processor @ git+https://github.com/prommis/idaes-flowsheet-processor.git",
 ]
 [project.optional-dependencies]
 testing = [
