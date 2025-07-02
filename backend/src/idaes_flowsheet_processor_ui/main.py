@@ -14,19 +14,6 @@ if len(DeferredImportCallbackFinder) > 0:
 
 _log = idaeslog.getLogger(__name__)
 
-# SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-# sys.path.append(os.path.dirname(SCRIPT_DIR))
-
-
-
-_log.info("sys.path:")
-_log.info(sys.path)
-_log.info("python environment variables: ")
-for key, value in os.environ.items():
-    if "python" in key.lower():
-        _log.info(f"{key}={value}")
-_log.info("done checking python env variables")
-
 from fastapi import FastAPI
 from idaes_flowsheet_processor_ui.routers import flowsheets
 from fastapi.middleware.cors import CORSMiddleware
