@@ -3,6 +3,8 @@
 This repository is for work on the user interface (UI) for the IDAES Flowsheet Processor.
 The UI installer can be downloaded from our homepage at: https://prommis.github.io/
 
+[Documentation website](https://prommis.github.io/idaes-flowsheet-processor-ui/)
+
 ## Getting started (developer)
 
 ### Prerequisites
