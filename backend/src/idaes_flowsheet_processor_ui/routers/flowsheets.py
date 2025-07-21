@@ -24,7 +24,11 @@ from idaes_flowsheet_processor_ui.internal.flowsheet_manager import (
 )
 from idaes_flowsheet_processor_ui.internal.parameter_sweep import run_parameter_sweep
 from idaes_flowsheet_processor_ui.internal.log_parser import parse_logs
-from idaes_flowsheet_processor.api import FlowsheetInterface, FlowsheetExport
+from idaes_flowsheet_processor.api import (
+    FlowsheetInterface,
+    FlowsheetExport,
+    FlowsheetKPIReport,
+)
 import idaes.logger as idaeslog
 
 CURRENT = "current"
@@ -164,6 +168,20 @@ async def solve(flowsheet_id: str, request: Request):
     except Exception as err:
         _log.error(f"Solve failed: {err}")
         raise HTTPException(500, detail=f"Solve failed: {err}")
+
+    exports = flowsheet.fs_exp
+
+    # add KPI figures, if KPIs present
+    kpis = getattr(flowsheet.fs_exp, "kpis", {})  # don't fail on pre-KPI versions
+    if kpis:
+        # Generate Plotly figures
+        kpi_report = FlowsheetKPIReport(flowsheet.fs_exp, total_type="waffle")
+        kpi_fig = kpi_report.get_kpi_figures()
+        # Serialize generated plotly Figure objects
+        flowsheet.fs_exp.kpi_figures = {
+            key: json.loads(val.to_json()) for key, val in kpi_fig.items()
+        }
+
     return flowsheet.fs_exp
 
 
