@@ -76,8 +76,11 @@ class FlowsheetManager:
         """
         current_project = os.environ.get("project", None)
         if current_project:
-            print(f"@@ set project = {current_project}")
-            self.set_project(current_project)
+            _log.debug(f"set project = {current_project}")
+        else:
+            current_project = Deployment.DEFAULT_PROJ
+            _log.debug(f"set project to default = {current_project}")
+        self.set_project(current_project)
         self.startup_time = time.time()
 
     def set_project(self, project: str):
