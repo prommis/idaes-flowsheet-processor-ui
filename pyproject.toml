@@ -39,3 +39,8 @@ exclude = ["frontend*"]
 # https://setuptools-scm.readthedocs.io/en/v8.1.0/extending/
 version_scheme = "only-version"
 local_scheme = "node-and-date"
+
+[tool.pytest.ini_options]
+markers = [
+    "unit: fast and no dependencies", 
+    "component: slower and may have dependencies"]
