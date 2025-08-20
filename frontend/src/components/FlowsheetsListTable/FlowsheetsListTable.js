@@ -68,8 +68,8 @@ export default function FlowsheetsListTable(props) {
                         tempRows.push(fs)
                     }
                 }
-                console.log('setting table rows: ')
-                console.log(tempRows)
+                // console.log('setting table rows: ')
+                // console.log(tempRows)
                 setTableRows(tempRows)
             } catch (e) {
                 setTableRows([...props.rows])
@@ -212,7 +212,7 @@ export default function FlowsheetsListTable(props) {
                         </TableHead>
                         <TableBody>
                             {Object.keys(CATEGORIES).map((key) => {
-                                console.log('FlowsheetListTable key=', key);
+                                // console.log('FlowsheetListTable key=', key);
                                 let result = null;
                                 if ((key === 'Custom Flowsheets' && checkForCustomFlowsheets()) ||
                                     CATEGORIES[key].length > 0) {
