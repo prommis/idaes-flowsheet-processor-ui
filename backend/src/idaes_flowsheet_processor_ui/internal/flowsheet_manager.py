@@ -80,6 +80,8 @@ class FlowsheetManager:
         else:
             current_project = Deployment.DEFAULT_PROJ
             _log.debug(f"set project to default = {current_project}")
+        # should not be needed untill we execute set_project, which is first thing UI does
+        # might want to add an error message when user tries to get flowsheet list.
         # self.set_project(current_project, "user_home")
         self.startup_time = time.time()
 
