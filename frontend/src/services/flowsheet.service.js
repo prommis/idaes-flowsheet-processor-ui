@@ -54,8 +54,8 @@ export const downloadLogs = () => {
 
 export const setProject = (project) => {
     return fetch(process.env.REACT_APP_BACK_END_URL+'/flowsheets/set_project', {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors',
-        body: JSON.stringify({'project':project,'data_location':process.env.REACT_APP_BACKEND_DATABASE_LOCATION})
+        body: JSON.stringify({project:project,data_location:process.env.REACT_APP_BACKEND_DATABASE_LOCATION})
     });
 }

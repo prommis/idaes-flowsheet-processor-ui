@@ -109,6 +109,10 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+#Allow global react app env files, should not include 
+#.env.local, .env.development, .env.production as they might include 
+!frontend/.env
+
 # Environments
 .env
 .venv

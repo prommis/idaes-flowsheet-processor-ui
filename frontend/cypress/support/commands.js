@@ -97,7 +97,7 @@ Cypress.Commands.add('solve_flowsheet', () => {
 Cypress.Commands.add('save_configuration', () => {
     cy.intercept({
         method: "POST",
-        url: "process.env.REACT_APP_BACK_END_URL/flowsheets/**",
+        url: process.env.REACT_APP_BACK_END_URL+"/flowsheets/**",
     }).as("saveConfig");
     cy.findByRole('button', {name: /save/i}).click()
     cy.wait("@saveConfig");
