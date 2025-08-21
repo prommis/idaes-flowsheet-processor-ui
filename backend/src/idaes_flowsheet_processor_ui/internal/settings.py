@@ -38,10 +38,8 @@ class Deployment:
             raise ValueError(f"project '{project}' not in ({valid_projects})")
         self.project = project
         self.package = self.PROJ[project]
-        if location == "user_home":
-            self.data_basedir = Path.home() / f".{self.project}"
-        else:
-            self.data_basedir = Path(location) / f".{self.project}"
+
+        self.data_basedir = Path.expanduser(Path(location)) / f".{self.project}"
         try:
             self.data_basedir.mkdir(parents=True, exist_ok=True)
         except (FileNotFoundError, OSError) as err:

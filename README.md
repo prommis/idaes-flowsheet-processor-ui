@@ -72,7 +72,7 @@ The user can adjust web address for the backend end, and location of databases c
     # This address must match the address specified in backend\src\idaes_flowsheet_processor_ui\main.py
     REACT_APP_BACK_END_URL = http://localhost:8001
     # Database location - this stores where flowsheet data is kept, default location is user home found via Path.home()
-    REACT_APP_BACKEND_DATABASE_LOCATION = user_home
+    REACT_APP_BACKEND_DATABASE_LOCATION = ~
 
 # Running the UI
 
