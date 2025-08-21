@@ -13,7 +13,8 @@ Cypress.Commands.add('set_project', () => {
     cy.request({
         method: 'POST',
         url: 'http://localhost:8001/flowsheets/set_project',
-        body: JSON.stringify({project:'nawi',data_location:process.env.REACT_APP_BACKEND_DATABASE_LOCATION})
+        body: {project:'nawi',
+            data_location:'user_home'}
     });
 })
 /**
@@ -109,7 +110,7 @@ Cypress.Commands.add('solve_flowsheet', () => {
 Cypress.Commands.add('save_configuration', () => {
     cy.intercept({
         method: "POST",
-        url: process.env.REACT_APP_BACK_END_URL+"/flowsheets/**",
+        url: 'http://localhost:8001/flowsheets/**',
     }).as("saveConfig");
     cy.findByRole('button', {name: /save/i}).click()
     cy.wait("@saveConfig");
