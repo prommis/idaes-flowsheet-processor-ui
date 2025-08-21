@@ -14,8 +14,7 @@ Cypress.Commands.add('set_project', () => {
         method: 'POST',
         url: 'http://localhost:8001/flowsheets/set_project',
         body: JSON.stringify({project:'nawi',data_location:process.env.REACT_APP_BACKEND_DATABASE_LOCATION})
-    }).as('setProject');
-    cy.wait('@setProject', {timeout: 30000});
+    });
 })
 /**
  * Go to home page of the app
