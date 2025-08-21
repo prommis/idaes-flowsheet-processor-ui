@@ -591,9 +591,7 @@ async def set_project(request: Request) -> str:
     Returns:
         Name of the project
     """
-    print("getting project")
     data = await request.json()
-    print(data)
     project_name = data.get("project", None)
     project_location = data.get("data_location", "user_home")
     flowsheet_manager.set_project(project_name, project_location)
