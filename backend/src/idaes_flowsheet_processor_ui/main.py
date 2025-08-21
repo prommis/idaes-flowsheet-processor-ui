@@ -6,10 +6,16 @@ import idaes.logger as idaeslog
 import argparse
 
 ## Put DeferredImportCallbackFinder at the end of sys.meta_path list
-DeferredImportCallbackFinder = [finder for finder in sys.meta_path if "pyomo.common.dependencies" in repr(finder)]
+DeferredImportCallbackFinder = [
+    finder for finder in sys.meta_path if "pyomo.common.dependencies" in repr(finder)
+]
 if len(DeferredImportCallbackFinder) > 0:
-    DeferredImportCallbackFinder=DeferredImportCallbackFinder[0]
-    sys.meta_path[:] = [finder for finder in sys.meta_path if "pyomo.common.dependencies" not in repr(finder)]
+    DeferredImportCallbackFinder = DeferredImportCallbackFinder[0]
+    sys.meta_path[:] = [
+        finder
+        for finder in sys.meta_path
+        if "pyomo.common.dependencies" not in repr(finder)
+    ]
     sys.meta_path.append(DeferredImportCallbackFinder)
 
 _log = idaeslog.getLogger(__name__)
@@ -17,7 +23,6 @@ _log = idaeslog.getLogger(__name__)
 from fastapi import FastAPI
 from idaes_flowsheet_processor_ui.routers import flowsheets
 from fastapi.middleware.cors import CORSMiddleware
-
 
 
 app = FastAPI()
@@ -37,16 +42,30 @@ app.include_router(flowsheets.router)
 async def root():
     return {"message": "Hello FastAPI"}
 
+
 if __name__ == "__main__":
     multiprocessing.freeze_support()
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--install_idaes_extensions", action="store_true", help="Install IDAES extensions.")
-    parser.add_argument("-p", "--production", action='store_true', help="Run backend in production mode.")
+    parser.add_argument(
+        "-i",
+        "--install_idaes_extensions",
+        action="store_true",
+        help="Install IDAES extensions.",
+    )
+    parser.add_argument(
+        "-p",
+        "--production",
+        action="store_true",
+        help="Run backend in production mode.",
+    )
     args = parser.parse_args()
     run_in_production_mode = args.production
     install_extensions = args.install_idaes_extensions
     if install_extensions:
-        from idaes_flowsheet_processor_ui.internal.get_extensions import get_idaes_extensions
+        from idaes_flowsheet_processor_ui.internal.get_extensions import (
+            get_idaes_extensions,
+        )
+
         _log.info("running get_extensions()")
         get_idaes_extensions()
     elif run_in_production_mode:

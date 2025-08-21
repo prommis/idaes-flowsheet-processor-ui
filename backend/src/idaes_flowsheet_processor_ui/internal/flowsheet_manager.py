@@ -80,14 +80,14 @@ class FlowsheetManager:
         else:
             current_project = Deployment.DEFAULT_PROJ
             _log.debug(f"set project to default = {current_project}")
-        self.set_project(current_project)
+        # self.set_project(current_project, "user_home")
         self.startup_time = time.time()
 
-    def set_project(self, project: str):
+    def set_project(self, project: str, location: str):
         os.environ["project"] = project
         self._objs, self._flowsheets = {}, {}
         self.project = project
-        self._dpy = Deployment(project)
+        self._dpy = Deployment(project, location)
 
         # Set App Settings
         self.app_settings = AppSettings(

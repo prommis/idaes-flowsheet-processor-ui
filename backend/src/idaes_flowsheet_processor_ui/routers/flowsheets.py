@@ -585,13 +585,16 @@ async def download_logs() -> Path:
     return logs_path
 
 
-@router.get("/set_project/{project_name}")
-async def set_project(project_name: str) -> str:
+@router.get("/set_project")
+async def set_project(request: Request) -> str:
     """Set Project in settings.
-
     Returns:
         Name of the project
     """
-    print(f"@@ /set_project/{project_name}")
-    flowsheet_manager.set_project(project_name)
+    print("getting project")
+    data = await request.json()
+    print(data)
+    project_name = data.get("project", project_name)
+    project_location = data.get("data_location", "user_home")
+    flowsheet_manager.set_project(project_name, project_location)
     return project_name

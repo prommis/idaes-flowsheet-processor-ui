@@ -18,52 +18,60 @@ h.setFormatter(logging.Formatter("[%(levelname)s] %(name)s - %(message)s"))
 _log.addHandler(h)
 _log.setLevel(logging.WARNING)
 
+
 class Deployment:
     """Values related to the deployment context of the UI,
     e.g., NAWI WaterTAP, PROMMIS, or IDAES.
     """
+
     # env var for project name
     PROJECT_ENV = "PSE_PROJECT"
     # projects and their associated packages
-    PROJ = {
-        "nawi": ("watertap",),
-        "idaes": ("idaes",),
-        "prommis": ("prommis",)
-    }
+    PROJ = {"nawi": ("watertap",), "idaes": ("idaes",), "prommis": ("prommis",)}
     DEFAULT_PROJ = "nawi"
+    DEFAULT_LOCATION = "user_home"
 
-    def __init__(self, project=DEFAULT_PROJ):
-        _log.info(f"Deploy for project={project}")
+    def __init__(self, project=DEFAULT_PROJ, location=DEFAULT_LOCATION):
+        _log.info(f"Deploy for project={project} location={location}")
         if project not in self.PROJ.keys():
             valid_projects = ", ".join((str(x) for x in self.PROJ))
             raise ValueError(f"project '{project}' not in ({valid_projects})")
         self.project = project
         self.package = self.PROJ[project]
-        self.data_basedir = Path.home() / f".{self.project}"
+        if location == "user_home":
+            self.data_basedir = Path.home() / f".{self.project}"
+        else:
+            self.data_basedir = Path(location) / f".{self.project}"
         try:
             self.data_basedir.mkdir(parents=True, exist_ok=True)
         except (FileNotFoundError, OSError) as err:
             _log.error(f"error creating project data directory '{self.data_basedir}'")
             raise
-        _log.info(f"Deployment: project={self.project} package={self.package} data_basedir={self.data_basedir}")
+        _log.info(
+            f"Deployment: project={self.project} package={self.package} data_basedir={self.data_basedir}"
+        )
+
 
 class AppSettings(BaseSettings):
     #: List of package names in which to look for flowsheets
     packages: List[str]
     log_dir: Path
     custom_flowsheets_dir: Path
-    data_basedir : Path
+    data_basedir: Path
 
     @field_validator("log_dir")
     def validate_log_dir(cls, v):
         _log.info(f"Creating log directory '{v}'")
         v.mkdir(parents=True, exist_ok=True)
 
-        logging_format = "[%(levelname)s] %(asctime)s %(name)s " \
-                        "(%(filename)s:%(lineno)s): %(message)s"
+        logging_format = (
+            "[%(levelname)s] %(asctime)s %(name)s "
+            "(%(filename)s:%(lineno)s): %(message)s"
+        )
         project_log_file = f"ui_backend_logs.log"
-        _log.info(f"Logs will be in rotating files with base name "
-                f"'{v/project_log_file}'")
+        _log.info(
+            f"Logs will be in rotating files with base name " f"'{v/project_log_file}'"
+        )
         logging_file_handler = logging_handlers.RotatingFileHandler(
             v / project_log_file,
             backupCount=2,
