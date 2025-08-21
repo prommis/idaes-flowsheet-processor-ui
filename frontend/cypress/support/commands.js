@@ -10,12 +10,11 @@ require('cypress-downloadfile/lib/downloadFileCommand');
  * From page: any
  */
 Cypress.Commands.add('set_project', () => {
-    cy.intercept({
+    cy.request({
         method: 'POST',
         url: process.env.REACT_APP_BACK_END_URL+'/flowsheets/set_project',
         body: JSON.stringify({project:'nawi',data_location:process.env.REACT_APP_BACKEND_DATABASE_LOCATION})
     }).as('setProject');
-    cy.visit('/')
     cy.wait('@setProject', {timeout: 30000});
 })
 /**
