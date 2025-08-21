@@ -1,9 +1,9 @@
 export const deleteConfig = (id, name) => {
-    return fetch('http://localhost:8001/flowsheets/'+id+'/delete?name='+name, {mode: 'cors'});
+    return fetch(process.env.REACT_APP_BACK_END_URL+'/flowsheets/'+id+'/delete?name='+name, {mode: 'cors'});
 }; 
 
 export const updateNumberOfSubprocesses = (data) => {
-    return fetch('http://localhost:8001/flowsheets/update_number_of_subprocesses', {
+    return fetch(process.env.REACT_APP_BACK_END_URL+'/flowsheets/update_number_of_subprocesses', {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify(data)
