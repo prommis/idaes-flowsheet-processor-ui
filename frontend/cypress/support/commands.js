@@ -13,8 +13,7 @@ Cypress.Commands.add('set_project', () => {
     cy.request({
         method: 'POST',
         url: 'http://localhost:8001/flowsheets/set_project',
-        body: {project:'nawi',
-            data_location:'user_home'}
+        body: {project:'nawi',data_location:'user_home'}
     });
 })
 /**
