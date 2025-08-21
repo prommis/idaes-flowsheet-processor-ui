@@ -111,7 +111,7 @@ celerybeat.pid
 
 #Allow global react app env files, should not include 
 #.env.local, .env.development, .env.production as they might include 
-!frontend/.env
+/frontend/.env
 
 # Environments
 .env
