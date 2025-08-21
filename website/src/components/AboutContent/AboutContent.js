@@ -15,7 +15,7 @@ const styles = {
     width: 'calc(33.33% - 20px)',
     display: 'inline-block',
     verticalAlign: 'top',
-    '@media (max-width: 768px)': {
+    '@media (maxWidth: 768px)': {
       width: '100%',
       margin: 10,
     },
@@ -52,7 +52,7 @@ function AboutContent() {
                 <h3>Screenshots</h3>
                 {
                     screenshots.map((screenshot) => (
-                        <div style={styles.screenshotContainer}>
+                        <div style={styles.screenshotContainer} key={screenshot.description}>
                             <img src={screenshot.src} alt={screenshot.description} style={{ width: '100%', height: 'auto' }} />
                         </div>
                     ))
