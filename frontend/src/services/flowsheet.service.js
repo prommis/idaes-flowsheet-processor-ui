@@ -1,5 +1,3 @@
-
-
 export const getFlowsheet = (id, build) => {
     return fetch(process.env.REACT_APP_BACK_END_URL+'/flowsheets/'+id+'/config?build='+build, {mode: 'cors'});
     /*return new Promise((resolve, reject) => { 

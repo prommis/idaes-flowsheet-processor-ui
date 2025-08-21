@@ -7,7 +7,7 @@ module.exports = defineConfig({
       // implement node event listeners here
       on('task', {downloadFile});
     },
-    baseUrl: process.env.REACT_APP_FRONT_END_URL,
+    baseUrl: 'http://localhost:3000',
     video: false
   },
 });

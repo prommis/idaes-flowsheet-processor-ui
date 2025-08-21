@@ -1,11 +1,6 @@
 import { flowsheets } from "./Flowsheets"
 describe('IDAES Flowsheet Processor UI Testing', () => {
     it('tests flowsheets-list page', () => {
-        cy.request({
-        method: 'POST',
-        url: 'http://localhost:8001/flowsheets/set_project',
-        body: {project:'nawi',data_location:'user_home'}
-    });
         cy.load_flowsheets_list()
         cy.screenshot('loaded flowsheet list page')
 
@@ -17,11 +12,6 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
     })
 
     it('tests invalid inputs', () => {
-        cy.request({
-            method: 'POST',
-            url: 'http://localhost:8001/flowsheets/set_project',
-            body: {project:'nawi',data_location:'user_home'}
-        });
         cy.load_flowsheets_list()
         cy.screenshot('loaded flowsheet list page')
         
@@ -49,11 +39,7 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
     })
 
     it('tests logging panel', () => {
-        cy.request({
-        method: 'POST',
-        url: 'http://localhost:8001/flowsheets/set_project',
-        body: {project:'nawi',data_location:'user_home'}
-    });
+
         cy.load_flowsheets_list()
         cy.wait(2000)
         cy.screenshot('loaded flowsheet list page')
@@ -69,11 +55,6 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
     })
 
     it('tests new flowsheet', () => {
-        cy.request({
-        method: 'POST',
-        url: 'http://localhost:8001/flowsheets/set_project',
-        body: {project:'nawi',data_location:'user_home'}
-    });
         let modelFile = "https://drive.google.com/uc?export=download&id=1XdjuWNpYT9teZxaF8TuwDz0XS2XyXKeT"
         let exportFile = "https://drive.google.com/uc?export=download&id=1-jWQmI4wO2OlyUi32fqobFEmPn3zm9Q9"
         // let exportFile = "https://drive.google.com/uc?export=download&id=1_KtDRLSQeyKoQ3rH-4kNuxpvuQVuhQCu"
@@ -114,11 +95,6 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
 
     flowsheets.forEach((flowsheet) => {
         it('tests optimization for '+flowsheet.name, () => {
-            cy.request({
-        method: 'POST',
-        url: 'http://localhost:8001/flowsheets/set_project',
-        body: {project:'nawi',data_location:'user_home'}
-    });
             cy.load_flowsheets_list()
             cy.wait(2000)
             cy.screenshot('loaded flowsheet list page')
@@ -165,11 +141,6 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
 
     flowsheets.forEach((flowsheet) => {
         it('tests parameter sweep '+flowsheet.name, () => {
-            cy.request({
-        method: 'POST',
-        url: 'http://localhost:8001/flowsheets/set_project',
-        body: {project:'nawi',data_location:'user_home'}
-    });
             cy.load_flowsheets_list()
             cy.screenshot('loaded flowsheet list page')
             
@@ -213,11 +184,6 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
     // RO is most kikely the most canonical 
     // Exclusively run on 'RO with energy recovery flowsheet'
     it('input change flag for RO with energy recovery- value change', () => {
-        cy.request({
-        method: 'POST',
-        url: 'http://localhost:8001/flowsheets/set_project',
-        body: {project:'nawi',data_location:'user_home'}
-    });
         cy.load_flowsheets_list()
         cy.screenshot('loaded flowsheet list page')
         
@@ -269,11 +235,6 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
     })
 
     it('input change flag for RO with energy recovery value change- fixed_free change', () => {
-        cy.request({
-        method: 'POST',
-        url: 'http://localhost:8001/flowsheets/set_project',
-        body: {project:'nawi',data_location:'user_home'}
-    });
         cy.load_flowsheets_list()
         cy.screenshot('fixed_free: loaded flowsheet list page')
         
@@ -324,11 +285,6 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
     })
 
     it('input change flag for RO with energy recovery value change- bounds change', () => {
-        cy.request({
-        method: 'POST',
-        url: 'http://localhost:8001/flowsheets/set_project',
-        body: {project:'nawi',data_location:'user_home'}
-    });
         cy.load_flowsheets_list()
         cy.screenshot('bounds: loaded flowsheet list page')
         
