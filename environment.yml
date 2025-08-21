@@ -6,4 +6,5 @@ dependencies:
   - pip
   - nodejs=22.3.0
   - pip:
+    - .
     - -r backend/requirements.txt

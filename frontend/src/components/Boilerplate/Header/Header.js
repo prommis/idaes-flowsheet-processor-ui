@@ -1,5 +1,5 @@
 import './Header.css';
-import React from 'react';
+import React, { useState } from 'react';
 import LoggingPanel from '../../LoggingPanel/LoggingPanel';
 import {useNavigate} from "react-router-dom";
 import {Menu, MenuItem, IconButton} from '@mui/material';
@@ -8,23 +8,38 @@ import {themes} from '../../../theme';
 
 export default function Header({theme, changeTheme}) {
     let navigate = useNavigate();
-    const [showLogs, setShowLogs] = React.useState(false)
-    const [actionsList, setActionsList] = React.useState(false)
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [showLogs, setShowLogs] = useState(false);
+    const [menuActionsList, setMenuActionsList] = useState(false);
+    const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+    const [logoMenuAnchor, setLogoMenuAnchor] = useState(null);
+    const [logoActionsList, setLogoActionsList] = useState(false);
+    const [current_theme, setCurrentTheme] = useState(localStorage.getItem("theme"));
 
     const handleNavigateHome = () => {
-        // setActionsList(!actionsList)
         navigate("/flowsheets", {replace: true})
     }
 
     const handleShowLogs = () => {
         setShowLogs(!showLogs)
-        setActionsList(false)
+        setMenuActionsList(false)
     }
 
     const handleShowActions = (event) => {
-        setActionsList(!actionsList)
-        setAnchorEl(event.currentTarget);
+        setMenuActionsList(!menuActionsList)
+        setMenuAnchorEl(event.currentTarget);
+    }
+
+    const handleShowLogoActions = (event) => {
+        if (process.env.NODE_ENV === 'development') {
+            setLogoActionsList(!logoActionsList)
+            setLogoMenuAnchor(event.currentTarget);
+        }
+    }
+
+    const getLogoStyle = () => {
+        const logoStyle = {color: theme.header.color}
+        if (process.env.NODE_ENV === 'development') logoStyle.cursor = 'pointer';
+        return logoStyle;
     }
 
     return (
@@ -37,8 +52,22 @@ export default function Header({theme, changeTheme}) {
                 }} onClick={handleNavigateHome}>
                     <img  data-testid="project-logo" src={theme.logoOnly} alt={`${theme.project} logo`}/>
                 </div>
-                <div id="titlebar-name" style={{color: theme.header.color}}>
+                <div id="titlebar-name" style={getLogoStyle()} onClick={handleShowLogoActions}>
                     {theme.projectTitle}
+                    <Menu
+                        id="actions-list"
+                        anchorEl={logoMenuAnchor}
+                        open={logoActionsList}
+                        onClose={() => setLogoActionsList(false)}
+                    >
+                        {process.env.NODE_ENV === 'development' && (
+                            Object.keys(themes).map((key, idx) => {
+                                if (key !== current_theme && key !== "watertap") return (
+                                    <MenuItem key={`logo_${key}`} className="change_theme" onClick={() => changeTheme(key)}>Switch to {key.replace("nawi", "watertap")}</MenuItem>
+                                )
+                            })
+                        )}
+                    </Menu>
                 </div>
                 <div className="right">
                     <IconButton className="header-actions" style={{color: theme.menuButton.color}} onClick={handleShowActions}>
@@ -46,16 +75,15 @@ export default function Header({theme, changeTheme}) {
                     </IconButton>
                     <Menu
                         id="actions-list"
-                        anchorEl={anchorEl}
-                        open={actionsList}
-                        onClose={() => setActionsList(false)}
+                        anchorEl={menuAnchorEl}
+                        open={menuActionsList}
+                        onClose={() => setMenuActionsList(false)}
                     >
                         <MenuItem className="view-logs" onClick={handleShowLogs}>View Logs</MenuItem>
                         {process.env.NODE_ENV === 'development' && (
                             Object.keys(themes).map((key, idx) => {
-                                let current_theme = localStorage.getItem("theme")
                                 if (key !== current_theme && key !== "watertap") return (
-                                    <MenuItem key={key} className="change_theme" onClick={() => changeTheme(key)}>Switch to {key.replace("nawi", "watertap")}</MenuItem>
+                                    <MenuItem key={`menu_${key}`} className="change_theme" onClick={() => changeTheme(key)}>Switch to {key.replace("nawi", "watertap")}</MenuItem>
                                 )
                             })
                         )}

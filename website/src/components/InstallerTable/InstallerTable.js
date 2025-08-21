@@ -56,6 +56,39 @@ function InstallerTable({owner, repo}) {
   const [releases, setReleases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const project = repo === "idaes-pse" ? "idaes" : repo.toLowerCase();
+
+  const fetchElectronBuildReleases = async () => {
+    // if the project repository has no releases with UIs, we check the idaes-electron-build repo for releases
+    try {
+      const response = await fetch(`https://api.github.com/repos/prommis/idaes-electron-build/releases`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch releases: ${response.status}`);
+      }
+      const releasesData = await response.json();
+      formatElectronBuildReleaseData(releasesData)
+
+    } catch (error) {
+      setError(true);
+      setLoading(false);
+    }
+  }
+
+  const formatElectronBuildReleaseData = (data) => {
+    let releasesWithInstaller = []
+    for (let release of data) {
+        if (release.assets?.length > 0) {
+            for (let asset of release.assets) {
+                if (asset.name.toLowerCase().includes(project) && (asset.name.endsWith(".exe") || asset.name.endsWith(".dmg"))) {
+                    releasesWithInstaller.push(release)
+                    break
+                }
+            }
+        }
+    }
+    setReleases(releasesWithInstaller)
+    setLoading(false);
+  }
 
   useEffect(() => {
     const fetchReleases = async () => {
@@ -89,8 +122,12 @@ function InstallerTable({owner, repo}) {
             }
         }
     }
-    setReleases(releasesWithInstaller)
-    setLoading(false);
+    if (releasesWithInstaller.length > 0) {
+      setReleases(releasesWithInstaller)
+      setLoading(false);
+    } else // check idaes-electron-build repo for releases
+      fetchElectronBuildReleases()
+
   }
 
   const populateTable = () => {
@@ -108,8 +145,8 @@ function InstallerTable({owner, repo}) {
       const version = release.tag_name;
       if (version.toLowerCase().includes('rc')) return null;
 
-      const windowsLink = release.assets.find(asset => asset.name.endsWith(".exe"));
-      const macLink = release.assets.find(asset => asset.name.endsWith(".dmg"));
+      const windowsLink = release.assets.find(asset => asset.name.toLowerCase().includes(project) && asset.name.endsWith(".exe"));
+      const macLink = release.assets.find(asset => asset.name.toLowerCase().includes(project) && asset.name.endsWith(".dmg"));
 
       return (
         <tr key={version} style={index === 0 ? { ...styles.td, ...styles.stableReleaseTd } : styles.td}>

@@ -61,7 +61,8 @@ function App() {
 
     const changeTheme = (new_theme) => {
         localStorage.setItem("theme", new_theme)
-        window.location.reload()
+        window.location.hash = "#/flowsheets";
+        window.location.reload();
     }
 
     const subProcState = {value: numberOfSubprocesses, setValue: setNumberOfSubprocesses}
