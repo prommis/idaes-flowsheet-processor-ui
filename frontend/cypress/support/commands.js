@@ -12,7 +12,7 @@ require('cypress-downloadfile/lib/downloadFileCommand');
 Cypress.Commands.add('set_project', () => {
     cy.request({
         method: 'POST',
-        url: process.env.REACT_APP_BACK_END_URL+'/flowsheets/set_project',
+        url: 'http://localhost:8001/flowsheets/set_project',
         body: JSON.stringify({project:'nawi',data_location:process.env.REACT_APP_BACKEND_DATABASE_LOCATION})
     }).as('setProject');
     cy.wait('@setProject', {timeout: 30000});
@@ -25,7 +25,7 @@ Cypress.Commands.add('set_project', () => {
 Cypress.Commands.add('load_flowsheets_list', () => {
     cy.intercept({
         method: 'GET',
-        url: process.env.REACT_APP_BACK_END_URL+'/flowsheets/**',
+        url: 'http://localhost:8001/flowsheets/**',
     }).as('loadFlowsheetsList');
     cy.visit('/')
     cy.wait('@loadFlowsheetsList', {timeout: 30000});
@@ -40,7 +40,7 @@ Cypress.Commands.add('load_flowsheet', (flowsheet_name) => {
     // const flowsheet_name = 'RO with energy recovery flowsheet';
     cy.intercept({
         method: 'GET',
-        url: process.env.REACT_APP_BACK_END_URL+'/flowsheets/**',
+        url: 'http://localhost:8001/flowsheets/**',
     }).as('loadFlowsheet');
     cy.findByText(flowsheet_name).click();
     cy.wait('@loadFlowsheet', {timeout: 180000});
@@ -54,7 +54,7 @@ Cypress.Commands.add('load_flowsheet', (flowsheet_name) => {
 Cypress.Commands.add('build_flowsheet', () => {
     cy.intercept({
         method: 'GET',
-        url: process.env.REACT_APP_BACK_END_URL+'/flowsheets/**',
+        url: 'http://localhost:8001/flowsheets/**',
     }).as('buildFlowsheet');
     cy.get('#build-flowsheet-button').click()
     cy.wait('@buildFlowsheet', {timeout: 180000});
@@ -68,7 +68,7 @@ Cypress.Commands.add('build_flowsheet', () => {
 Cypress.Commands.add('reset_flowsheet', () => {
     cy.intercept({
         method: 'GET',
-        url: process.env.REACT_APP_BACK_END_URL+'/flowsheets/**',
+        url: 'http://localhost:8001/flowsheets/**',
     }).as('resetFlowsheet');
     cy.get('#reset-flowsheet-button').click()
     cy.wait('@resetFlowsheet', {timeout: 180000});
@@ -96,7 +96,7 @@ Cypress.Commands.add('set_ro_flowrate', (value) => {
 Cypress.Commands.add('solve_flowsheet', () => {
     cy.intercept({
         method: 'POST',
-        url: process.env.REACT_APP_BACK_END_URL+'/flowsheets/**',
+        url: 'http://localhost:8001/flowsheets/**',
     }).as('run');
     cy.get('#run-flowsheet-button').click()
     cy.wait('@run', {timeout: 180000});
