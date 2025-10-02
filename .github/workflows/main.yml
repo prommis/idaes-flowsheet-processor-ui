@@ -89,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-            name: cypress_results-${{ matrix.os }}/${{matrix.python-version}}
+            name: cypress_results-${{ matrix.os }}-${{matrix.python-version}}
             path: |
               frontend/cypress/screenshots/
               frontend/cypress/videos/
