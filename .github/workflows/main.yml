@@ -17,7 +17,7 @@ env:
 
 jobs:
   component_e2e_testing:
-    name: E2E testing (${{ matrix.os }})
+    name: E2E testing (${{ matrix.os }}/Python${{matrix.python-version}})
 
     runs-on: ${{ matrix.os-version }}
     strategy:
