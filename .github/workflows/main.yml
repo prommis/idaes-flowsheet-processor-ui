@@ -37,12 +37,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      # - uses: conda-incubator/setup-miniconda@v3
+      #   with:
+      #     environment-file: environment.yml
+      #     python: ${{ matrix.python-version }}
+      #     activate-environment: flowsheet-processor-env
+      #     miniforge-version: latest
       - uses: conda-incubator/setup-miniconda@v3
         with:
-          environment-file: environment.yml
-          python: ${{ matrix.python-version }}
-          activate-environment: flowsheet-processor-env
+          python-version: ${{ matrix.python-version }}
           miniforge-version: latest
+          activate-environment: ifp-build-env
+          channels: conda-forge,nodefaults
+
+      - name: Install conda dependencies
+        run: |
+          conda install -c conda-forge nodejs=22.3.0 -y
+          pip install -r backend/requirements-full.txt
 
       - name: Set up debug logging
         run: |
