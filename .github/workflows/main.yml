@@ -17,7 +17,7 @@ env:
 
 jobs:
   component_e2e_testing:
-    name: E2E testing (${{ matrix.os }})
+    name: E2E testing (${{ matrix.os }}/Python${{matrix.python-version}})
 
     runs-on: ${{ matrix.os-version }}
     strategy:
@@ -31,12 +31,16 @@ jobs:
             os-version: ubuntu-22.04
           - os: win64
             os-version: windows-latest
+        python-version:
+          - 3.12
+          - 3.13
 
     steps:
       - uses: actions/checkout@v4
       - uses: conda-incubator/setup-miniconda@v3
         with:
           environment-file: environment.yml
+          python: ${{ matrix.python-version }}
           activate-environment: flowsheet-processor-env
           miniforge-version: latest
 
@@ -85,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-            name: cypress_results-${{ matrix.os }}
+            name: cypress_results-${{ matrix.os }}-${{matrix.python-version}}
             path: |
               frontend/cypress/screenshots/
               frontend/cypress/videos/
@@ -113,7 +117,7 @@ jobs:
           conda env remove --name pareto-ui-env || true
 
   pytest:
-    name: pytest (${{ matrix.os }})
+    name: pytest (${{ matrix.os }}/${{matrix.python-version}})
     runs-on: ${{ matrix.os-version }}
 
     strategy:
@@ -128,6 +132,9 @@ jobs:
             os-version: ubuntu-22.04
           - os: win64
             os-version: windows-latest
+        python-version:
+          - 3.12
+          - 3.13
 
     steps:
       - uses: actions/checkout@v4
