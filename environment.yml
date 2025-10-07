@@ -2,9 +2,10 @@ name: flowsheet-processor-env
 channels:
   - conda-forge
 dependencies:
-  - python=3.12
+  # - python=3.13.7 : this is the version of python that worked when originally making the update to 3.13
+  - python=3.13
   - pip
   - nodejs=22.3.0
   - pip:
     - .
-    - -r backend/requirements.txt
+    - -r backend/requirements-full.txt
