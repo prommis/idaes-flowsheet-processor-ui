@@ -28,6 +28,9 @@ function App() {
         ", stored:", stored_project_name, ", default:", default_project_name)
     let project_name = env_project_name || stored_project_name || default_project_name
     console.debug("Resulting project name:", project_name)
+    if (!["watertap", "prommis", "idaes", "idaes-pse", "nawi"].includes(project_name)) {
+        project_name = "watertap"
+    }
     let theme = themes[project_name]
 
     const WAIT_TIME = 1

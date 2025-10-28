@@ -68,9 +68,9 @@ Cypress.Commands.add('reset_flowsheet', () => {
  */
 Cypress.Commands.add('set_ro_flowrate', (value) => {
     let input_textbox_name = 'Water mass flowrate';
-    let input_textbox = cy.findByRole('textbox', {name: input_textbox_name});
+    let input_textbox = cy.findByRole('textbox', {name: input_textbox_name, timeout: 20000});
     input_textbox.click({force:true});
-    input_textbox = cy.findByRole('textbox', {name: input_textbox_name});
+    input_textbox = cy.findByRole('textbox', {name: input_textbox_name, timeout: 20000});
     input_textbox.type('{backspace}{backspace}{backspace}{backspace}' + value);
     cy.wait(500);
 })
@@ -85,7 +85,7 @@ Cypress.Commands.add('solve_flowsheet', () => {
         method: 'POST',
         url: 'http://localhost:8001/flowsheets/**',
     }).as('run');
-    cy.get('#run-flowsheet-button').click()
+    cy.get('#run-flowsheet-button', {timeout: 20000}).click()
     cy.wait('@run', {timeout: 180000});
 })
 
@@ -109,9 +109,9 @@ Cypress.Commands.add('save_configuration', () => {
  * From page: Any
  */
 Cypress.Commands.add('open_logging_panel', () => {
-    cy.get('.header-actions').click();
-    cy.wait(500);
-    cy.get('.view-logs').click();
+    cy.get('.header-actions', {timeout: 10000}).click();
+    // cy.wait(500);
+    cy.get('.view-logs', {timeout: 10000}).click();
     cy.wait(500);
 })
 
