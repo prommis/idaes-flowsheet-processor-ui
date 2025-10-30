@@ -73,6 +73,17 @@ function HowToDeploy() {
                 <h3>
                     Mac
                 </h3>
+                <ol>
+                    <li>
+                        Sign up for an <a target='_blank' href='https://developer.apple.com/'>Apple Developer Account</a>
+                    </li>
+                    <li>
+                        Create a Developer ID Application certificate.
+                    </li>
+                    <li>
+                        Add a new repository secret for each of APPLE_BUILD_CERTIFICATE_BASE64, P12_PASSWORD, KEYCHAIN_PASSWORD for code-signing, and APPLE_ID and APPLE_ID_PASSWORD for notarizing.
+                    </li>
+                </ol>
                 <p>
                     Once you have added the proper credentials as secret variables, the workflow will automatically detect them and attempt to use them for code-signing the application during the build process.
                 </p>
