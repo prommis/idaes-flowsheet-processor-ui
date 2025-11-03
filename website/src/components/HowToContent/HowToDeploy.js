@@ -73,6 +73,9 @@ function HowToDeploy() {
                 <h3>
                     Mac
                 </h3>
+                    <p>
+                        There are 2 steps for creating trusted Mac applications. The application must be code signed, and then it must be uploaded and notarized by Apple. Both of these steps are covered in the workflow, as long as proper credentials are provided.
+                    </p>
                 <ol>
                     <li>
                         Sign up for an <a target='_blank' href='https://developer.apple.com/'>Apple Developer Account</a>
@@ -82,12 +85,6 @@ function HowToDeploy() {
                     </li>
                     <li>
                         Add a new repository secret for each of APPLE_BUILD_CERTIFICATE_BASE64, P12_PASSWORD, and KEYCHAIN_PASSWORD for code-signing, in addition to APPLE_ID, APPLE_ID_PASSWORD, and TEAM_ID for notarizing.
-                        <ul>
-                            <li>
-                                There are 2 steps for creating trusted Mac applications. The application must be code signed, and then it must be uploaded and notarized by Apple. Both of these steps are covered in the workflow, as long as proper credentials are provided.
-                            </li>
-                            
-                        </ul>
                     </li>
                 </ol>
                 <p>
