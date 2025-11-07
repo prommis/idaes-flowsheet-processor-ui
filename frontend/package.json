@@ -10,13 +10,13 @@
     "@fontsource/roboto": "^4.5.7",
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
-    "@testing-library/cypress": "^8.0.3",
+    "@testing-library/cypress": "^10.1.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
     "concurrently": "^7.3.0",
     "cross-env": "^7.0.3",
-    "cypress": "^10.4.0",
+    "cypress": "^15.6.0",
     "cypress-downloadfile": "^1.2.4",
     "jointjs": "^3.5.5",
     "plotly.js": "^2.21.0",
@@ -62,6 +62,5 @@
   },
   "homepage": ".",
   "packageManager": "pnpm@10.10.0+sha1.f657bc37aa5e08da2ecff3877fe3bbb4b13703ba",
-  "overrides": {
-  }
+  "overrides": {}
 }
