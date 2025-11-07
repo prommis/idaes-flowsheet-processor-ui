@@ -30,7 +30,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.10.1",
-    "wait-on": "^6.0.1",
+    "wait-on": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -63,6 +63,5 @@
   "homepage": ".",
   "packageManager": "pnpm@10.10.0+sha1.f657bc37aa5e08da2ecff3877fe3bbb4b13703ba",
   "overrides": {
-    "form-data": "^4.0.4"
   }
 }
