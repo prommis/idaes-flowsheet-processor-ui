@@ -25,5 +25,12 @@ export default defineConfig({
   },
   build: {
     outDir: 'build'
+  },
+  test: {
+    globals: true,  // This enables test, describe, it, expect globally
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.js'
   }
 })
+
+

@@ -11,7 +11,6 @@
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
     "@testing-library/cypress": "^10.1.0",
-    "@testing-library/user-event": "^13.5.0",
     "concurrently": "^7.3.0",
     "cross-env": "^7.0.3",
     "cypress": "^15.6.0",
@@ -64,6 +63,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/ui": "^4.0.8",
     "jsdom": "^27.0.1",
