@@ -41,8 +41,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {
@@ -66,7 +65,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/ui": "^4.0.8",
-    "jsdom": "^27.0.1",
+    "happy-dom": "^20.0.10",
     "vite": "^6.4.1",
     "vitest": "^4.0.8"
   }
