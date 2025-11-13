@@ -31,7 +31,7 @@
   },
   "scripts": {
     "start": "vite",
-    "app-start": "concurrently -k \"cross-env pnpm run start-backend\" \"vite\"",
+    "app-start": "concurrently -k \"cross-env npm run start-backend\" \"vite\"",
     "start-backend": "cd ../backend/src/idaes_flowsheet_processor_ui && python main.py",
     "start-nob": "cross-env BROWSER=none vite",
     "build": "vite build",
@@ -57,11 +57,9 @@
     ]
   },
   "homepage": ".",
-  "packageManager": "pnpm@10.10.0+sha1.f657bc37aa5e08da2ecff3877fe3bbb4b13703ba",
+  "packageManager": "npm@10.10.0+sha1.f657bc37aa5e08da2ecff3877fe3bbb4b13703ba",
   "overrides": {},
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/ui": "^4.0.8",
