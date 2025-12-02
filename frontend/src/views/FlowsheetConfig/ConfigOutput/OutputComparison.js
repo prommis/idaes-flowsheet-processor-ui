@@ -17,10 +17,10 @@ export default function OutputComparison(props) {
     const [ disableChartView, setDisableChartView ] = useState(true)
     const [ tabValue, setTabValue ] = useState(0)
 
+    // 12-02-25: at the request of WaterTAP team, we have removed these customizable charts
     const [ chartContainerData, setChartContainerData ] = useState(null)
     const [ chartContainerHeaders, setChartContainerHeaders ] = useState(null)
     
-  console.log(categoriesWithCharts);
     useEffect(() => {
       try{ 
         let exports = flowsheetData?.outputData?.exports;
@@ -246,7 +246,7 @@ export default function OutputComparison(props) {
                 <Box sx={{display: 'flex', justifyContent: 'center'}}>
                     <Tabs value={tabValue} onChange={handleTabChange} aria-label="tabs">
                         <Tab label="Table View" />
-                        <Tab label="Chart View" /> 
+                        <Tab label="Chart View" disabled={disableChartView}/> 
                     </Tabs>
                 </Box>
                 
@@ -264,10 +264,7 @@ export default function OutputComparison(props) {
                 categoriesWithCharts={categoriesWithCharts}
               />
               :
-              <ChartContainer
-                headers={chartContainerHeaders}
-                data={chartContainerData}
-              />
+              null
             )
               
             }

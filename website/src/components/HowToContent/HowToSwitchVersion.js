@@ -27,7 +27,7 @@ function HowToSwitchVersion() {
     return (
     <div style={{marginTop: '20px'}}>
         <p>
-            If you would like to switch project versions (eg. from WaterTAP to PrOMMIS), click on the project name in the top left:
+            If you would like to switch project versions (eg. from WaterTAP to PrOMMiS), click on the project name in the top left:
             <img 
                 style={styles.image}
                 src={require('@site/static/img/switch-project-version.png').default}
