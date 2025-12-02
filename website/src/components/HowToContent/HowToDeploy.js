@@ -14,7 +14,7 @@ function HowToDeploy() {
     return (
         <div>
             <div>
-                The IDAES Flowsheet Processor is deployable into a desktop application compatible with either Windows or MacOS (ARM64) operating systems. The application can be deployed into one of three different versions: WaterTAP, IDAES, or PrOMMIS. Each version comes with a custom styling and default set of flowsheets. The default flowsheets are provided by the parent projects, but user provided flowsheets can always be uploaded through the frontend after installation. 
+                The IDAES Flowsheet Processor is deployable into a desktop application compatible with either Windows or MacOS (ARM64) operating systems. The application can be deployed into one of three different versions: WaterTAP, IDAES, or PrOMMiS. Each version comes with a custom styling and default set of flowsheets. The default flowsheets are provided by the parent projects, but user provided flowsheets can always be uploaded through the frontend after installation. 
             </div>
             <div style={{marginTop: '20px'}}>
                 <h3>

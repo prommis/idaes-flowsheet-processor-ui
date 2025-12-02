@@ -92,7 +92,7 @@ const config = {
                 to: 'https://watertap.readthedocs.io/en/stable/',
               },
               {
-                label: 'PrOMMIS Project',
+                label: 'PrOMMiS Project',
                 to: 'https://github.com/prommis/prommis',
               },
               // {
