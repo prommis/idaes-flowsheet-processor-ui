@@ -161,7 +161,7 @@ function InstallerTable({owner, repo}) {
       if (fetchedElectronBuild && fetchedProject) {
         const all_releases = [...projectLevelReleases, ...electronBuildReleases];
         all_releases.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        setReleases(all_releases.slice(0, 5))
+        setReleases(all_releases.slice(0, 10))
         setLoading(false);
       }
   }, [fetchedElectronBuild, fetchedProject]);
