@@ -1,0 +1,28 @@
+---
+title: How to install Linux packages
+sidebar_position: 4
+---
+
+# How to install Linux Debian packages
+
+For some releases Linux `.deb` (Debian) packages are available.
+These can be installed on a Linux [Debian-based distribution](https://en.wikipedia.org/wiki/Category:Debian-based_distributions)
+(including Ubuntu Linux),
+You will use `sudo` to accquire administrative (root) permissions on your machine.
+
+After clicking on and downloading the installer file (ending in `.deb`), follow these steps:
+
+1. Open a new terminal
+2. Change to the directory with the downloaded file:
+```
+cd Downloads
+```
+3. Use `dpkg` to install the file. The 'sudo' command should require your password:
+```
+sudo dpkg -i "WaterTAP-Flowsheet-Processor_*.deb"
+``` 
+4. Run the installed package
+```
+watertap-flowsheet-processor-ui
+``` 
+
