@@ -141,7 +141,9 @@ function InstallerTable({owner, repo}) {
     for (let release of data) {
         if (release.assets?.length > 0) {
             for (let asset of release.assets) {
-                if (asset.name.toLowerCase().includes(project) && (asset.name.endsWith(".exe") || asset.name.endsWith(".dmg"))) {
+                if (asset.name.toLowerCase().includes(project) && (asset.name.endsWith(".exe") || asset.name.endsWith(".dmg")
+                || asset.name.endsWith(".deb") // NEW
+              )) {
                     releasesWithInstaller.push(release)
                     break
                 }
@@ -184,6 +186,8 @@ function InstallerTable({owner, repo}) {
 
       const windowsLink = release.assets.find(asset => asset.name.toLowerCase().includes(project) && asset.name.endsWith(".exe"));
       const macLink = release.assets.find(asset => asset.name.toLowerCase().includes(project) && asset.name.endsWith(".dmg"));
+      // NEW
+      const linuxLink = release.assets.find(asset => asset.name.toLowerCase().includes(project) && asset.name.endsWith(".deb"));
 
       let UI_version = parseUIVersionNumber(windowsLink?.name || "");
       if (!UI_version) UI_version = parseUIVersionNumber(macLink?.name || "");
@@ -213,6 +217,15 @@ function InstallerTable({owner, repo}) {
               '-'
             )}
           </td>
+          <td style={index === 0 ? { ...styles.td, ...styles.stableReleaseTd } : styles.td}>
+            {linuxLink ? (
+              <a href={linuxLink.browser_download_url} target="_blank" rel="noreferrer" style={styles.link}>
+                <button style={styles.button}>Download</button>
+              </a>
+            ) : (
+              '-'
+            )}
+          </td>
         </tr>
       );
     });
@@ -232,6 +245,7 @@ function InstallerTable({owner, repo}) {
               <th style={styles.th}>{project_name} Version</th>
               <th style={styles.th}>Windows (.exe)</th>
               <th style={styles.th}>macOS (.dmg)</th>
+              <th style={styles.th}>Linux (.deb) <a href="/idaes-flowsheet-processor-ui/docs/HowTo/install_linux_deb">?</a></th>
             </tr>
           </thead>
           <tbody>
