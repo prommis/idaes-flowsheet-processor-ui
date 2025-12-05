@@ -5,7 +5,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { FormGroup, FormControlLabel, Checkbox, Select } from '@mui/material';
 import { Grid, InputLabel, MenuItem, FormControl } from '@mui/material';
 import Plot from 'react-plotly.js';
-import { round, roundList } from '../../assets/util';
+import { round, roundList } from '../../util';
 
 export default function OutputComparisonChart(props) {
     const { flowsheetData, historyData, categoriesWithCharts } = props;

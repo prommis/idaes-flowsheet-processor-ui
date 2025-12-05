@@ -24,3 +24,17 @@ export function getVersionDate() {
     let version = `${yyyy}.${mm}.${dd}`
     return version
 }
+
+export function formatValueWithScientificNotation(value, decimals=3, sciThreshold = 1e-3) {
+    if (value === 0) {
+        return (0).toFixed(decimals);
+    }
+
+    const absVal = Math.abs(value);
+
+    // Use scientific notation for tiny numbers
+    if (absVal < sciThreshold) {
+        return value.toExponential(decimals);
+    }
+    return value.toFixed(decimals);
+}

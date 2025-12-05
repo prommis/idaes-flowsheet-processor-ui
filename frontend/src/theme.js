@@ -1,7 +1,7 @@
 /**
  * Different strokes for different (funding) folks.
  */
-import { getVersionDate } from './assets/util';
+import { getVersionDate } from './util';
 // NAWI
 import nawiLogoFull from './assets/nawi-full-logo.png';
 import nawiLogo from './assets/nawi-logo-color.png';
