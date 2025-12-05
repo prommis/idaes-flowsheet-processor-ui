@@ -5,6 +5,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { Table, TableBody, TableCell, TableHead, TableRow, TableContainer, ListItemButton } from '@mui/material';
 import { Grid, Typography, Button, InputLabel, Tabs, Tab, Box, List, ListItem } from '@mui/material';
 import Plot from 'react-plotly.js';
+import { formatValueWithScientificNotation } from '../../util';
 
 export default function SweepOutput(props) {
     const { sweep_results, output_exports, downloadOutput } = props;
@@ -57,12 +58,13 @@ export default function SweepOutput(props) {
             ys.push([])
         }
         for (let each of sweep_results.values) {
-            x.push(Math.round(each[0] * 1000) / 1000)
+            x.push(formatValueWithScientificNotation(each[0], 3))
             
             for(let i = 1; i < each.length; i++) {
                 let out=null
-                if (each[i]!==null){
-                    out = Math.round(each[i] * 1000) / 1000}
+                if (each[i]!==null) {
+                    out = formatValueWithScientificNotation(each[i], 3)
+                }
                 ys[i-1].push(out)
             }
         }
@@ -173,11 +175,12 @@ export default function SweepOutput(props) {
             let z = []
             let currZ = []
             for (let each of sweep_results.values) {
-                let tempX = Math.round(each[xIndex] * 1000) / 1000
-                let tempY = Math.round(each[yIndex] * 1000) / 1000
+                let tempX = formatValueWithScientificNotation(each[xIndex], 3)
+                let tempY = formatValueWithScientificNotation(each[yIndex], 3)
                 let tempZ = null
-                if (each[zIndex]!==null){
-                tempZ = Math.round(each[zIndex] * 1000) / 1000}
+                if (each[zIndex]!==null) {
+                    tempZ = formatValueWithScientificNotation(each[zIndex], 3)
+                }
            
 
                 if(!x.includes(tempX)) {
@@ -190,8 +193,9 @@ export default function SweepOutput(props) {
 
             for (let each of sweep_results.values) {
                 let tempZ = null
-                if (each[zIndex]!==null){
-                tempZ = Math.round(each[zIndex] * 1000) / 1000}
+                if (each[zIndex]!==null) {
+                    tempZ = formatValueWithScientificNotation(each[zIndex], 3)
+                }
                 currZ.push(tempZ)
                 if (currZ.length === x.length) {
                     z.push(currZ)
@@ -255,7 +259,6 @@ export default function SweepOutput(props) {
                 let max = Math.max(...each.values)
                 let min = Math.min(...each.values)
                 if (max > 0 && min > 0) {
-                    // maxRange = Math.ceil(max) + Math.ceil(min)
                     each.range = [0, Math.ceil(max+min)]
                 }
             }
@@ -320,7 +323,10 @@ export default function SweepOutput(props) {
                                                 style={cidx < sweep_results.num_parameters ? styles.parameters : styles.outputs} key={`cell_${cidx}`} 
                                                 align="right"
                                             > 
-                                                {cell && cell.toFixed(3)}
+                                                {
+                                                    cell && 
+                                                    formatValueWithScientificNotation(cell, 3)
+                                                }
                                             </TableCell>
                                     )
                                 })}
