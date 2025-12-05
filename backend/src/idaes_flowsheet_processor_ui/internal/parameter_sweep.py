@@ -1,17 +1,12 @@
 from pathlib import Path
 from fastapi import HTTPException
 import numpy as np
-from parameter_sweep import LinearSample, ParameterSweep, parameter_sweep
-from importlib import import_module
+from parameter_sweep import LinearSample, ParameterSweep
 import idaes.logger as idaeslog
-# import pyomo.environ as pyo
 from pyomo.environ import (
-    ConcreteModel,
     value as pyovalue,
-    Var,
     units as pyunits,
 )
-# from pyomo.core.base.units_container import get_units
 
 _log = idaeslog.getLogger(__name__)
 
