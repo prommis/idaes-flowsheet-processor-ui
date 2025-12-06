@@ -24,8 +24,8 @@ export const themes = {
             '(WaterTAP) is an open-source Python-based software package that ' +
             'supports the technoeconomic assessment of full water treatment trains.',
         projectRelease: {
-            'version': `${process.env.REACT_APP_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
-                'WaterTAP': `${process.env.REACT_APP_PROJECT_VERSION || '1.1.0'}`
+            'version': `${import.meta.env.VITE_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
+                'WaterTAP': `${import.meta.env.VITE_PROJECT_VERSION || '1.1.0'}`
             }
         },
         splashImage: nawiSplash,
@@ -52,8 +52,8 @@ export const themes = {
             'enduring strategic objectives: security, economic competitiveness, ' +
             'and environmental responsibility', 
         projectRelease: {
-            'version': `${process.env.REACT_APP_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
-                'PROMMIS': `${process.env.REACT_APP_PROJECT_VERSION || '0.3.1'}`
+            'version': `${import.meta.env.VITE_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
+                'PROMMIS': `${import.meta.env.VITE_PROJECT_VERSION || '0.3.1'}`
             }
         },
         splashImage: prommisSplash,
@@ -79,8 +79,8 @@ export const themes = {
             'to enable the design and optimization of complex, interacting energy and ' +
             'process systems ',
         projectRelease: {
-            'version': `${process.env.REACT_APP_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
-                'IDAES': `${process.env.REACT_APP_PROJECT_VERSION || '2.5.0'}`
+            'version': `${import.meta.env.VITE_BUILD_VERSION || getVersionDate()}`, 'depVersions': {
+                'IDAES': `${import.meta.env.VITE_PROJECT_VERSION || '2.5.0'}`
             }
         },
         splashImage: idaesSplash,

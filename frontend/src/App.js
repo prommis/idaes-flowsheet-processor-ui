@@ -22,7 +22,7 @@ function App() {
         if not found, use watertap as default
     */
     const default_project_name = 'watertap'
-    const env_project_name = process.env.REACT_APP_PROJECT
+    const env_project_name = import.meta.env.VITE_PROJECT
     const stored_project_name = localStorage.getItem("theme")
     console.debug("Project names, in order of precedence: env:", env_project_name,
         ", stored:", stored_project_name, ", default:", default_project_name)
