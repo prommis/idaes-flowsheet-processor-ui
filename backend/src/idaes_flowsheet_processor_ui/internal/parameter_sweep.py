@@ -159,7 +159,7 @@ def run_parameter_sweep(flowsheet, info):
         raise HTTPException(500, detail=f"Sweep failed: {err}")
     results_table["values"] = results[0].tolist()
     for value in results_table["values"]:
-        for i in range(len(value)):
+        for i in range(1, len(value)):
             if np.isnan(value[i]):
                 value[i] = None
             else:
@@ -167,7 +167,6 @@ def run_parameter_sweep(flowsheet, info):
                 value_with_correct_units = convert_units(flowsheet=flowsheet, key=key)
                 # print(f"convert_units produces: {value_with_correct_units} from {pyovalue(flowsheet.fs_exp.exports[key].obj)}")
                 value[i] = value_with_correct_units
-
     results_table["keys"] = keys
     results_table["num_parameters"] = len(parameters)
     results_table["num_outputs"] = len(output_params)
