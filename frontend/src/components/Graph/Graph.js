@@ -10,6 +10,8 @@ export default function Graph() {
   let params = useParams();
     useEffect(() => {
       
+      if (!params.id) {return;}
+
       getDiagram(params.id)
       .then(response => {
       if (response.status === 200) {
@@ -30,7 +32,7 @@ export default function Graph() {
       }
       })
 
-    },[tryAgain])
+    },[tryAgain, params.id])
 
     const noImage = () => {
       return <h1 style={{marginTop:'50px'}}>No Diagram Found</h1>
