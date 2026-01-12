@@ -21,9 +21,9 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
 
         // set invalid text input. do it twice to ensure it registers in slow windows runner
         cy.set_ro_flowrate('dfas');
-        cy.wait(5000)
+        cy.wait(1000)
         cy.set_ro_flowrate('dfas');
-        cy.wait(5000)
+        cy.wait(1000)
         cy.screenshot('invalid-text-input');
 
         // solve flowsheet
@@ -40,7 +40,7 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
 
     it('tests logging panel', () => {
         cy.load_flowsheets_list()
-        cy.wait(5000)
+        cy.wait(3000)
         cy.screenshot('loaded flowsheet list page')
         
         // open logging panel
@@ -130,7 +130,7 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
     
             // Click compare tab
             cy.findByRole('tab', {name: /compare/i}).click()
-            cy.wait(5000)
+            cy.wait(3000)
     
             // Verify that new name is shown in comparison table
             cy.findAllByRole('tabpanel', {name: /compare/i})
@@ -171,7 +171,7 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
 
             // run sweep
             cy.solve_flowsheet()
-            cy.wait(5000)
+            cy.wait(3000)
             cy.screenshot('ran parameter sweep '+flowsheet.name)
 
             // verify that sweep was successful
@@ -206,11 +206,11 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
         cy.findByRole('tab', {name: /input/i, timeout: 15000}).click();
         cy.screenshot('value: input-tab-click-' + flowsheet_name);
 
-        cy.findByRole('textbox', {name: 'Water mass flowrate', timeout: 15000}).invoke('val').then((val) => {
+        cy.findByRole('textbox', {name: 'Feed water mass flowrate', timeout: 15000}).invoke('val').then((val) => {
             const changed_val = val * 1.02
 
             // change input 
-            cy.enter_text('role' ,'textbox', changed_val, 'Water mass flowrate')
+            cy.enter_text('role' ,'textbox', changed_val, 'Feed water mass flowrate')
 
             // Take the screenshot after the input has v has been logged
             cy.screenshot('value: input-change-' + flowsheet_name);
@@ -279,7 +279,7 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
         cy.findByRole('tab', {name: /output/i, timeout: 15000}).click()
         cy.screenshot('fixed_free: LOOK' + flowsheet.name);
 
-        cy.wait(5000)
+        // cy.wait(3000)
 
         // // check for flag 
         cy.get('#inputChangeFlag', {timeout: 15000}).should('exist');

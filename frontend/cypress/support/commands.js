@@ -67,7 +67,7 @@ Cypress.Commands.add('reset_flowsheet', () => {
  * From page: Inputs
  */
 Cypress.Commands.add('set_ro_flowrate', (value) => {
-    let input_textbox_name = 'Water mass flowrate';
+    let input_textbox_name = 'Feed water mass flowrate';
     let input_textbox = cy.findByRole('textbox', {name: input_textbox_name, timeout: 20000});
     input_textbox.click({force:true});
     input_textbox = cy.findByRole('textbox', {name: input_textbox_name, timeout: 20000});
