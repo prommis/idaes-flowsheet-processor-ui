@@ -1,13 +1,10 @@
 from pathlib import Path
 from fastapi import HTTPException
 import numpy as np
-from parameter_sweep import LinearSample, ParameterSweep, parameter_sweep
-from importlib import import_module
+from parameter_sweep import LinearSample, ParameterSweep
 import idaes.logger as idaeslog
 from pyomo.environ import (
-    ConcreteModel,
-    value,
-    Var,
+    value as pyovalue,
     units as pyunits,
 )
 
@@ -29,13 +26,12 @@ def set_up_sensitivity(m, solve, output_params):
     return outputs, optimize_kwargs, opt_function
 
 
-def get_conversion_unit(flowsheet, key):
-    obj = flowsheet.fs_exp.exports[key].obj
+def convert_units(flowsheet, key):
+    variable_obj = flowsheet.fs_exp.exports[key].obj
     ui_units = flowsheet.fs_exp.exports[key].ui_units
-    temp = Var(initialize=1, units=obj.get_units())
-    temp.construct()
-    crv = value(pyunits.convert(temp, to_units=ui_units))
-    return crv
+    new_value = pyovalue(pyunits.convert(variable_obj, to_units=ui_units))
+    return new_value
+
 
 
 def run_analysis(
@@ -91,11 +87,9 @@ def run_analysis(
 
 def run_parameter_sweep(flowsheet, info):
     try:
-        _log.info("trying to sweep")
         parameters = []
         output_params = []
         keys = []
-        conversion_factors = []
         results_table = {"headers": []}
         for key in flowsheet.fs_exp.exports:
             if flowsheet.fs_exp.exports[key].is_sweep:
@@ -106,7 +100,6 @@ def run_parameter_sweep(flowsheet, info):
                     results_table["headers"].append(
                         flowsheet.fs_exp.exports[key].name
                     )
-                    conversion_factor = get_conversion_unit(flowsheet, key)
                     try:
                         parameters.append(
                             {
@@ -131,7 +124,6 @@ def run_parameter_sweep(flowsheet, info):
                         )
                     # HTTPException(500, detail=f"Sweep failed: {parameters}")
                     flowsheet.fs_exp.exports[key].obj.fix()
-                    conversion_factors.append(conversion_factor)
                     keys.append(key)
         for key in flowsheet.fs_exp.exports:
             if (
@@ -146,12 +138,6 @@ def run_parameter_sweep(flowsheet, info):
                 results_table["headers"].append(
                     flowsheet.fs_exp.exports[key].name
                 )
-
-                try:
-                    conversion_factor = get_conversion_unit(flowsheet, key)
-                except Exception as e:
-                    conversion_factor = 1
-                conversion_factors.append(conversion_factor)
                 output_params.append(
                     {
                         "name": flowsheet.fs_exp.exports[key].name,
@@ -173,12 +159,14 @@ def run_parameter_sweep(flowsheet, info):
         raise HTTPException(500, detail=f"Sweep failed: {err}")
     results_table["values"] = results[0].tolist()
     for value in results_table["values"]:
-        for i in range(len(value)):
+        for i in range(1, len(value)):
             if np.isnan(value[i]):
                 value[i] = None
             else:
-                conversion_factor = conversion_factors[i]
-                value[i] = value[i] * conversion_factor
+                key = keys[i]
+                value_with_correct_units = convert_units(flowsheet=flowsheet, key=key)
+                # print(f"convert_units produces: {value_with_correct_units} from {pyovalue(flowsheet.fs_exp.exports[key].obj)}")
+                value[i] = value_with_correct_units
     results_table["keys"] = keys
     results_table["num_parameters"] = len(parameters)
     results_table["num_outputs"] = len(output_params)

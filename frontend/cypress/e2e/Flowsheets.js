@@ -2,7 +2,7 @@ export const flowsheets = [
     {
         name: 'NF-DSPM-DE flowsheet',
         buildRequired: true,
-        sweepVariable: 'Volumetricflowrate',
+        sweepVariable: 'Feedvolumetricflowrate',
         sweepValues: ['3500', '3600']
     },
     //BSM2 has issues on Mac/Linux
@@ -21,7 +21,7 @@ export const flowsheets = [
     {
         name: 'Dye Desalination flowsheet',
         buildRequired: false,
-        sweepVariable: 'Volumetricflowrate',
+        sweepVariable: 'Feedvolumetricflowrate',
         sweepValues: ['270', '290'],
     },
     {
@@ -33,19 +33,19 @@ export const flowsheets = [
     {
         name: 'RO with energy recovery flowsheet',
         buildRequired: false,
-        sweepVariable: 'Watermassflowrate',
+        sweepVariable: 'Feedwatermassflowrate',
         sweepValues: ['0.7','0.8'],
     },
     {
         name: 'OARO flowsheet',
         buildRequired: true,
-        sweepVariable: 'Watermassflowrate',
+        sweepVariable: 'Feedwatermassflowrate',
         sweepValues: ['5','6'],
     },
     {
         name: 'Granular Activated Carbon (GAC) flowsheet',
         buildRequired: true,
-        sweepVariable: 'Apparentdensity',
+        sweepVariable: 'GACmediaapparentdensity',
         sweepValues: ['700','800'],
     },
     {

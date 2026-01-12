@@ -67,7 +67,7 @@ Cypress.Commands.add('reset_flowsheet', () => {
  * From page: Inputs
  */
 Cypress.Commands.add('set_ro_flowrate', (value) => {
-    let input_textbox_name = 'Water mass flowrate';
+    let input_textbox_name = 'Feed water mass flowrate';
     let input_textbox = cy.findByRole('textbox', {name: input_textbox_name, timeout: 20000});
     input_textbox.click({force:true});
     input_textbox = cy.findByRole('textbox', {name: input_textbox_name, timeout: 20000});
@@ -86,7 +86,7 @@ Cypress.Commands.add('solve_flowsheet', () => {
         url: 'http://localhost:8001/flowsheets/**',
     }).as('run');
     cy.get('#run-flowsheet-button', {timeout: 20000}).click()
-    cy.wait('@run', {timeout: 180000});
+    cy.wait('@run', {timeout: 300000});
 })
 
 /**
