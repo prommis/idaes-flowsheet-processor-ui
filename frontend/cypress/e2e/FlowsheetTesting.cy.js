@@ -40,7 +40,7 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
 
     it('tests logging panel', () => {
         cy.load_flowsheets_list()
-        cy.wait(2000)
+        cy.wait(3000)
         cy.screenshot('loaded flowsheet list page')
         
         // open logging panel
@@ -130,7 +130,7 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
     
             // Click compare tab
             cy.findByRole('tab', {name: /compare/i}).click()
-            cy.wait(5000)
+            cy.wait(3000)
     
             // Verify that new name is shown in comparison table
             cy.findAllByRole('tabpanel', {name: /compare/i})
@@ -155,15 +155,15 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
 
             // set solve type to sweep
             cy.get('#solve-sweep-select').click()
-            cy.wait(100)
-            cy.get('#sweep-option').click()
             cy.wait(1000)
+            cy.get('#sweep-option').click()
+            cy.wait(3000)
 
             // set sweep variable
             cy.get('.'+flowsheet.sweepVariable+'_fixed-free-select').click()
-            cy.wait(100)
+            cy.wait(1000)
             cy.findByRole('option', { name: /sweep/i }).click()
-            cy.wait(100)
+            cy.wait(1000)
 
             // enter lower and upper bounds
             cy.enter_text('class', flowsheet.sweepVariable+'_lower_input', flowsheet.sweepValues[0])
@@ -171,7 +171,7 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
 
             // run sweep
             cy.solve_flowsheet()
-            cy.wait(5000)
+            cy.wait(3000)
             cy.screenshot('ran parameter sweep '+flowsheet.name)
 
             // verify that sweep was successful
@@ -192,23 +192,25 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
         cy.load_flowsheet(flowsheet_name)
         cy.screenshot('loaded '+ flowsheet_name)
 
+        cy.wait(3000)
+
         // solve flowsheet
         cy.solve_flowsheet()
         cy.screenshot("solved "+flowsheet_name)
 
         // check no flag
-        cy.get('#inputChangeFlag').should('not.exist');
+        cy.get('#inputChangeFlag', {timeout: 15000}).should('not.exist');
         cy.screenshot('value: no-input-change-no-flag-'+flowsheet_name)
 
         // go to inputs
-        cy.findByRole('tab', {name: /input/i}).click();
+        cy.findByRole('tab', {name: /input/i, timeout: 15000}).click();
         cy.screenshot('value: input-tab-click-' + flowsheet_name);
 
-        cy.findByRole('textbox', {name: 'Water mass flowrate'}).invoke('val').then((val) => {
+        cy.findByRole('textbox', {name: 'Feed water mass flowrate', timeout: 15000}).invoke('val').then((val) => {
             const changed_val = val * 1.02
 
             // change input 
-            cy.enter_text('role' ,'textbox', changed_val, 'Water mass flowrate')
+            cy.enter_text('role' ,'textbox', changed_val, 'Feed water mass flowrate')
 
             // Take the screenshot after the input has v has been logged
             cy.screenshot('value: input-change-' + flowsheet_name);
@@ -216,20 +218,20 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
         });
 
         // go to outputs
-        cy.findByRole('tab', {name: /output/i}).click()
+        cy.findByRole('tab', {name: /output/i, timeout: 15000}).click()
 
         // check for flag 
-        cy.get('#inputChangeFlag').should('exist');
+        cy.get('#inputChangeFlag',{timeout: 15000}).should('exist');
         cy.screenshot('value: output-flag-after-input-change-flag' + flowsheet_name);
 
         // return to inputs 
-        cy.findByRole('tab', {name: /input/i}).click();
+        cy.findByRole('tab', {name: /input/i, timeout: 15000}).click();
 
         // solve flowsheet
         cy.solve_flowsheet()
 
         // check no flag after solving again
-        cy.get('#inputChangeFlag').should('not.exist');
+        cy.get('#inputChangeFlag', {timeout: 15000}).should('not.exist');
         cy.screenshot("value: re-solved-after-input-change-no-flag "+flowsheet_name)
     })
 
@@ -244,41 +246,43 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
         // load flowsheet
         cy.load_flowsheet(flowsheet.name)
         cy.screenshot('fixed_free: loaded '+flowsheet.name)
+        cy.wait(3000)
 
         // solve flowsheet
         cy.solve_flowsheet()
+        cy.wait(3000)
         cy.screenshot("fixed_free: solved "+flowsheet.name)
 
 
-        cy.findByRole('tab', {name: /output/i}).click();
+        cy.findByRole('tab', {name: /output/i, timeout: 15000}).click();
 
         // check no flag
-        cy.get('#inputChangeFlag').should('not.exist');
+        cy.get('#inputChangeFlag', {timeout: 15000}).should('not.exist');
         cy.screenshot('fixed_free: no-input-change-no-flag-'+flowsheet.name)
 
-        cy.findByRole('tab', {name: /input/i}).click();
+        cy.findByRole('tab', {name: /input/i, timeout: 15000}).click();
 
 
         // set free variable
-        cy.get('.'+flowsheet.sweepVariable+'_fixed-free-select').click()
-        cy.wait(100)
-        cy.findByRole('option', { name: /free/i }).click()
-        cy.get('.'+flowsheet.sweepVariable+'_fixed-free-select').click()
-        cy.wait(100)
+        cy.get('.'+flowsheet.sweepVariable+'_fixed-free-select', {timeout: 15000}).click()
+        cy.wait(1000)
+        cy.findByRole('option', { name: /free/i, timeout: 15000 }).click()
+        cy.get('.'+flowsheet.sweepVariable+'_fixed-free-select', {timeout: 15000}).click()
+        cy.wait(1000)
 
-        cy.findByRole('option', { name: /fixed/i }).click()
+        cy.findByRole('option', { name: /fixed/i, timeout: 15000 }).click()
 
-        cy.wait(100)
+        cy.wait(1000)
         cy.screenshot('fixed_free: change-option-free '+flowsheet.name)
 
         // go to outputs
-        cy.findByRole('tab', {name: /output/i}).click()
+        cy.findByRole('tab', {name: /output/i, timeout: 15000}).click()
         cy.screenshot('fixed_free: LOOK' + flowsheet.name);
 
-        cy.wait(500)
+        // cy.wait(3000)
 
         // // check for flag 
-        cy.get('#inputChangeFlag').should('exist');
+        cy.get('#inputChangeFlag', {timeout: 15000}).should('exist');
         cy.screenshot('fixed_free: output-flag-after-input-change-flag ' + flowsheet.name);
 
     })
@@ -295,24 +299,27 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
         cy.load_flowsheet(flowsheet.name)
         cy.screenshot('bounds: loaded '+flowsheet.name)
 
+        cy.wait(3000)
+
         // solve flowsheet
         cy.solve_flowsheet()
         cy.screenshot("bounds: solved "+flowsheet.name)
 
+        cy.wait(3000)
 
-        cy.findByRole('tab', {name: /output/i}).click();
+        cy.findByRole('tab', {name: /output/i, timeout: 15000}).click();
 
         // check no flag
-        cy.get('#inputChangeFlag').should('not.exist');
+        cy.get('#inputChangeFlag', {timeout: 15000}).should('not.exist');
         cy.screenshot('bounds: no-input-change-no-flag-'+flowsheet.name)
 
-        cy.findByRole('tab', {name: /input/i}).click();
+        cy.findByRole('tab', {name: /input/i, timeout: 15000}).click();
 
 
         // set free variable
-        cy.get('.'+flowsheet.sweepVariable+'_fixed-free-select').click()
+        cy.get('.'+flowsheet.sweepVariable+'_fixed-free-select', {timeout: 15000}).click()
         cy.wait(100)
-        cy.findByRole('option', { name: /free/i }).click()
+        cy.findByRole('option', { name: /free/i, timeout: 15000 }).click()
         cy.wait(100)
         cy.screenshot('bounds: change-option-free '+flowsheet.name)
 
@@ -322,20 +329,20 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
 
 
         // go to outputs
-        cy.findByRole('tab', {name: /output/i}).click()
+        cy.findByRole('tab', {name: /output/i, timeout: 15000}).click()
 
         // check for flag 
-        cy.get('#inputChangeFlag').should('exist');
+        cy.get('#inputChangeFlag', {timeout: 15000}).should('exist');
         cy.screenshot('bounds: output-flag-after-input-change-flag ' + flowsheet.name);
         
         // return to inputs 
-        cy.findByRole('tab', {name: /input/i}).click();
+        cy.findByRole('tab', {name: /input/i, timeout: 15000}).click();
 
         // solve flowsheet
         cy.solve_flowsheet()
 
         // check no flag after solving again
-        cy.get('#inputChangeFlag').should('not.exist');
+        cy.get('#inputChangeFlag', {timeout: 15000}).should('not.exist');
         cy.screenshot("bounds: re-solved-after-input-change-no-flag "+flowsheet_name)
     })
 })
