@@ -39,6 +39,7 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
     })
 
     it('tests logging panel', () => {
+
         cy.load_flowsheets_list()
         cy.wait(3000)
         cy.screenshot('loaded flowsheet list page')

@@ -3,7 +3,19 @@
  */
 import '@testing-library/cypress/add-commands';
 require('cypress-downloadfile/lib/downloadFileCommand');
-
+// require('dotenv').config();
+/**
+ * Go to home page of the app
+ *
+ * From page: any
+ */
+Cypress.Commands.add('set_project', () => {
+    cy.request({
+        method: 'POST',
+        url: 'http://localhost:8001/flowsheets/set_project',
+        body: {project:'nawi',data_location:'user_home'}
+    });
+})
 /**
  * Go to home page of the app
  *
@@ -97,7 +109,7 @@ Cypress.Commands.add('solve_flowsheet', () => {
 Cypress.Commands.add('save_configuration', () => {
     cy.intercept({
         method: "POST",
-        url: "http://localhost:8001/flowsheets/**",
+        url: 'http://localhost:8001/flowsheets/**',
     }).as("saveConfig");
     cy.findByRole('button', {name: /save/i}).click()
     cy.wait("@saveConfig");

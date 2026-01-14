@@ -61,6 +61,18 @@ For PROMMIS:
 ```sh
 pip install prommis
 ```
+# Changing default UI settings
+
+The user can adjust web address for the backend end, and location of databases created by the backend through react .env file. The defaults rarely needs changing but can be adjusted by:
+
+1. create a file called '.env.local' in 'frontend' folder. This file will not be tracked by git. 
+2. Add the following into the file and adjust options as needed (these are also defautls in the current .env file)
+   
+    # Back end host:port
+    # This address must match the address specified in backend\src\idaes_flowsheet_processor_ui\main.py
+    REACT_APP_BACK_END_URL = http://localhost:8001
+    # Database location - this stores where flowsheet data is kept, default location is user home found via Path.home()
+    REACT_APP_BACKEND_DATABASE_LOCATION = user_home
 
 # Running the UI
 
