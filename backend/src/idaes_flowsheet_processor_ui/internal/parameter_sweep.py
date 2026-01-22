@@ -6,6 +6,7 @@ import idaes.logger as idaeslog
 from pyomo.environ import (
     value as pyovalue,
     units as pyunits,
+    Var,
 )
 
 _log = idaeslog.getLogger(__name__)
@@ -26,15 +27,16 @@ def set_up_sensitivity(m, solve, output_params):
     return outputs, optimize_kwargs, opt_function
 
 def convert_units(flowsheet, key, value):
-    variable_obj = flowsheet.fs_exp.exports[key].obj
-    ui_units = flowsheet.fs_exp.exports[key].ui_units
     try:
-        variable_obj.fix(value)
-        new_value = pyovalue(pyunits.convert(variable_obj, to_units=ui_units))
+        obj = flowsheet.fs_exp.exports[key].obj
+        ui_units = flowsheet.fs_exp.exports[key].ui_units
+        temp = Var(initialize=1, units=obj.get_units())
+        temp.construct()
+        crv = pyovalue(pyunits.convert(temp, to_units=ui_units))
+        return crv
     except Exception as e:
         print(f"unable to convert {key}: {e}")
-        new_value = value
-    return new_value
+        return value
 
 def run_analysis(
     flowsheet,
