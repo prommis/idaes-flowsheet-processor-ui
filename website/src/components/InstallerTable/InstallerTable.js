@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 function parseProjectVersionNumber(text, projectName) {
-  const regex = new RegExp(`${projectName} version: (\\d+(?:\\.\\d+)*(?:\\w+)?)`, 'i');
+  const regex = new RegExp(`${projectName} version: (\\d+(?:\\.[0-9A-Za-z]+)*)`, 'i');
   const match = text.match(regex);
   return match ? match[1] : null;
 }
