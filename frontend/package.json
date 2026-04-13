@@ -61,14 +61,18 @@
   "homepage": ".",
   "packageManager": "npm@10.10.0+sha1.f657bc37aa5e08da2ecff3877fe3bbb4b13703ba",
   "overrides": {
+    "@remix-run/router": "1.23.2",
     "flatted": "3.4.2",
     "rollup": "4.59.0"
+    ,
+    "systeminformation": "5.31.0",
+    "underscore": "1.13.8"
   },
   "devDependencies": {
     "@testing-library/user-event": "^14.6.1",
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/ui": "^4.0.8",
-    "happy-dom": "^20.0.10",
+    "happy-dom": "20.8.9",
     "vite": "^6.4.1",
     "vitest": "^4.0.8"
   }
