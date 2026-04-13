@@ -17,7 +17,7 @@ dependencies = [
     "pydantic >= 2, <3",
     "pydantic-settings",
     "pyomo",
-    "python-multipart",
+    "python-multipart>=0.0.22",
     "requests",
     "tinydb",
     "uvicorn",
