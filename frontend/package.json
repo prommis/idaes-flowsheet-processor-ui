@@ -29,7 +29,6 @@
     "react-plotlyjs": "^0.4.4",
     "react-router-dom": "^6.3.0",
     "react-select": "^5.10.1",
-    "wait-on": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
