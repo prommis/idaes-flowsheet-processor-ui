@@ -605,9 +605,9 @@ class FlowsheetManager:
         try:
             dof = degrees_of_freedom(flowsheet.fs_exp.m)
             flowsheet.fs_exp.dof = dof
-            return flowsheet
         except Exception as e:
-            _log.info(f"exception on update_degrees_of_freedom: {e}")
+            _log.error(f"exception on degrees_of_freedom: {e}")
+        return flowsheet
 
     def get_number_of_subprocesses(self):
         # _log.info(f'getting number of subprocesses')
