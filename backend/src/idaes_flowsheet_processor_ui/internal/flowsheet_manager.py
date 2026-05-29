@@ -603,11 +603,10 @@ class FlowsheetManager:
 
     def update_degrees_of_freedom(self, flowsheet):
         try:
-            dof = degrees_of_freedom(flowsheet.fs_exp.m)
-            flowsheet.fs_exp.dof = dof
-        except Exception as e:
-            _log.error(f"exception on degrees_of_freedom: {e}")
-        return flowsheet
+            model = flowsheet.fs_exp.m
+        except AttributeError:
+            raise AttributeError("Cannot get model from flowsheet object")
+        flowsheet.fs_exp.dof = degrees_of_freedom(model)
 
     def get_number_of_subprocesses(self):
         # _log.info(f'getting number of subprocesses')

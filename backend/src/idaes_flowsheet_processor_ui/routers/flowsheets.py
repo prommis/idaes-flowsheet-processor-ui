@@ -285,7 +285,7 @@ async def update(flowsheet_id: str, request: Request):
             400,
             f"Cannot update flowsheet id='{flowsheet_id}' due to invalid data input",
         )
-    flowsheet = flowsheet_manager.update_degrees_of_freedom(flowsheet)
+    flowsheet_manager.update_degrees_of_freedom(flowsheet)
     flowsheet_manager.get_info(flowsheet_id).updated()
     return flowsheet.fs_exp
 
