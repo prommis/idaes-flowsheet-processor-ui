@@ -47,21 +47,23 @@ export default function SingleOutput(props) {
         console.debug("flowsheetData output:", flowsheetData.outputData)
         for (let key of Object.keys(export_variables)) {
             let export_variable = export_variables[key]
-            let category = export_variable.output_category
-            if (!category) category = export_variable.input_category
-            let category_rows
-            if (Object.keys(rows).includes(category)) category_rows = rows[category]
-            else {
-                category_rows = []
-                rows[category] = category_rows
-            }
-            category_rows.push({
-                key: key,
-                name: export_variable.name,
-                value: export_variable.value,
-                units: export_variable.display_units,
-                rounding: export_variable.rounding || 2
-            })
+            if (export_variable.is_output) {
+                let category = export_variable.output_category
+                if (!category) category = export_variable.input_category
+                let category_rows
+                if (Object.keys(rows).includes(category)) category_rows = rows[category]
+                else {
+                    category_rows = []
+                    rows[category] = category_rows
+                }
+                category_rows.push({
+                    key: key,
+                    name: export_variable.name,
+                    value: export_variable.value,
+                    units: export_variable.display_units,
+                    rounding: export_variable.rounding || 2
+                })
+            } 
         }
         setOutputTableData(rows)
 
