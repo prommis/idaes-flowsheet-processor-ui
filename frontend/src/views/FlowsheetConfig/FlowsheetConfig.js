@@ -86,6 +86,7 @@ export default function FlowsheetConfig(props) {
     const [analysisName, setAnalysisName] = useState("")
     const [isBuilt, setIsBuilt] = useState(false)
     const [showBuildOptions, setShowBuildOptions] = useState(false)
+    const [DOF, setDOF] = useState(flowsheetData?.inputData?.dof || 0);
     const theme = props.theme;
 
     const [inputsChanged, setInputsChanged] = useState(false);
@@ -127,6 +128,7 @@ export default function FlowsheetConfig(props) {
         if (!emptyOrNullObj(inputs)) {
             setIsBuilt(true);
         }
+        if (flowsheetData.inputData.dof) setDOF(flowsheetData.inputData.dof)
     }, [flowsheetData])
 
     // useEffect(() => {
@@ -237,6 +239,7 @@ export default function FlowsheetConfig(props) {
               tempFlowsheetData.outputData = outputData
 
             }
+            if (data.dof !== undefined && data.dof !== null) setDOF(data.dof);
             if (update) {
               console.log("SETTING FLOWSHEET DATA")
               setFlowsheetData(tempFlowsheetData)
@@ -339,7 +342,7 @@ export default function FlowsheetConfig(props) {
                                     <Box justifyContent="right" display="flex">
                                         <Typography style={{marginTop: 15}}>
                                             DEGREES OF
-                                            FREEDOM: {flowsheetData.inputData.dof}
+                                            FREEDOM: {DOF}
                                         </Typography>
                                     </Box>
                                 </Grid>

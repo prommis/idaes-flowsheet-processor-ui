@@ -18,6 +18,7 @@ from pathlib import Path
 import time
 from types import ModuleType
 from typing import Optional, Dict, List, Union
+from idaes.core.util.model_statistics import degrees_of_freedom
 
 # third-party
 from fastapi import HTTPException
@@ -599,6 +600,14 @@ class FlowsheetManager:
                     self.add_flowsheet_interface(module_name, fsi, custom=True)
                 except Exception as e:
                     _log.error(f"unable to add flowsheet module: {e}")
+
+    def update_degrees_of_freedom(self, flowsheet):
+        try:
+            dof = degrees_of_freedom(flowsheet.fs_exp.m)
+            flowsheet.fs_exp.dof = dof
+            return flowsheet
+        except Exception as e:
+            _log.info(f"exception on update_degrees_of_freedom: {e}")
 
     def get_number_of_subprocesses(self):
         # _log.info(f'getting number of subprocesses')
