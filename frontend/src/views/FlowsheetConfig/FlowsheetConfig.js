@@ -340,7 +340,7 @@ export default function FlowsheetConfig(props) {
                             {(tabValue === 0 || tabValue === 1) &&
                                 <Grid item xs={6}>
                                     <Box justifyContent="right" display="flex">
-                                        <Typography style={{marginTop: 15}}>
+                                        <Typography style={{marginTop: 15}} id="dof">
                                             DEGREES OF
                                             FREEDOM: {DOF}
                                         </Typography>
