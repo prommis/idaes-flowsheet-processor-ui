@@ -334,4 +334,24 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
         cy.get('#inputChangeFlag', {timeout: 15000}).should('not.exist');
         cy.screenshot("bounds: re-solved-after-input-change-no-flag "+flowsheet_name)
     })
+
+    it('test DOF update', () => {
+        cy.load_flowsheets_list()
+        cy.screenshot('DOF: loaded flowsheet list page')
+        
+        const flowsheet_name = 'RO with energy recovery flowsheet'
+        
+        const flowsheet = flowsheets.find(flowsheet => flowsheet.name === flowsheet_name);
+        
+        // load flowsheet
+        cy.load_flowsheet(flowsheet.name)
+        cy.screenshot('DOF: loaded '+flowsheet.name)
+
+        cy.get('#dof', {timeout: 60000}).contains('0');
+
+        cy.get('.'+flowsheet.sweepVariable+'_fixed-free-select', {timeout: 15000}).click()
+        cy.findByRole('option', { name: /free/i, timeout: 15000 }).click()
+        cy.get('#dof', {timeout: 15000}).contains('1');
+        cy.screenshot("DOF: changed variable to free, degrees of freedom updated to 1");
+    })
 })
