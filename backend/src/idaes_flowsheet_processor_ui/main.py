@@ -5,13 +5,6 @@ import multiprocessing
 import idaes.logger as idaeslog
 import argparse
 
-# Try to set spawn method to fork on macOS for better multiprocessing compatibility
-if hasattr(multiprocessing, 'get_context'):
-    try:
-        multiprocessing.set_start_method('fork', force=True)
-    except RuntimeError:
-        pass  # Already set
-
 ## Put DeferredImportCallbackFinder at the end of sys.meta_path list
 DeferredImportCallbackFinder = [finder for finder in sys.meta_path if "pyomo.common.dependencies" in repr(finder)]
 if len(DeferredImportCallbackFinder) > 0:
@@ -24,22 +17,7 @@ _log = idaeslog.getLogger(__name__)
 from fastapi import FastAPI
 from idaes_flowsheet_processor_ui.routers import flowsheets
 from fastapi.middleware.cors import CORSMiddleware
-app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-app.include_router(flowsheets.router)
-
-
-@app.get("/")
-async def root():
-    return {"message": "Hello IDAES Flowsheet Processor"}
 
 if __name__ == "__main__":
     multiprocessing.freeze_support()
@@ -59,11 +37,27 @@ if __name__ == "__main__":
         except Exception as e:
             os._exit(1)
         os._exit(0)
-    elif run_in_production_mode:
-        _log.info(f"starting backend in production mode")
-        # multiprocessing.freeze_support()
-        uvicorn.run(app, host="127.0.0.1", port=8001, reload=False)
     else:
-        _log.info(f"starting backend in dev mode")
-        # multiprocessing.freeze_support()
-        uvicorn.run("__main__:app", host="127.0.0.1", port=8001, reload=True)
+        app = FastAPI()
+
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+
+        app.include_router(flowsheets.router)
+        @app.get("/")
+        async def root():
+            return {"message": "Hello IDAES Flowsheet Processor"}
+        
+        if run_in_production_mode:
+            _log.info(f"starting backend in production mode")
+            # multiprocessing.freeze_support()
+            uvicorn.run(app, host="127.0.0.1", port=8001, reload=False)
+        else:
+            _log.info(f"starting backend in dev mode")
+            # multiprocessing.freeze_support()
+            uvicorn.run("__main__:app", host="127.0.0.1", port=8001, reload=True)
