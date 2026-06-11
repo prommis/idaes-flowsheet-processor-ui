@@ -48,7 +48,13 @@ if __name__ == "__main__":
     if install_extensions:
         from idaes_flowsheet_processor_ui.internal.get_extensions import get_idaes_extensions
         _log.info("running get_extensions()")
-        get_idaes_extensions()
+        try:
+            get_idaes_extensions()
+        except Exception as e:
+            _log.error(f"Failed to install extensions: {e}")
+            sys.exit(1)
+        _log.info("extensions installation complete, exiting")
+        sys.exit(0)
     elif run_in_production_mode:
         _log.info(f"starting backend in production mode")
         # multiprocessing.freeze_support()
