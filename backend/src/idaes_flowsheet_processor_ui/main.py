@@ -24,13 +24,18 @@ if __name__ == "__main__":
     install_extensions = args.install_idaes_extensions
     if install_extensions:
         from idaes_flowsheet_processor_ui.internal.get_extensions import get_idaes_extensions
+        _log.info("="*60)
+        _log.info("INSTALLATION PHASE STARTED")
+        _log.info(f"Current process ID: {os.getpid()}")
         _log.info("running get_extensions()")
-        get_idaes_extensions()
         try:
             get_idaes_extensions()
             _log.info("get_extensions() completed successfully")
         except Exception as e:
+            _log.error(f"Failed to install extensions: {e}", exc_info=True)
+            _log.info(f"Active process count at error: {multiprocessing.active_children().__len__()}")
             os._exit(1)
+        _log.info("Calling os._exit(0) now...")
         os._exit(0)
     else:
         import uvicorn
