@@ -47,19 +47,42 @@ if __name__ == "__main__":
     install_extensions = args.install_idaes_extensions
     if install_extensions:
         from idaes_flowsheet_processor_ui.internal.get_extensions import get_idaes_extensions
+        _log.info("="*60)
+        _log.info("INSTALLATION PHASE STARTED")
+        _log.info(f"Current process ID: {os.getpid()}")
+        _log.info(f"Active process count at start: {multiprocessing.active_children().__len__()}")
         _log.info("running get_extensions()")
+        
         try:
             get_idaes_extensions()
+            _log.info("get_extensions() completed successfully")
         except Exception as e:
-            _log.error(f"Failed to install extensions: {e}")
+            _log.error(f"Failed to install extensions: {e}", exc_info=True)
+            _log.info(f"Active process count at error: {multiprocessing.active_children().__len__()}")
             sys.exit(1)
+        
+        # Diagnostic logging after get_idaes_extensions completes
+        active_children = multiprocessing.active_children()
+        _log.info(f"Active process count after get_extensions(): {active_children.__len__()}")
+        for child in active_children:
+            _log.info(f"  - Child process: {child.name} (PID: {child.pid}, daemon: {child.daemon})")
+        
         _log.info("extensions installation complete, exiting")
+        _log.info("="*60)
         sys.exit(0)
     elif run_in_production_mode:
-        _log.info(f"starting backend in production mode")
+        _log.info("="*60)
+        _log.info("PRODUCTION MODE STARTED")
+        _log.info(f"Current process ID: {os.getpid()}")
+        _log.info(f"Starting backend in production mode")
+        _log.info("="*60)
         # multiprocessing.freeze_support()
         uvicorn.run(app, host="127.0.0.1", port=8001, reload=False)
     else:
-        _log.info(f"starting backend in dev mode")
+        _log.info("="*60)
+        _log.info("DEV MODE STARTED")
+        _log.info(f"Current process ID: {os.getpid()}")
+        _log.info(f"Starting backend in dev mode")
+        _log.info("="*60)
         # multiprocessing.freeze_support()
         uvicorn.run("__main__:app", host="127.0.0.1", port=8001, reload=True)
