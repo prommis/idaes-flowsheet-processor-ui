@@ -73,7 +73,21 @@ class FlowsheetManager:
 
         Args:
             **kwargs: Passed as keywords to :class:`AppSettings`.
+                initialize (bool): If True, call set_project during init. Default True.
         """
+        _log.debug(f"FlowsheetManager init")
+        initialize = kwargs.pop('initialize', True)
+        self.startup_time = time.time()
+        self._initialized = False
+        
+        if initialize:
+            self._initialize_project()
+
+    def _initialize_project(self):
+        """Initialize project with default or environment value."""
+        if self._initialized:
+            return
+        
         current_project = os.environ.get("project", None)
         if current_project:
             _log.debug(f"set project = {current_project}")
@@ -81,13 +95,13 @@ class FlowsheetManager:
             current_project = Deployment.DEFAULT_PROJ
             _log.debug(f"set project to default = {current_project}")
         self.set_project(current_project)
-        self.startup_time = time.time()
-
+    
     def set_project(self, project: str):
         os.environ["project"] = project
         self._objs, self._flowsheets = {}, {}
         self.project = project
         self._dpy = Deployment(project)
+        self._initialized = True
 
         # Set App Settings
         self.app_settings = AppSettings(
