@@ -1,6 +1,5 @@
 import sys
 import os
-import uvicorn
 import multiprocessing
 import idaes.logger as idaeslog
 import argparse
@@ -13,10 +12,6 @@ if len(DeferredImportCallbackFinder) > 0:
     sys.meta_path.append(DeferredImportCallbackFinder)
 
 _log = idaeslog.getLogger(__name__)
-
-from fastapi import FastAPI
-from idaes_flowsheet_processor_ui.routers import flowsheets
-from fastapi.middleware.cors import CORSMiddleware
 
 
 if __name__ == "__main__":
@@ -38,6 +33,10 @@ if __name__ == "__main__":
             os._exit(1)
         os._exit(0)
     else:
+        import uvicorn
+        from fastapi import FastAPI
+        from idaes_flowsheet_processor_ui.routers import flowsheets
+        from fastapi.middleware.cors import CORSMiddleware
         app = FastAPI()
 
         app.add_middleware(
