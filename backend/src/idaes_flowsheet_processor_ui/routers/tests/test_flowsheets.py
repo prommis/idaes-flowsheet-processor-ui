@@ -13,13 +13,13 @@ os.environ["watertap_packages"] = '["watertap", "examples"]'
 
 import pytest
 from fastapi.testclient import TestClient
-from idaes_flowsheet_processor_ui.main import app
+from idaes_flowsheet_processor_ui.main import get_app
 from idaes_flowsheet_processor_ui.internal import flowsheet_manager as fm
 
 
 @pytest.fixture
 def client():
-    return TestClient(app)
+    return TestClient(get_app())
 
 
 def pytest_generate_tests(metafunc):
