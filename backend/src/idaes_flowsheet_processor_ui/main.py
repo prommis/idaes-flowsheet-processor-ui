@@ -10,6 +10,9 @@ if hasattr(multiprocessing, 'get_context'):
         multiprocessing.set_start_method('fork', force=True)
     except RuntimeError:
         pass  # Already set
+    except ValueError:
+        pass # This is expected on windows
+
 
 ## Put DeferredImportCallbackFinder at the end of sys.meta_path list
 DeferredImportCallbackFinder = [finder for finder in sys.meta_path if "pyomo.common.dependencies" in repr(finder)]
