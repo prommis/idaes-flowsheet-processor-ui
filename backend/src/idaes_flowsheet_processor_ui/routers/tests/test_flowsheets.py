@@ -19,6 +19,13 @@ from idaes_flowsheet_processor_ui.internal import flowsheet_manager as fm
 
 @pytest.fixture
 def client():
+    from idaes_flowsheet_processor_ui.routers import flowsheets as flowsheet_router
+    # The router lazily creates FlowsheetManager(initialize=False) but never
+    # triggers _initialize_project(). Reset and force full initialization for tests.
+    flowsheet_router._flowsheet_manager = None  # discard any stale uninitialized instance
+    mgr = flowsheet_router.get_flowsheet_manager()  # creates the manager via the router's own factory
+    if not mgr._initialized:
+        mgr._initialize_project()
     return TestClient(get_app())
 
 
