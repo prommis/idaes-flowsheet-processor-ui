@@ -42,7 +42,19 @@ router = APIRouter(
     responses={404: {"description": "Flowsheet not found"}},
 )
 
-flowsheet_manager = FlowsheetManager()
+_flowsheet_manager = None
+
+
+def get_flowsheet_manager():
+    """Get or lazily initialize the FlowsheetManager.
+    
+    This allows the manager to be created after the server starts,
+    avoiding initialization during import time.
+    """
+    global _flowsheet_manager
+    if _flowsheet_manager is None:
+        _flowsheet_manager = FlowsheetManager(initialize=False)
+    return _flowsheet_manager
 
 
 @router.get("/", response_model=Dict[str, Union[List, int]])
@@ -52,14 +64,15 @@ async def get_all():
     The result of the first call is stored and returned for subsequent calls,
     without re-discovering the list of modules.
     """
-    flowsheet_list = flowsheet_manager.flowsheets
+    mgr = get_flowsheet_manager()
+    flowsheet_list = mgr.flowsheets
     for each in flowsheet_list:
         # gotta fetch last run for each from tiny db
-        each.set_last_run(flowsheet_manager.get_last_run(each.id_))
+        each.set_last_run(mgr.get_last_run(each.id_))
 
     try:
         currentNumberOfSubprocesses, maxNumberOfSubprocesses = (
-            flowsheet_manager.get_number_of_subprocesses()
+            mgr.get_number_of_subprocesses()
         )
     except Exception as e:
         _log.info(f"unable to get number of subprocesses: {e}")
@@ -84,9 +97,10 @@ async def get_config(id_: str, build: str = "0") -> FlowsheetExport:
     Returns:
         Flowsheet export model
     """
-    flowsheet = flowsheet_manager.get_obj(id_)
+    mgr = get_flowsheet_manager()
+    flowsheet = mgr.get_obj(id_)
     if build == "1":
-        info = flowsheet_manager.get_info(id_)
+        info = mgr.get_info(id_)
         _log.info(f"build param is 1, got info")
         flowsheet.build(build_options=flowsheet.fs_exp.build_options)
         info.updated(built=True)
@@ -111,21 +125,23 @@ async def select_option(id_: str, request: Request) -> FlowsheetExport:
     option_name = req["option_name"]
     new_option = req["new_option"]
 
-    flowsheet = flowsheet_manager.get_obj(id_)
+    mgr = get_flowsheet_manager()
+    flowsheet = mgr.get_obj(id_)
     flowsheet.select_option(option_name, new_option)
     return flowsheet.fs_exp
 
 
 @router.get("/{flowsheet_id}/diagram")
 async def get_diagram(flowsheet_id: str):
-    data = flowsheet_manager.get_diagram(flowsheet_id)
+    data = get_flowsheet_manager().get_diagram(flowsheet_id)
     return StreamingResponse(io.BytesIO(data), media_type="image/png")
 
 
 @router.post("/{flowsheet_id}/solve", response_model=FlowsheetExport)
 async def solve(flowsheet_id: str, request: Request):
-    flowsheet = flowsheet_manager.get_obj(flowsheet_id)
-    info = flowsheet_manager.get_info(flowsheet_id)
+    mgr = get_flowsheet_manager()
+    flowsheet = mgr.get_obj(flowsheet_id)
+    info = mgr.get_info(flowsheet_id)
 
     # update input data before running a solve
     input_data = await request.json()
@@ -149,7 +165,7 @@ async def solve(flowsheet_id: str, request: Request):
             400,
             f"Cannot update flowsheet id='{flowsheet_id}' due to invalid data input",
         )
-    flowsheet_manager.get_info(flowsheet_id).updated()
+    mgr.get_info(flowsheet_id).updated()
 
     # ensure flowsheet is built
     if not info.built:
@@ -164,7 +180,7 @@ async def solve(flowsheet_id: str, request: Request):
         with idaeslog.solver_log(_log, level=idaeslog.INFO) as slc:
             flowsheet.solve()
         # set last run in tiny db
-        flowsheet_manager.set_last_run(info.id_)
+        mgr.set_last_run(info.id_)
     except Exception as err:
         _log.error(f"Solve failed: {err}")
         raise HTTPException(500, detail=f"Solve failed: {err}")
@@ -187,8 +203,9 @@ async def solve(flowsheet_id: str, request: Request):
 
 @router.post("/{flowsheet_id}/sweep", response_model=FlowsheetExport)
 async def sweep(flowsheet_id: str, request: Request):
-    flowsheet = flowsheet_manager.get_obj(flowsheet_id)
-    info = flowsheet_manager.get_info(flowsheet_id)
+    mgr = get_flowsheet_manager()
+    flowsheet = mgr.get_obj(flowsheet_id)
+    info = mgr.get_info(flowsheet_id)
 
     # update input data before running a sweep
     input_data = await request.json()
@@ -212,7 +229,7 @@ async def sweep(flowsheet_id: str, request: Request):
             400,
             f"Cannot update flowsheet id='{flowsheet_id}' due to invalid data input",
         )
-    flowsheet_manager.get_info(flowsheet_id).updated()
+    mgr.get_info(flowsheet_id).updated()
 
     if not info.built:
         try:
@@ -229,22 +246,24 @@ async def sweep(flowsheet_id: str, request: Request):
         )
     flowsheet.fs_exp.sweep_results = results_table
     # set last run in tiny db
-    flowsheet_manager.set_last_run(info.id_)
+    mgr.set_last_run(info.id_)
 
     return flowsheet.fs_exp
 
 
 @router.get("/{flowsheet_id}/reset", response_model=FlowsheetExport)
 async def reset(flowsheet_id: str):
-    flowsheet = flowsheet_manager.get_obj(flowsheet_id)
+    mgr = get_flowsheet_manager()
+    flowsheet = mgr.get_obj(flowsheet_id)
     flowsheet.build(build_options=flowsheet.fs_exp.build_options)
-    flowsheet_manager.get_info(flowsheet_id).updated(built=True)
+    mgr.get_info(flowsheet_id).updated(built=True)
     return flowsheet.fs_exp
 
 
 @router.get("/{flowsheet_id}/unbuild", response_model=FlowsheetExport)
 async def unbuild_config(flowsheet_id: str):
-    flowsheet = flowsheet_manager.get_obj(flowsheet_id)
+    mgr = get_flowsheet_manager()
+    flowsheet = mgr.get_obj(flowsheet_id)
 
     ## reset everything:
     fs_exp = flowsheet.fs_exp
@@ -254,14 +273,15 @@ async def unbuild_config(flowsheet_id: str):
     fs_exp.dof = 0
     fs_exp.sweep_results = {}
     fs_exp.build_options = {}
-    flowsheet_manager.get_info(flowsheet_id).updated(built=False)
+    mgr.get_info(flowsheet_id).updated(built=False)
 
     return flowsheet.fs_exp
 
 
 @router.post("/{flowsheet_id}/update", response_model=FlowsheetExport)
 async def update(flowsheet_id: str, request: Request):
-    flowsheet = flowsheet_manager.get_obj(flowsheet_id)
+    mgr = get_flowsheet_manager()
+    flowsheet = mgr.get_obj(flowsheet_id)
     input_data = await request.json()
     try:
         if _log.isEnabledFor(idaeslog.DEBUG):
@@ -285,7 +305,7 @@ async def update(flowsheet_id: str, request: Request):
             400,
             f"Cannot update flowsheet id='{flowsheet_id}' due to invalid data input",
         )
-    flowsheet_manager.get_info(flowsheet_id).updated()
+    mgr.get_info(flowsheet_id).updated()
     return flowsheet.fs_exp
 
 
@@ -310,7 +330,7 @@ async def save_config(
         name used to save record
     """
     data = await request.json()
-    name = flowsheet_manager.put_flowsheet_data(
+    name = get_flowsheet_manager().put_flowsheet_data(
         id_=flowsheet_id, name=name, data=data, version=version
     )
     return name
@@ -337,13 +357,14 @@ async def upload_flowsheet(files: List[UploadFile]) -> str:
             new_files.append(file.filename)
             if "_ui.py" in file.filename:
                 new_id = file.filename.replace(".py", "")
+            mgr = get_flowsheet_manager()
             async with aiofiles.open(
-                f"{str(flowsheet_manager.app_settings.custom_flowsheets_dir)}/{file.filename}",
+                f"{str(mgr.app_settings.custom_flowsheets_dir)}/{file.filename}",
                 "wb",
             ) as out_file:
                 content = await file.read()  # async read
                 await out_file.write(content)
-        resp = flowsheet_manager.add_custom_flowsheet(new_files, new_id)
+        resp = mgr.add_custom_flowsheet(new_files, new_id)
         if resp == "success":
             return new_id
         else:
@@ -357,7 +378,7 @@ async def upload_flowsheet(files: List[UploadFile]) -> str:
 @router.post("/{flowsheet_id}/remove_flowsheet")
 async def remove_flowsheet(flowsheet_id: str):
     try:
-        flowsheet_manager.remove_custom_flowsheet(flowsheet_id)
+        get_flowsheet_manager().remove_custom_flowsheet(flowsheet_id)
         return {"return": "success boy"}
     except Exception as e:
         _log.error(f"error on flowsheet deletion: {str(e)}")
@@ -381,7 +402,7 @@ async def load_config(flowsheet_id: str, name: str = CURRENT):
     Returns:
         Flowsheet contents, in standard form
     """
-    result = flowsheet_manager.get_flowsheet_data(id_=flowsheet_id, name=name)
+    result = get_flowsheet_manager().get_flowsheet_data(id_=flowsheet_id, name=name)
     if not result:
         raise HTTPException(
             404, f"Cannot find flowsheet id='{flowsheet_id}', name='{name}'"
@@ -404,7 +425,7 @@ async def list_config_names(flowsheet_id: str, version: int) -> List[str]:
     Returns:
         List of names (may be empty)
     """
-    result = flowsheet_manager.list_flowsheet_names(flowsheet_id, version)
+    result = get_flowsheet_manager().list_flowsheet_names(flowsheet_id, version)
     return result
 
 
@@ -420,7 +441,7 @@ async def delete(flowsheet_id: str, name: str) -> List[str]:
         Remaining ist of config names (may be empty) for given flowsheet identifier
     """
     try:
-        result = flowsheet_manager.delete_config(flowsheet_id, name)
+        result = get_flowsheet_manager().delete_config(flowsheet_id, name)
         return result
     except:
         raise HTTPException(404, f"Cannot find flowsheet id='{flowsheet_id}'")
@@ -445,7 +466,7 @@ async def download_single_output(flowsheet_id: str, request: Request) -> Path:
     df = pd.DataFrame(table, columns=columns)
 
     # Write to file
-    path = flowsheet_manager.get_flowsheet_dir(flowsheet_id) / "output_results.csv"
+    path = get_flowsheet_manager().get_flowsheet_dir(flowsheet_id) / "output_results.csv"
     df.to_csv(path, index=False)
     # # User can now download the contents of that file
     return path
@@ -513,7 +534,7 @@ async def download(flowsheet_id: str, request: Request) -> Path:
             idx += 1
 
     # Write to file
-    path = flowsheet_manager.get_flowsheet_dir(flowsheet_id) / "comparison_results.csv"
+    path = get_flowsheet_manager().get_flowsheet_dir(flowsheet_id) / "comparison_results.csv"
     df.to_csv(path, index=False)
 
     # User can now download the contents of that file
@@ -530,14 +551,15 @@ async def download_sweep(flowsheet_id: str) -> Path:
     Returns:
         File to download (path converted to FileResponse by FastAPI)
     """
-    flowsheet = flowsheet_manager.get_obj(flowsheet_id)
+    mgr = get_flowsheet_manager()
+    flowsheet = mgr.get_obj(flowsheet_id)
     sweep_results = flowsheet.fs_exp.sweep_results
     columns = sweep_results["headers"]
     table = sweep_results["values"]
     df = pd.DataFrame(table, columns=columns)
 
     # Write to file
-    path = flowsheet_manager.get_flowsheet_dir(flowsheet_id) / "sweep_results.csv"
+    path = mgr.get_flowsheet_dir(flowsheet_id) / "sweep_results.csv"
     df.to_csv(path, index=False)
     # # User can now download the contents of that file
     return path
@@ -547,7 +569,7 @@ async def download_sweep(flowsheet_id: str) -> Path:
 async def remove_flowsheet(request: Request):
     data = await request.json()
     new_value = data["value"]
-    flowsheet_manager.set_number_of_subprocesses(new_value)
+    get_flowsheet_manager().set_number_of_subprocesses(new_value)
 
     return {"new_value": new_value}
 
@@ -559,8 +581,9 @@ async def get_logs() -> List:
     Returns:
         Logs formatted as a list
     """
-    logs_path = flowsheet_manager.get_logs_path()
-    return parse_logs(logs_path, flowsheet_manager.startup_time)
+    mgr = get_flowsheet_manager()
+    logs_path = mgr.get_logs_path()
+    return parse_logs(logs_path, mgr.startup_time)
 
 
 # @router.get("/project")
@@ -581,7 +604,7 @@ async def download_logs() -> Path:
     Returns:
         Log file
     """
-    logs_path = flowsheet_manager.get_logs_path()
+    logs_path = get_flowsheet_manager().get_logs_path()
     return logs_path
 
 
@@ -593,5 +616,5 @@ async def set_project(project_name: str) -> str:
         Name of the project
     """
     print(f"@@ /set_project/{project_name}")
-    flowsheet_manager.set_project(project_name)
+    get_flowsheet_manager().set_project(project_name)
     return project_name

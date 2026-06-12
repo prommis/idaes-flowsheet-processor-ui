@@ -13,13 +13,20 @@ os.environ["watertap_packages"] = '["watertap", "examples"]'
 
 import pytest
 from fastapi.testclient import TestClient
-from idaes_flowsheet_processor_ui.main import app
+from idaes_flowsheet_processor_ui.main import get_app
 from idaes_flowsheet_processor_ui.internal import flowsheet_manager as fm
 
 
 @pytest.fixture
 def client():
-    return TestClient(app)
+    from idaes_flowsheet_processor_ui.routers import flowsheets as flowsheet_router
+    # The router lazily creates FlowsheetManager(initialize=False) but never
+    # triggers _initialize_project(). Reset and force full initialization for tests.
+    flowsheet_router._flowsheet_manager = None  # discard any stale uninitialized instance
+    mgr = flowsheet_router.get_flowsheet_manager()  # creates the manager via the router's own factory
+    if not mgr._initialized:
+        mgr._initialize_project()
+    return TestClient(get_app())
 
 
 def pytest_generate_tests(metafunc):

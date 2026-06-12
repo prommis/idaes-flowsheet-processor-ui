@@ -81,7 +81,8 @@ jobs:
         run: idaes get-extensions
 
       - name: run backend server
-        run: uvicorn --app-dir backend/src/idaes_flowsheet_processor_ui main:app --reload --host 127.0.0.1 --port 8001 & sleep 30
+        working-directory: frontend
+        run: npm run start-backend & sleep 30
 
       - name: run frontend
         working-directory: frontend

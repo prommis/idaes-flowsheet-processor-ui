@@ -34,6 +34,7 @@ function App() {
     let theme = themes[project_name]
 
     const WAIT_TIME = 1
+    const MAX_RETRIES = 30
 
     // use Material UI theme for styles to be consistent throughout app
     const mui_theme = createTheme({
@@ -46,15 +47,18 @@ function App() {
     useEffect(() => {
         if (checkAgain !== 0)
         {
+            if (checkAgain > MAX_RETRIES) {
+                _logError(`Failed to connect to backend after ${MAX_RETRIES} attempts`)
+                // Show error UI or exit gracefully
+                return
+            }
             setProject(theme.project.toLowerCase())
             .then((data) => {
                 localStorage.setItem("theme", theme.project.toLowerCase())
                 setConnectedToBackend(true);
                 setCheckAgain(0)
             }).catch((e) => {
-                // console.log(`unable to get flowsheets, trying again in ${WAIT_TIME} seconds`)
-                // if its taking a long time log the error
-                if (checkAgain > 10) console.log(`get flowsheets failed: ${e}`)
+                if (checkAgain > 5) console.warn(`Attempting to connect to backend (attempt ${checkAgain}/${MAX_RETRIES}): ${e}`)
                 setTimeout(() => {
                     setCheckAgain(checkAgain+1)
                 }, WAIT_TIME * 1000)
