@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "shell-quote": "^1.8.4",
+    "vitest": "^4.1.0"
+  }
+}
