@@ -494,15 +494,16 @@ class FlowsheetManager:
 
     def add_custom_flowsheet(self, new_files, new_id):
         """Add new custom flowsheet to the mini db."""
+        # Reload before validation: a cached exporter could otherwise hide an
+        # invalid upload or keep references to an earlier model/helper module.
+        errors = self.add_custom_flowsheets()
         for f in new_files:
-            if "_ui.py" in f:
-                module_name = f.replace(".py", "")
-                try:
-                    importlib.import_module(module_name)
-                except Exception as e:
-                    _log.info(f"unable to import module: {e}")
+            if f.endswith("_ui.py"):
+                module_name = Path(f).stem
+                if module_name in errors:
                     self.remove_custom_flowsheet_files(new_files)
-                    return e
+                    self.add_custom_flowsheets()
+                    return errors[module_name]
 
         query = tinydb.Query()
         try:
@@ -531,7 +532,6 @@ class FlowsheetManager:
             (query.custom_flowsheets_version == VERSION),
         )
 
-        self.add_custom_flowsheets()
         return "success"
 
     def remove_custom_flowsheet(self, id_):
@@ -576,11 +576,9 @@ class FlowsheetManager:
             (query.custom_flowsheets_version == VERSION),
         )
 
-        # remove from flowsheets list
-        try:
-            del self._flowsheets[id_]
-        except Exception as e:
-            _log.info(f"unable to delete {id_} from flowsheets list")
+        # Remove both the listing and its callable interface.
+        self._flowsheets.pop(id_, None)
+        self._objs.pop(id_, None)
 
         self.add_custom_flowsheets()
 
@@ -594,25 +592,65 @@ class FlowsheetManager:
                 os.remove(flowsheet_file_path)
         return
 
+    def _clear_custom_module_cache(self):
+        """Invalidate uploaded code without reloading installed dependencies."""
+        root = self.custom_flowsheets_path.resolve()
+        custom_modules = []
+        for name, module in list(sys.modules.items()):
+            if not isinstance(module, ModuleType):
+                continue
+            filename = vars(module).get("__file__")
+            paths = [filename] if filename else []
+            paths.extend(vars(module).get("__path__") or ())
+            if any(Path(path).resolve().is_relative_to(root) for path in paths):
+                custom_modules.append(name)
+        for name in custom_modules:
+            sys.modules.pop(name, None)
+
+        # Python's timestamp-based bytecode cache can survive a same-size edit
+        # within one second. Uploaded source must win even in that case.
+        for cache_dir in root.rglob("__pycache__"):
+            for bytecode in cache_dir.glob("*.pyc"):
+                bytecode.unlink(missing_ok=True)
+        importlib.invalidate_caches()
+
     def add_custom_flowsheets(self):
-        """Search for user uploaded flowsheets. If found, add them as flowsheet interfaces."""
+        """Reload uploaded interfaces and return import/interface errors by module."""
+        self._clear_custom_module_cache()
+
+        # Drop references to old callbacks, including interfaces whose updated
+        # source no longer imports successfully. Entry-point interfaces stay put.
+        for module_name, info in list(self._flowsheets.items()):
+            if info.custom:
+                self._flowsheets.pop(module_name)
+                self._objs.pop(module_name, None)
+
         files = []
         for _, _, filenames in os.walk(self.custom_flowsheets_path):
             files.extend(filenames)
             break
 
+        errors = {}
         for f in files:
-            if "_ui.py" in f:
+            if f.endswith("_ui.py"):
+                module_name = Path(f).stem
                 try:
                     _log.info(f"adding imported flowsheet module: {f}")
-                    module_name = f.replace(".py", "")
-                    if module_name in sys.modules:
-                        sys.modules.pop(module_name)
                     custom_module = importlib.import_module(module_name)
+                    expected_path = (self.custom_flowsheets_path / f).resolve()
+                    if Path(custom_module.__file__).resolve() != expected_path:
+                        raise ImportError(
+                            f"Uploaded module '{module_name}' resolves to "
+                            f"'{custom_module.__file__}' instead of '{expected_path}'"
+                        )
                     fsi = self._get_flowsheet_interface(custom_module)
+                    if fsi is None:
+                        raise ValueError(f"No valid flowsheet interface in '{f}'")
                     self.add_flowsheet_interface(module_name, fsi, custom=True)
                 except Exception as e:
                     _log.error(f"unable to add flowsheet module: {e}")
+                    errors[module_name] = e
+        return errors
 
     def get_number_of_subprocesses(self):
         # _log.info(f'getting number of subprocesses')
