@@ -28,17 +28,23 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
     })
 
     it('tests logging panel', () => {
+        // Test log rendering without depending on earlier tests emitting warnings.
+        cy.intercept({method: 'GET', pathname: '/flowsheets/get_logs'}, {
+            fixture: 'logs.json',
+        }).as('loadLogs');
         cy.load_flowsheets_list()
-        cy.wait(3000)
+        // cy.request bypasses intercepts, so the real log endpoint is still checked.
+        cy.request('http://localhost:8001/flowsheets/get_logs')
+            .its('body').should('be.an', 'array')
         cy.screenshot('loaded flowsheet list page')
         
         // open logging panel
         cy.open_logging_panel()
+        cy.wait('@loadLogs').its('response.statusCode').should('eq', 200)
         cy.screenshot('opened_logs')
 
-        // verify that a log line of type info and warning are present
-        cy.get('.log-line').contains('INFO')
-        cy.get('.log-line').contains('WARNING')
+        cy.contains('.log-line', '[INFO] cypress: Flowsheet loaded for testing').should('be.visible')
+        cy.contains('.log-line', '[WARNING] cypress: Example warning for testing').should('be.visible')
         cy.screenshot('end-logging-test')
     })
 
@@ -91,12 +97,6 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
             cy.load_flowsheet(flowsheet.name)
             cy.screenshot('loaded '+flowsheet.name);
             
-            // if model has build options, it must be manually built
-            if (flowsheet.buildRequired) {
-                cy.build_flowsheet()
-                cy.screenshot("built "+flowsheet.name)
-            }
-
             // solve flowsheet
             cy.solve_flowsheet()
             cy.screenshot("solved "+flowsheet.name)
@@ -135,12 +135,6 @@ describe('IDAES Flowsheet Processor UI Testing', () => {
             // load flowsheet
             cy.load_flowsheet(flowsheet.name)
             cy.screenshot('loaded '+flowsheet.name)
-
-            // if model has build options, it must be manually built
-            if (flowsheet.buildRequired) {
-                cy.build_flowsheet()
-                cy.screenshot("built "+flowsheet.name)
-            }
 
             // set solve type to sweep
             cy.get('#solve-sweep-select').click()

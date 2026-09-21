@@ -6,6 +6,12 @@ on:
     #   - main
     #   - rel_*
   pull_request:
+  workflow_call:
+    inputs:
+      watertap-ref:
+        description: WaterTAP revision to test; empty uses the pinned CI revision.
+        type: string
+        default: ''
 
 defaults:
   run:
@@ -14,6 +20,8 @@ defaults:
 
 env:
   PYTEST_ADDOPTS: --color=yes
+  # Update this revision deliberately after validating the flowsheet tests.
+  WATERTAP_REF: ${{ inputs.watertap-ref || '843f85752887738711a1c53f78072c0a776721b4' }}
 
 jobs:
   component_e2e_testing:
@@ -81,7 +89,7 @@ jobs:
           pip install --progress-bar off .
       
       - name: Install WaterTAP for testing purposes
-        run: pip install watertap@git+https://github.com/watertap-org/watertap@main
+        run: pip install "watertap@git+https://github.com/watertap-org/watertap@${WATERTAP_REF}"
 
       - name: get idaes extensions
         run: idaes get-extensions
@@ -171,7 +179,7 @@ jobs:
           pip install --progress-bar off '.[testing]'
 
       - name: Install WaterTAP for testing purposes
-        run: pip install watertap@git+https://github.com/watertap-org/watertap@main
+        run: pip install "watertap@git+https://github.com/watertap-org/watertap@${WATERTAP_REF}"
 
       - name: get idaes extensions
         run: idaes get-extensions

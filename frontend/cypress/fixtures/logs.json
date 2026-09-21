@@ -1,0 +1,12 @@
+[
+  {
+    "log_level": "INFO",
+    "log_name": "cypress",
+    "log_message": "Flowsheet loaded for testing"
+  },
+  {
+    "log_level": "WARNING",
+    "log_name": "cypress",
+    "log_message": "Example warning for testing"
+  }
+]

@@ -172,6 +172,17 @@ Hit 'a' for "run all tests" if you want to run tests regardless of what changed.
 
 The end-to-end tests are written in Cypress.
 
+The shared flowsheet loader builds models with their default options when the
+backend reports that they have no exported variables yet, and waits for the input
+controls before proceeding. The logging-panel test uses a fixed log response so
+it can run independently of model warnings or earlier tests.
+
+Normal app CI pins WaterTAP to the commit in `WATERTAP_REF` in
+`.github/workflows/main.yml`. The separate **WaterTAP upstream compatibility**
+workflow runs the same tests against WaterTAP `main` weekly and can be started
+manually. Update the pinned commit after validating the tests against the desired
+upstream revision.
+
 Before running the tests, start the app, in another process (or shell):
 ```shell
 cd frontend
