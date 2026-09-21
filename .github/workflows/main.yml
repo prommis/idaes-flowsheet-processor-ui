@@ -52,13 +52,19 @@ jobs:
 
       - name: Install conda dependencies
         run: |
-          conda install -c conda-forge nodejs=22.3.0 -y
+          conda install -c conda-forge "nodejs=$(tr -d '\r\n' < .nvmrc)" -y
           pip install -r backend/requirements-full.txt
+
+      - name: Select npm version
+        run: |
+          npm install --global "$(node -p "require('./package.json').packageManager")"
+          node --version
+          npm --version
 
       - name: Set up debug logging
         run: |
-          echo "ACTIONS_RUNNER_DEBUG=true" >> $GITHUB_ENV
-          echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
+          echo "ACTIONS_RUNNER_DEBUG=true" >> "$GITHUB_ENV"
+          echo "ACTIONS_STEP_DEBUG=true" >> "$GITHUB_ENV"
 
       - name: Add theme to .env file
         working-directory: ./frontend
@@ -68,7 +74,7 @@ jobs:
       - name: Install frontend JS dependencies
         working-directory: ./frontend
         run: |
-          npm install
+          npm ci
 
       - name: Install Python package
         run: |
@@ -158,11 +164,11 @@ jobs:
 
       # Set project as environment variable. This can also be set by the frontend.
       - name: Set env
-        run: echo "project=nawi" >> $GITHUB_ENV
+        run: echo "project=nawi" >> "$GITHUB_ENV"
 
       - name: Install Python package
         run: |
-          pip install --progress-bar off .[testing]
+          pip install --progress-bar off '.[testing]'
 
       - name: Install WaterTAP for testing purposes
         run: pip install watertap@git+https://github.com/watertap-org/watertap@main
