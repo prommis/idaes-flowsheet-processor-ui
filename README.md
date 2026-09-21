@@ -12,7 +12,7 @@ For information on using the UI, check out our [Documentation website](https://p
 The following steps assume that:
 
 1. `conda` is already installed and configured
-2. This repository (i.e. https://github.com/watertap-org/idaes-flowsheet-processor-ui) has been cloned locally and the working directory is set to the root of the repository
+2. This repository (i.e. https://github.com/watertap-org/idaes-flowsheet-processor-ui) has been cloned locally
 
 ### Node and npm versions
 
@@ -35,7 +35,7 @@ automatically select it; the setup commands below select it explicitly.
 
 ### 1. Creating the Conda environment
 
-Run the following command to create and activate a new Conda environment named `flowsheet-processor-env`:
+From the repository root, create and activate a new Conda environment named `flowsheet-processor-env`:
 
 ```sh
 conda env create --file environment.yml && conda activate flowsheet-processor-env
@@ -52,15 +52,18 @@ conda install -c conda-forge nodejs=22.23.2
 
 ### 2. Install the JavaScript dependencies
 
-With the environment active, select the recommended npm version and install the
-JavaScript dependencies from the committed lockfile:
+From the repository root, with the environment active, select the recommended npm
+version and install the JavaScript dependencies from the committed lockfile:
 
 ```sh
 npm install --global npm@10.9.8
 node --version
 npm --version
-npm --prefix frontend ci
+cd frontend
+npm ci
 ```
+
+This installs the UI dependencies in `frontend/node_modules`.
 
 The version commands should print `v22.23.2` and `10.9.8` for the recommended
 setup. If they do not, check which Node installation your shell is using before
@@ -69,7 +72,7 @@ continuing. Avoid using `--force` to bypass an `EBADENGINE` error.
 Use `npm ci` for routine setup; use `npm install` when intentionally changing
 dependencies and commit the resulting lockfile. The frontend, root tooling, and
 documentation site have separate lockfiles. The UI only needs the frontend install
-above; use `npm ci` at the repository root for root tooling or
+above. From the repository root, use `npm ci` for root tooling or
 `npm --prefix website ci` for the documentation site.
 
 #### Optional: use nvm for Node
@@ -82,7 +85,8 @@ Conda environment, run:
 nvm install
 nvm use
 npm install --global npm@10.9.8
-npm --prefix frontend ci
+cd frontend
+npm ci
 ```
 
 nvm is optional and selects Node; npm is selected separately by the command above.
@@ -146,9 +150,8 @@ There are three sets of tests that can be run: Python tests, JavaScript unit tes
 
 ## Running Python tests
 
-From the repository root directory run:
+From the repository root, run:
 
-To run:
 ```shell
 cd backend/src/idaes_flowsheet_processor_ui
 pytest
@@ -160,7 +163,8 @@ This will take several minutes since one set of tests solves the UI flowsheets.
 
 The unit tests are written using the [testing-library](https://testing-library.com/) package.
 
-To run:
+From the repository root, run:
+
 ```shell
 cd frontend
 npm run test
@@ -183,13 +187,15 @@ workflow runs the same tests against WaterTAP `main` weekly and can be started
 manually. Update the pinned commit after validating the tests against the desired
 upstream revision.
 
-Before running the tests, start the app, in another process (or shell):
+From the repository root, start the app in a separate shell:
+
 ```shell
 cd frontend
 npm run app-start
 ```
 
-Then, to run the tests:
+Then, in your test shell, start in the repository root and run:
+
 ```shell
 cd frontend
 npx cypress run
