@@ -1,0 +1,64 @@
+name: Node and npm compatibility
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  install:
+    name: Install (${{ matrix.os }}, Node ${{ matrix.node }}, npm ${{ matrix.npm }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        toolchain: [minimum, latest]
+        include:
+          - toolchain: minimum
+            node: '22.12.0'
+            npm: '10.8.1'
+          - toolchain: latest
+            node: '22'
+            npm: '10'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+            website/package-lock.json
+
+      - name: Select npm version
+        run: |
+          npm install --global npm@${{ matrix.npm }}
+          node --version
+          npm --version
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install frontend dependencies
+        run: npm --prefix frontend ci
+
+      - name: Install website dependencies
+        run: npm --prefix website ci
+
+      - name: Build frontend
+        # Skip the postbuild script that moves artifacts outside the checkout.
+        run: npm --prefix frontend --ignore-scripts run build
+
+      - name: Check lockfiles are unchanged
+        run: git diff --exit-code -- package-lock.json frontend/package-lock.json website/package-lock.json

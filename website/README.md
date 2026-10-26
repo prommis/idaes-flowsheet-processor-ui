@@ -5,6 +5,10 @@ main branch.
 
 ## Install node packages
 
+First follow the [Node and npm setup instructions](../README.md#node-and-npm-versions).
+The recommended versions are Node 22.23.2 and npm 10.9.8. This directory enforces
+the same supported version ranges as the frontend and root package.
+
 ```
 npm ci
 ```
