@@ -12,25 +12,37 @@ require('cypress-downloadfile/lib/downloadFileCommand');
 Cypress.Commands.add('load_flowsheets_list', () => {
     cy.intercept({
         method: 'GET',
-        url: 'http://localhost:8001/flowsheets/**',
+        pathname: '/flowsheets/',
     }).as('loadFlowsheetsList');
     cy.visit('/')
-    cy.wait('@loadFlowsheetsList', {timeout: 30000});
+    cy.wait('@loadFlowsheetsList', {timeout: 30000})
+        .its('response.statusCode').should('eq', 200);
 })
 
 /**
- * Load flowsheet
+ * Load a flowsheet and build it with its default options when needed.
  *
  * From page: flowsheet list
  */
 Cypress.Commands.add('load_flowsheet', (flowsheet_name) => {
-    // const flowsheet_name = 'RO with energy recovery flowsheet';
     cy.intercept({
         method: 'GET',
-        url: 'http://localhost:8001/flowsheets/**',
+        pathname: '/flowsheets/*/config',
     }).as('loadFlowsheet');
     cy.findByText(flowsheet_name).click();
-    cy.wait('@loadFlowsheet', {timeout: 180000});
+    cy.wait('@loadFlowsheet', {timeout: 180000}).then(({response}) => {
+        expect(response.statusCode, 'load flowsheet status').to.eq(200);
+        expect(response.body.exports, 'flowsheet exports').to.be.an('object');
+
+        // Flowsheets with build options initially return no exported variables.
+        // Use the API state instead of a list of model-specific build flags.
+        if (Object.keys(response.body.exports).length === 0) {
+            expect(response.body.build_options, 'unbuilt flowsheet options')
+                .to.be.an('object').and.not.be.empty;
+            cy.build_flowsheet();
+        }
+    });
+    cy.get('#run-flowsheet-button', {timeout: 30000}).should('be.visible');
 })
 
 /**
@@ -41,10 +53,16 @@ Cypress.Commands.add('load_flowsheet', (flowsheet_name) => {
 Cypress.Commands.add('build_flowsheet', () => {
     cy.intercept({
         method: 'GET',
-        url: 'http://localhost:8001/flowsheets/**',
+        pathname: '/flowsheets/*/config',
+        query: {build: '1'},
     }).as('buildFlowsheet');
-    cy.get('#build-flowsheet-button').click()
-    cy.wait('@buildFlowsheet', {timeout: 180000});
+    cy.get('#build-flowsheet-button', {timeout: 30000}).should('be.visible').click();
+    cy.wait('@buildFlowsheet', {timeout: 180000}).then(({response}) => {
+        expect(response.statusCode, 'build flowsheet status').to.eq(200);
+        expect(response.body.exports, 'built flowsheet exports')
+            .to.be.an('object').and.not.be.empty;
+    });
+    cy.get('#run-flowsheet-button', {timeout: 30000}).should('be.visible');
 })
 
 /**

@@ -59,7 +59,11 @@
     ]
   },
   "homepage": ".",
-  "packageManager": "npm@10.10.0+sha1.f657bc37aa5e08da2ecff3877fe3bbb4b13703ba",
+  "packageManager": "npm@10.9.8",
+  "engines": {
+    "node": ">=22.12.0 <23",
+    "npm": ">=10.8.1 <11"
+  },
   "overrides": {
     "@remix-run/router": "1.23.2",
     "flatted": "3.4.2",

@@ -5,7 +5,8 @@ dependencies:
   # - python=3.13.7 : this is the version of python that worked when originally making the update to 3.13
   - python=3.13
   - pip
-  - nodejs=22.3.0
+  # Keep this version in sync with .nvmrc.
+  - nodejs=22.23.2
   - pip:
     - .
     - -r backend/requirements-full.txt
